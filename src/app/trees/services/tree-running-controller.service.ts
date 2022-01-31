@@ -15,7 +15,7 @@ export class TreeRunningControllerService {
   constructor(private treeContrServ : TreeControllerService) { 
     this.runObs = new BehaviorSubject<boolean>(this.running);
     this.arbol = this.treeContrServ.arbol;
-    this.treeContrServ.treeObs.subscribe(newTree => this.arbol = newTree)
+    this.treeContrServ.treeObs.subscribe(newTree => this.arbol = newTree);
   }
 
   /**
@@ -40,7 +40,6 @@ export class TreeRunningControllerService {
     this.updateRunningObs();
     switch(metodo){
       case("Add"):
-        //console.log("It's gonan add " + value)
         await this.arbol.add(value);
         break; 
       case("Search"):

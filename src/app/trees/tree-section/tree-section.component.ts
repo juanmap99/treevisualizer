@@ -54,7 +54,7 @@ export class TreeSectionComponent implements OnInit {
    */
   setCurrentTree(arbolCode : string){
     if(arbolCode != this.arbolElegido){
-      this.treeContr.setDefaultSize(1)
+      this.treeContr.setDefaultSize(1);
       this.arbolElegido = arbolCode;
       this.treeContr.setArbol(arbolCode);
     }
@@ -116,9 +116,13 @@ export class TreeSectionComponent implements OnInit {
     return height < 850 ? 850 : height;
   }
 
+  /**
+   * 
+   * @returns Entero que representa el margen que debe tener el modal para con el top y el bottom
+   */
   getModalMarginTopBottom(){
     let height = 800 > this.scHeight ? 800 : this.scHeight-85;
-    return (height - this.modalHeight)/2
+    return (height - this.modalHeight)/2;
   }
 
 

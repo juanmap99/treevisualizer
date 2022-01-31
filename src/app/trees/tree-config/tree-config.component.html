@@ -2,17 +2,6 @@
     <div class="param-container">
         <h2>Seteo del arbol</h2>
         <div class="seteo-cont">
-            <!--
-            <label [ngClass] = "{ 'disabledLabel': running, 'undisabledLabel': !running}">Tamaño arbol:</label>
-            <mat-slider class="mat-slide"
-                [disabled]="running"
-                thumbLabel
-                min="1"
-                max="31"
-                aria-label="units"
-                (input)="adjustTreeSize($event)">
-            </mat-slider>
-            -->
 
             <div *ngIf="!isTreap()" class="col mb-4 mt-4">
                 <div class="select-field" appearance="fill">

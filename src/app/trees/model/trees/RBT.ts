@@ -1,15 +1,8 @@
-import { THIS_EXPR } from "@angular/compiler/src/output/output_ast";
-import { compileNgModuleDeclarationExpression } from "@angular/compiler/src/render3/r3_module_compiler";
-import { noUndefined } from "@angular/compiler/src/util";
 import { AuxVarService } from "src/app/trees/services/aux-var.service";
-import { runInThisContext } from "vm";
-import { TreeControllerService } from "../../services/tree-controller.service";
 import { TreeNode } from "../TreeNode";
 import { StandardTree } from "./StandardTree";
 
 export class RBT extends StandardTree{
-    //redColor  : string = "#f0594e";
-    //blackColor : string ="#000000";
 
     constructor(size: number, auxService : AuxVarService){
         super(size,"RBT",auxService);
@@ -83,7 +76,7 @@ export class RBT extends StandardTree{
      */
     isRigthChild(child: TreeNode, parent: TreeNode): boolean{
         if(parent.rChild){
-            return parent.rChild.valor == child.valor
+            return parent.rChild.valor == child.valor;
         }
         return false;
     }
@@ -96,7 +89,7 @@ export class RBT extends StandardTree{
      * @returns Tio de un nodo en caso que exista, TreeNode(-1) en caso contrario.
      */
     getUncle(node : TreeNode) : TreeNode{
-        let padre = node.getParent()
+        let padre = node.getParent();
         let abuelo = padre?.getParent();
         if(abuelo){
             if(abuelo.rChild && padre && abuelo.rChild.valor == padre.valor && abuelo.lChild){
@@ -141,7 +134,7 @@ export class RBT extends StandardTree{
         if(padre){
             return padre;
         }
-        return new TreeNode(-999)
+        return new TreeNode(-999);
     }
 
     /**
@@ -179,23 +172,13 @@ export class RBT extends StandardTree{
      *                                                            /        /
      */
     rotateRight(node : TreeNode, rotCase: string){
-        //console.log("---------------------------")
         let parent = this.getParent(node);
         let abuelo = this.getGrandfather(node);
-        //console.log("Rotacion derecha.")
-        //console.log("Valor del nodo: " + node.valor)
-        //console.log("Valor del padre: " + parent.valor)
-        //console.log("Valor del abuelo: " + abuelo.valor)
-        //console.log("Caso indicado: " + rotCase)
-        //console.log("---------------------------")
         
         if(rotCase == "boomerang"){
-            //console.log("---------------------------")
-            //console.log("Accionar")
             let child = this.getLeftChild(node); 
             let previousRightChild = child?.rChild;
             if(parent.valor == -999){//Si no hay abuelo, es decir, el padre es el root
-                //console.log("Es root")
                 this.root = child;
                 child.setParent();
                 this.linkNodes(parent,child,"right");
@@ -203,36 +186,26 @@ export class RBT extends StandardTree{
                     this.linkNodes(previousRightChild,node,"left");
                 }
                 else{
-                    node.setLChild(undefined)
+                    node.setLChild(undefined);
                 }
-                node.setLChild(undefined)
-                //console.log("El nodo ahora es: " + node.valor + " y su padre es: " + node.parent?.valor + " con nodo izquierdo " + node.lChild?.valor + " y nodo derecho " + node.rChild?.valor) 
-                //console.log("El hijo ahora es: " + child.valor + " y su padre es: " + child.parent?.valor + " con nodo izquierdo " + child.lChild?.valor + " y nodo derecho " + child.rChild?.valor)
+                node.setLChild(undefined);
             }
             else{
-                //console.log("No es root")
                 this.linkNodes(node,child,"right");
                 this.linkNodes(child,parent,"right");
                 if(previousRightChild){
                     this.linkNodes(previousRightChild,node,"left");
                 }
                 else{
-                    node.setLChild(undefined)
+                    node.setLChild(undefined);
                 }
-                //console.log("El nodo ahora es: " + node.valor + " y su padre es: " + node.parent?.valor + " con nodo izquierdo " + node.lChild?.valor + " y nodo derecho " + node.rChild?.valor) 
-                //console.log("El hijo ahora es: " + child.valor + " y su padre es: " + child.parent?.valor + " con nodo izquierdo " + child.lChild?.valor + " y nodo derecho " + child.rChild?.valor)
-                //console.log("El padre ahora es: " + parent.valor + " y su padre es: " + parent.parent?.valor + " con nodo izquierdo " + parent.lChild?.valor + " y nodo derecho " + parent.rChild?.valor)
             }
             
-            //console.log("---------------------------")
         }
         if(rotCase == "recta"){
-           // console.log("---------------------------")
-            //console.log("Accionar")
             let child = node.getLChild();
             let previousRightChild = child?.rChild;
             if(child && node == this.root){//Si estamos rotando la root
-                //console.log("Es root")
                 this.root = child;
                 child.setParent();
                 this.linkNodes(node,child,"right");
@@ -242,11 +215,8 @@ export class RBT extends StandardTree{
                 else{
                     node.setLChild(undefined);
                 }
-                //console.log("El nodo ahora es: " + node.valor + " y su padre es: " + node.parent?.valor + " con nodo izquierdo " + node.lChild?.valor + " y nodo derecho " + node.rChild?.valor) 
-                //console.log("El hijo ahora es: " + child.valor + " y su padre es: " + child.parent?.valor + " con nodo izquierdo " + child.lChild?.valor + " y nodo derecho " + child.rChild?.valor)
             }
             else if(child && node != this.root){
-                //console.log("No es root")
                 if(this.isRigthChild(node,parent)){
                     this.linkNodes(child,parent,"right");
                 }
@@ -260,11 +230,7 @@ export class RBT extends StandardTree{
                 else{
                     node.setLChild(undefined);
                 }
-                //console.log("El nodo ahora es: " + node.valor + " y su padre es: " + node.parent?.valor + " con nodo izquierdo " + node.lChild?.valor + " y nodo derecho " + node.rChild?.valor) 
-                //console.log("El hijo ahora es: " + child.valor + " y su padre es: " + child.parent?.valor + " con nodo izquierdo " + child.lChild?.valor + " y nodo derecho " + child.rChild?.valor)
-                //console.log("El padre ahora es: " + parent.valor + " y su padre es: " + parent.parent?.valor + " con nodo izquierdo " + parent.lChild?.valor + " y nodo derecho " + parent.rChild?.valor)
             }
-            //console.log("---------------------------")
         }
     }
 
@@ -275,23 +241,13 @@ export class RBT extends StandardTree{
      *                                                            \          \
      */
     rotateLeft(node : TreeNode, rotCase: string) {
-        //console.log("---------------------------")
-        //console.log("Rotacion izquierda")
         let parent = this.getParent(node);
         let abuelo = this.getGrandfather(node);
-        //console.log("Valor del nodo: " + node.valor)
-       // console.log("Valor del padre: " + parent.valor)
-        //console.log("Valor del abuelo: " + abuelo.valor)
-        //console.log("Caso indicado: " + rotCase)
-        //console.log("---------------------------")
         
         if(rotCase == "boomerang"){
-            //console.log("---------------------------")
-            //console.log("Accionar")
             let child = this.getRightChild(node); 
             let previousLeftChild = child?.lChild;
             if(parent.valor == -999){//Si no hay abuelo, es decir, el padre es el root
-                //console.log("Es root")
                 this.root = child;
                 child.setParent();
                 this.linkNodes(parent,child,"left");
@@ -301,8 +257,6 @@ export class RBT extends StandardTree{
                 else{
                     node.setRChild(undefined)
                 }
-                //console.log("El nodo ahora es: " + node.valor + " y su padre es: " + node.parent?.valor + " con nodo izquierdo " + node.lChild?.valor + " y nodo derecho " + node.rChild?.valor) 
-                //console.log("El hijo ahora es: " + child.valor + " y su padre es: " + child.parent?.valor + " con nodo izquierdo " + child.lChild?.valor + " y nodo derecho " + child.rChild?.valor)
             }
             else{
                 this.linkNodes(node,child,"left");
@@ -313,20 +267,13 @@ export class RBT extends StandardTree{
                 else{
                     node.setRChild(undefined)
                 }
-                //console.log("El nodo ahora es: " + node.valor + " y su padre es: " + node.parent?.valor + " con nodo izquierdo " + node.lChild?.valor + " y nodo derecho " + node.rChild?.valor) 
-                //console.log("El hijo ahora es: " + child.valor + " y su padre es: " + child.parent?.valor + " con nodo izquierdo " + child.lChild?.valor + " y nodo derecho " + child.rChild?.valor)
-                //console.log("El padre ahora es: " + parent.valor + " y su padre es: " + parent.parent?.valor + " con nodo izquierdo " + parent.lChild?.valor + " y nodo derecho " + parent.rChild?.valor)
             }
-            //console.log("---------------------------")
+            
         }
         if(rotCase == "recta"){
-            //console.log("---------------------------")
-            //console.log("Accionar")
-            //console.log("Rotacion recta")
             let child = node.getRChild();
             let previousLeftChild = child?.lChild;
             if(child && node == this.root){//Si estamos rotando la root
-                //console.log("Es root")
                 this.root = child;
                 child.setParent(undefined);
                 this.linkNodes(node,child,"left");
@@ -336,8 +283,6 @@ export class RBT extends StandardTree{
                 else{
                     node.setRChild(undefined);
                 }
-                //console.log("El nodo ahora es: " + node.valor + " y su padre es: " + node.parent?.valor + " con nodo izquierdo " + node.lChild?.valor + " y nodo derecho " + node.rChild?.valor) 
-                //console.log("El hijo ahora es: " + child.valor + " y su padre es: " + child.parent?.valor + " con nodo izquierdo " + child.lChild?.valor + " y nodo derecho " + child.rChild?.valor)
             }
             else if(child && node != this.root){
                 if(this.isRigthChild(node,parent)){
@@ -353,11 +298,7 @@ export class RBT extends StandardTree{
                 else{
                     node.setRChild(undefined);
                 }
-                //console.log("El nodo ahora es: " + node.valor + " y su padre es: " + node.parent?.valor + " con nodo izquierdo " + node.lChild?.valor + " y nodo derecho " + node.rChild?.valor) 
-                //console.log("El hijo ahora es: " + child.valor + " y su padre es: " + child.parent?.valor + " con nodo izquierdo " + child.lChild?.valor + " y nodo derecho " + child.rChild?.valor)
-                //console.log("El padre ahora es: " + parent.valor + " y su padre es: " + parent.parent?.valor + " con nodo izquierdo " + parent.lChild?.valor + " y nodo derecho " + parent.rChild?.valor)
             }
-            //console.log("---------------------------")
         }
     }
 
@@ -376,19 +317,8 @@ export class RBT extends StandardTree{
         while(parent.color == this.redColor && curNode != this.root){
             await this.delayByRunSpeed();
             await this.delayByRunSpeed();
-            //console.log("---------------------------------------------")
-            //console.log("Ciclo while.")
-            //console.log("El nodo es: " + curNode.valor)
-            //console.log("El padre es: " + parent.valor)
-            //console.log("El tio es: " + uncle.valor)
-            //console.log("El abuelo es: " + abuelo.valor)
-            //console.log("---------------------------------------------")
             //Caso cambio de colores debido a nPadreRojo,nTioRojo, nAbueloNegro
             if(uncle.color == this.redColor){
-                //console.log("---------------------------------------------")
-                //console.log("Decision.")
-                //console.log("Decide cambiar colores")
-                //console.log("---------------------------------------------")
                 uncle.setColor(this.blackColor);
                 parent.setColor(this.blackColor);
                 abuelo.setColor(this.redColor);
@@ -401,10 +331,6 @@ export class RBT extends StandardTree{
             else{
                 //nAbuelo->nPadreRightChild->curNodeLeftChild = RightRotation + LeftRotation
                 if(!this.isRigthChild(curNode,parent) && this.isRigthChild(parent,abuelo)){
-                    //console.log("---------------------------------------------")
-                    //console.log("Decision.")
-                    //console.log("Rotacion derecha, izquierda")
-                    //console.log("---------------------------------------------")
                     this.rotateRight(parent,"boomerang");
                     this.updateChangeObs();
                     await this.delayByRunSpeed();
@@ -423,11 +349,7 @@ export class RBT extends StandardTree{
                 }
                 //nAbuelo->nPadreLeftChild->curNodeRightChild = LeftRotation + RightRotation
                 else if(this.isRigthChild(curNode,parent) && !this.isRigthChild(parent,abuelo)){
-                    //console.log("---------------------------------------------")
-                    //console.log("Decision.")
-                    //console.log("Rotacion izquierda, derecha")
-                    //console.log("---------------------------------------------")
-                    this.rotateLeft(parent,"boomerang")
+                    this.rotateLeft(parent,"boomerang");
                     this.updateChangeObs();
                     await this.delayByRunSpeed();
                     await this.delayByRunSpeed();
@@ -445,10 +367,6 @@ export class RBT extends StandardTree{
                 }
                 //nAbuelo->nPadreRightChild->curNodeRightChild = LeftRotation
                 else if(this.isRigthChild(curNode,parent) && this.isRigthChild(parent,abuelo)){
-                    //console.log("---------------------------------------------")
-                    //console.log("Decision.")
-                    //console.log("Recta derecha, gira izquierda")
-                    //console.log("---------------------------------------------")
                     this.rotateLeft(abuelo,"recta");
                     this.updateChangeObs();
                     await this.delayByRunSpeed();
@@ -462,10 +380,6 @@ export class RBT extends StandardTree{
                 }
                 //nAbuelo->nPadreLeftChild->curNodeLeftChild = RightRotation
                 else if(!this.isRigthChild(curNode,parent) && !this.isRigthChild(parent,abuelo)){
-                    //console.log("---------------------------------------------")
-                    //console.log("Decision.")
-                    //console.log("Recta derecha, gira derecha")
-                    //console.log("---------------------------------------------")
                     this.rotateRight(abuelo,"recta");
                     this.updateChangeObs();
                     await this.delayByRunSpeed();
@@ -495,8 +409,8 @@ export class RBT extends StandardTree{
             this.root = newNode;
         }
         else{
-            let curNode = this.root
-            await this.treeBuilderAddNode(curNode,newNode) 
+            let curNode = this.root;
+            await this.treeBuilderAddNode(curNode,newNode);
         }
         this.size = this.calculateSize();
         this.updateChangeObs();
@@ -511,13 +425,13 @@ export class RBT extends StandardTree{
             this.root = newNode;
         }
         else{
-            let curNode = this.root
-            await this.treeBuilderAddNode(curNode,newNode) 
+            let curNode = this.root;
+            await this.treeBuilderAddNode(curNode,newNode);
             this.setPointersToDefault();
         }
         this.size = this.calculateSize();
         this.updateChangeObs();
-        return "Done"
+        return "Done";
     }
 
 
@@ -711,105 +625,100 @@ export class RBT extends StandardTree{
      */
     async fixDeletionTree(nodeFix : TreeNode, addedColor: string){
         if(nodeFix.color == this.redColor){
-            //console.log("Rojo a negro, chau.")
             nodeFix.setColor(this.blackColor);
-            await this.delayByRunSpeedXTimes(3)
+            await this.delayByRunSpeedXTimes(3);
         }
         else if(this.esCasoUno(nodeFix,addedColor)){}//No hay que hacer nada
 
         else if(this.esCasoDos(nodeFix,addedColor)){
-            //console.log("Caso dos")
             if(nodeFix.parent && this.isRigthChild(nodeFix,nodeFix.parent)){
                 nodeFix.parent.lChild?.setColor(this.redColor);
-                await this.delayByRunSpeedXTimes(3)
-                await this.fixDeletionTree(nodeFix.parent,"no-delete")
+                await this.delayByRunSpeedXTimes(3);
+                await this.fixDeletionTree(nodeFix.parent,"no-delete");
             }
             else if(nodeFix.parent && !this.isRigthChild(nodeFix,nodeFix.parent)){
                 nodeFix.parent.rChild?.setColor(this.redColor);
-                await this.delayByRunSpeedXTimes(3)
-                await this.fixDeletionTree(nodeFix.parent,"no-delete")
+                await this.delayByRunSpeedXTimes(3);
+                await this.fixDeletionTree(nodeFix.parent,"no-delete");
             }
         }
 
         else if(this.esCasoTres(nodeFix,addedColor)){
-            //console.log("Caso tres")
             if(nodeFix.parent && this.isRigthChild(nodeFix,nodeFix.parent)){
                 nodeFix.parent.lChild?.setColor(this.blackColor);
-                await this.delayByRunSpeedXTimes(3)
+                await this.delayByRunSpeedXTimes(3);
                 nodeFix.parent.setColor(this.redColor);
-                await this.delayByRunSpeedXTimes(3)
+                await this.delayByRunSpeedXTimes(3);
                 this.rotateRight(nodeFix.parent,"recta");
                 this.updateChangeObs();
-                await this.delayByRunSpeedXTimes(3)
-                await this.fixDeletionTree(nodeFix,"no-delete")
+                await this.delayByRunSpeedXTimes(3);
+                await this.fixDeletionTree(nodeFix,"no-delete");
             }
             else if(nodeFix.parent && !this.isRigthChild(nodeFix,nodeFix.parent)){
                 nodeFix.parent.rChild?.setColor(this.blackColor);
-                await this.delayByRunSpeedXTimes(3)
+                await this.delayByRunSpeedXTimes(3);
                 nodeFix.parent.setColor(this.redColor);
-                await this.delayByRunSpeedXTimes(3)
+                await this.delayByRunSpeedXTimes(3);
                 this.rotateLeft(nodeFix.parent,"recta");
                 this.updateChangeObs();
-                await this.delayByRunSpeedXTimes(3)
-                await this.fixDeletionTree(nodeFix,"no-delete")
+                await this.delayByRunSpeedXTimes(3);
+                await this.fixDeletionTree(nodeFix,"no-delete");
             } 
         }
 
         else if(this.esCasoCuatro(nodeFix,addedColor)){
-            //console.log("Caso cuatro")
             if(nodeFix.parent && nodeFix.parent.lChild && this.isRigthChild(nodeFix,nodeFix.parent)){
                 nodeFix.parent.lChild.setColor(this.redColor);
-                await this.delayByRunSpeedXTimes(3)
+                await this.delayByRunSpeedXTimes(3);
                 nodeFix.parent.lChild.rChild?.setColor(this.blackColor);
-                await this.delayByRunSpeedXTimes(3)
+                await this.delayByRunSpeedXTimes(3);
                 this.rotateLeft(nodeFix.parent.lChild,"recta");
                 this.updateChangeObs();
-                await this.delayByRunSpeedXTimes(3)
-                await this.fixDeletionTree(nodeFix,"no-delete")
+                await this.delayByRunSpeedXTimes(3);
+                await this.fixDeletionTree(nodeFix,"no-delete");
             }
             else if(nodeFix.parent && nodeFix.parent.rChild && !this.isRigthChild(nodeFix,nodeFix.parent)){
                 nodeFix.parent.rChild.setColor(this.redColor);
-                await this.delayByRunSpeedXTimes(3)
+                await this.delayByRunSpeedXTimes(3);
                 nodeFix.parent.rChild.lChild?.setColor(this.blackColor);
-                await this.delayByRunSpeedXTimes(3)
+                await this.delayByRunSpeedXTimes(3);
                 this.rotateRight(nodeFix.parent.rChild,"recta");
                 this.updateChangeObs();
-                await this.delayByRunSpeedXTimes(3)
-                await this.fixDeletionTree(nodeFix,"no-delete")
+                await this.delayByRunSpeedXTimes(3);
+                await this.fixDeletionTree(nodeFix,"no-delete");
             }
         }
 
         else if(this.esCasoCinco(nodeFix,addedColor)){
-            //console.log("Caso cinco")
             if(nodeFix.parent && nodeFix.parent.lChild && this.isRigthChild(nodeFix,nodeFix.parent)){
                 let tempColor = nodeFix.parent.color;
-                await this.delayByRunSpeedXTimes(3)
+                await this.delayByRunSpeedXTimes(3);
                 nodeFix.parent.setColor(nodeFix.parent.lChild.color);
-                await this.delayByRunSpeedXTimes(3)
+                await this.delayByRunSpeedXTimes(3);
                 nodeFix.parent.lChild.setColor(tempColor);
-                await this.delayByRunSpeedXTimes(3)
+                await this.delayByRunSpeedXTimes(3);
                 nodeFix.parent.lChild.lChild?.setColor(this.blackColor);
-                await this.delayByRunSpeedXTimes(3)
+                await this.delayByRunSpeedXTimes(3);
                 this.rotateRight(nodeFix.parent,"recta");
                 this.updateChangeObs();
-                await this.delayByRunSpeedXTimes(3)
+                await this.delayByRunSpeedXTimes(3);
             }
             else if(nodeFix.parent && nodeFix.parent.rChild && !this.isRigthChild(nodeFix,nodeFix.parent)){
                 let tempColor = nodeFix.parent.color;
-                await this.delayByRunSpeedXTimes(3)
+                await this.delayByRunSpeedXTimes(3);
                 nodeFix.parent.setColor(nodeFix.parent.rChild.color);
-                await this.delayByRunSpeedXTimes(3)
+                await this.delayByRunSpeedXTimes(3);
                 nodeFix.parent.rChild.setColor(tempColor);
-                await this.delayByRunSpeedXTimes(3)
+                await this.delayByRunSpeedXTimes(3);
                 nodeFix.parent.rChild.rChild?.setColor(this.blackColor);
-                await this.delayByRunSpeedXTimes(3)
+                await this.delayByRunSpeedXTimes(3);
                 this.rotateLeft(nodeFix.parent,"recta");
                 this.updateChangeObs();
-                await this.delayByRunSpeedXTimes(3)
+                await this.delayByRunSpeedXTimes(3);
             }
         }
         this.root.setColor(this.blackColor);
-        await this.delayByRunSpeed()
+        await this.delayByRunSpeed();
     }
 
      /**
@@ -825,20 +734,20 @@ export class RBT extends StandardTree{
         else if(!nodDel.lChild && !nodDel.rChild && nodDel.color == this.blackColor){
             nodDel.setValor(-999);
             this.updateChangeObs();
-            await this.fixDeletionTree(nodDel,"black")
+            await this.fixDeletionTree(nodDel,"black");
             this.turnIntoNIL(nodDel,parent);
         }
         else if(nodDel.lChild && !nodDel.rChild){
             nodDel.valor = nodDel.lChild.valor;
             this.updateChangeObs();
-            await this.delayByRunSpeed()
-            await this.deleteNode(nodDel.lChild,nodDel.lChild.valor,nodDel)
+            await this.delayByRunSpeed();
+            await this.deleteNode(nodDel.lChild,nodDel.lChild.valor,nodDel);
         }
         else if(nodDel.rChild && !nodDel.lChild){
             nodDel.valor = nodDel.rChild.valor;
             this.updateChangeObs();
-            await this.delayByRunSpeed()
-            await this.deleteNode(nodDel.rChild,nodDel.rChild.valor,nodDel)
+            await this.delayByRunSpeed();
+            await this.deleteNode(nodDel.rChild,nodDel.rChild.valor,nodDel);
         }
         else if(nodDel.lChild && nodDel.rChild){
             let minRight = new TreeNode(-999);
@@ -846,7 +755,7 @@ export class RBT extends StandardTree{
             //await this.delayByRunSpeed()
             nodDel.valor = minRight.valor;
             this.updateChangeObs();
-            await this.delayByRunSpeed()
+            await this.delayByRunSpeed();
             await this.deleteNode(nodDel.rChild,minRight.valor,nodDel);//Lo eliminamos de la derecha
         }
     }

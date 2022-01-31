@@ -1,7 +1,4 @@
-import { compileNgModuleDeclarationExpression } from "@angular/compiler/src/render3/r3_module_compiler";
 import { AuxVarService } from "src/app/trees/services/aux-var.service";
-import { TreeControllerService } from "../../services/tree-controller.service";
-import { Tree } from "../Tree";
 import { TreeNode } from "../TreeNode";
 import { StandardTree } from "./StandardTree";
 
@@ -11,11 +8,15 @@ export class Treap extends StandardTree{
         super(size,"Treap",auxService);
     }
 
+    /**
+     * Dado un nodo,le adjunta una prioridad al mismo que sera elegida de manera random.
+     * @param node Instancia de un TreeNode
+     */
     attachPriority(node : TreeNode){
         let getRandom = (max : number, min = 1) => {
             return Math.floor((Math.random() * (max - min + 1)) + min);
         }
-        node.setPrioridad(getRandom(999))
+        node.setPrioridad(getRandom(999));
     }
     /**
      * Analiza si un nodo es el dijo derecho de su padre.
@@ -26,7 +27,7 @@ export class Treap extends StandardTree{
      */
      isRigthChild(child: TreeNode, parent: TreeNode): boolean{
         if(parent.rChild){
-            return parent.rChild.valor == child.valor
+            return parent.rChild.valor == child.valor;
         }
         return false;
     }
@@ -70,7 +71,7 @@ export class Treap extends StandardTree{
         if(padre){
             return padre;
         }
-        return new TreeNode(-999)
+        return new TreeNode(-999);
     }
 
 
@@ -80,7 +81,7 @@ export class Treap extends StandardTree{
      */
     async rotateLeft(node : TreeNode) {
         node.setColor("#48c088");
-        await this.delayByRunSpeedXTimes(2)
+        await this.delayByRunSpeedXTimes(2);
         let parent = this.getParent(node);
         let child = node.getRChild();
         let previousLeftChild = child?.lChild;
@@ -90,8 +91,8 @@ export class Treap extends StandardTree{
             child.setLChild(node);
             node.setParent(child);
             if(previousLeftChild){
-                node.setRChild(previousLeftChild)
-                previousLeftChild.setParent(node)
+                node.setRChild(previousLeftChild);
+                previousLeftChild.setParent(node);
             }
             else{
                 node.setRChild(undefined);
@@ -108,8 +109,8 @@ export class Treap extends StandardTree{
             child.setLChild(node);
             node.setParent(child);
             if(previousLeftChild){
-                node.setRChild(previousLeftChild)
-                previousLeftChild.setParent(node)
+                node.setRChild(previousLeftChild);
+                previousLeftChild.setParent(node);
             }
             else{
                 node.setRChild(undefined);
@@ -124,7 +125,7 @@ export class Treap extends StandardTree{
      */
     async rotateRight(node : TreeNode){
         node.setColor("#48c088");
-        await this.delayByRunSpeedXTimes(2)
+        await this.delayByRunSpeedXTimes(2);
         let parent = this.getParent(node);
         let child = node.getLChild();
         let previousRightChild = child?.rChild;
@@ -134,8 +135,8 @@ export class Treap extends StandardTree{
             child.setRChild(node);
             node.setParent(child);
             if(previousRightChild){
-                node.setLChild(previousRightChild)
-                previousRightChild.setParent(node)
+                node.setLChild(previousRightChild);
+                previousRightChild.setParent(node);
             }
             else{
                 node.setLChild(undefined);
@@ -150,10 +151,10 @@ export class Treap extends StandardTree{
             }
             child.setParent(parent);
             node.setParent(child);
-            child.setRChild(node)
+            child.setRChild(node);
             if(previousRightChild){
-                node.setLChild(previousRightChild)
-                previousRightChild.setParent(node)
+                node.setLChild(previousRightChild);
+                previousRightChild.setParent(node);
             }
             else{
                 node.setLChild(undefined);
@@ -175,13 +176,12 @@ export class Treap extends StandardTree{
                 curNode.setLChild(nodeAdd);
                 nodeAdd.setParent(curNode);
                 this.updateChangeObs();
-                await this.delayByRunSpeedXTimes(2)
+                await this.delayByRunSpeedXTimes(2);
             }
-            //console.log("Right left" + curNode.lChild?.valor)
             if(curNode.lChild && (curNode.prioridad < curNode.lChild.prioridad)){
-                await this.rotateRight(curNode)
+                await this.rotateRight(curNode);
                 this.updateChangeObs();
-                await this.delayByRunSpeedXTimes(2)
+                await this.delayByRunSpeedXTimes(2);
             }
         }
         else if (curNode.valor < nodeAdd.valor){
@@ -193,13 +193,12 @@ export class Treap extends StandardTree{
                 curNode.setRChild(nodeAdd);
                 nodeAdd.setParent(curNode);
                 this.updateChangeObs();
-                await this.delayByRunSpeedXTimes(2)
+                await this.delayByRunSpeedXTimes(2);
             }
-            //console.log("Right child" + curNode.rChild?.valor)
             if(curNode.rChild && (curNode.prioridad < curNode.rChild.prioridad)){
-                await this.rotateLeft(curNode)
+                await this.rotateLeft(curNode);
                 this.updateChangeObs();
-                await this.delayByRunSpeedXTimes(2)
+                await this.delayByRunSpeedXTimes(2);
             }
          
         }
@@ -209,12 +208,12 @@ export class Treap extends StandardTree{
     async treeBuilderAdd(valor : number) : Promise<any>{
         let delay = this.delay;
         this.delay = 0;
-        let newNode = new TreeNode(valor)
+        let newNode = new TreeNode(valor);
         this.attachPriority(newNode);
         newNode.setAltura(0);
         if(this.root.valor == -999){
             this.root = newNode;
-            this.root.setParent()
+            this.root.setParent();
         }
         else{
             //console.log("El nodo a agregar es: "+ newNode.valor)
@@ -228,13 +227,13 @@ export class Treap extends StandardTree{
     }
 
     async add(valor: number) : Promise<string> {
-        let newNode = new TreeNode(valor)
+        let newNode = new TreeNode(valor);
         newNode.setAltura(0);
         newNode.setColor("#F39530");
         this.attachPriority(newNode);
         if(this.root.valor == -999){
             this.root = newNode;
-            this.root.setParent()
+            this.root.setParent();
         }
         else{
             await this.addNode(this.root,newNode);
@@ -243,7 +242,7 @@ export class Treap extends StandardTree{
         }
         this.size = this.calculateSize();
         this.updateChangeObs();
-        return "Done"
+        return "Done";
     }
 
     /**
@@ -276,7 +275,7 @@ export class Treap extends StandardTree{
             biggestSide = "right";
         }
         if(curNode.lChild && biggestPriority < curNode.lChild.prioridad){
-            biggestPriority = curNode.lChild.prioridad
+            biggestPriority = curNode.lChild.prioridad;
             biggestSide = "left";
         }
         if(curNode.prioridad != biggestPriority){
@@ -289,7 +288,7 @@ export class Treap extends StandardTree{
             this.updateChangeObs();
             await this.delayByRunSpeed();
             curNode.setDefaultColor();
-            await this.deleteNode(curNode, curNode.valor, this.getParent(curNode))      
+            await this.deleteNode(curNode, curNode.valor, this.getParent(curNode));      
         }
         curNode.setDefaultColor();
     }
@@ -304,36 +303,36 @@ export class Treap extends StandardTree{
             if(parent.valor != -999){
                 if(parent.lChild && parent.lChild.valor == nodDel.valor){
                     parent.setLChild(nodDel.lChild);
-                    nodDel.lChild.setParent(parent)
+                    nodDel.lChild.setParent(parent);
                 }
                 else if(parent.rChild && parent.rChild.valor == nodDel.valor){
                     parent.setRChild(nodDel.lChild);
-                    nodDel.lChild.setParent(parent)
+                    nodDel.lChild.setParent(parent);
                 }
             }
             else{
                 this.root = nodDel.lChild;
             }
             this.updateChangeObs();
-            await this.delayByRunSpeed()
+            await this.delayByRunSpeed();
         }
         else if(nodDel.rChild && !nodDel.lChild){
             let parent = this.getParent(nodDel);
             if(parent.valor != -999){
                 if(parent.lChild && parent.lChild.valor == nodDel.valor){
                     parent.setLChild(nodDel.rChild);
-                    nodDel.rChild.setParent(parent)
+                    nodDel.rChild.setParent(parent);
                 }
                 else if(parent.rChild && parent.rChild.valor == nodDel.valor){
                     parent.setRChild(nodDel.rChild);
-                    nodDel.rChild.setParent(parent)
+                    nodDel.rChild.setParent(parent);
                 }
             }
             else{
                 this.root = nodDel.rChild;
             }
             this.updateChangeObs();
-            await this.delayByRunSpeed()
+            await this.delayByRunSpeed();
         }
         else if(nodDel.lChild && nodDel.rChild){
             await this.priorityFixPD(nodDel);

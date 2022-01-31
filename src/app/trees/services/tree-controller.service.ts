@@ -1,4 +1,3 @@
-import { ThrowStmt } from '@angular/compiler';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { AuxVarService } from 'src/app/trees/services/aux-var.service';
@@ -28,10 +27,10 @@ export class TreeControllerService {
   defaultSize : number = 1;
 
   levelWiseTreeArray : TreeNode[];
-  treeArrayObs : BehaviorSubject<TreeNode[]>
+  treeArrayObs : BehaviorSubject<TreeNode[]>;
 
   constructor(private auxService : AuxVarService) { 
-    this.arbol = new BST(this.defaultSize,auxService)
+    this.arbol = new BST(this.defaultSize,auxService);
     this.levelWiseTreeArray = this.getArrayRepresentation();
     this.treeObs = new BehaviorSubject(this.arbol);
     this.treeArrayObs = new BehaviorSubject(this.levelWiseTreeArray);
@@ -50,7 +49,7 @@ export class TreeControllerService {
   getTreeDepth() : number{
     let root : TreeNode = this.arbol.root;
     if(root.valor == -999){
-      return -1
+      return -1;
     }
 
     let treeDepth = (curNode : TreeNode, depth : number) : number =>{
@@ -88,10 +87,10 @@ export class TreeControllerService {
     let par : boolean = (index % 2) == 0;
     let parent = 0;
     if(par){
-      parent = (index -2) / 2
+      parent = (index -2) / 2;
     }
     else{
-      parent = (index -1) / 2
+      parent = (index -1) / 2;
     }
     return parent;
   }
@@ -121,7 +120,7 @@ export class TreeControllerService {
     if(this.arbol.size == 0){
       return [];
     }
-    let queue : ArrayFillQueue[] = [{node: this.arbol.root, index:0}]//Index, Nodo;
+    let queue : ArrayFillQueue[] = [{node: this.arbol.root, index:0}];//Index, Nodo;
     let arrayRepr : TreeNode[] = this.inicializeArrayRepresentation();
     while(queue.length != 0){
       let elem = queue.shift();
@@ -156,7 +155,6 @@ export class TreeControllerService {
    * @param size Valor numerico que representa la cantidad de nodos con los que se inicializara el arbol.
    */
    async setArbol(arbolType: string, size : number = this.defaultSize){
-    //console.log("Create " + arbolType);
     this.arbolType = arbolType;
     switch(arbolType){
       case("AVLTree"):
@@ -203,6 +201,11 @@ export class TreeControllerService {
     this.treeObs.next(this.arbol);  
   }
 
+  /**
+   * 
+   * @param valor Entero que representa el valor a agregar
+   * @returns True si el agregado de el entero otorgado genera una quinta capa en el arbol, False en caso contrario
+   */
   generaQuintaCapa(valor : number) : boolean{
     return this.arbol.adicionGeneraQuintaCapa(valor);
   }

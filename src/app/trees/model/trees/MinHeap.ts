@@ -1,6 +1,4 @@
 import { AuxVarService } from "src/app/trees/services/aux-var.service";
-import { TreeControllerService } from "../../services/tree-controller.service";
-import { Tree } from "../Tree";
 import { TreeNode } from "../TreeNode";
 import { StandardTree } from "./StandardTree";
 
@@ -33,10 +31,10 @@ export class MinHeap extends StandardTree{
         let par : boolean = (iNode % 2) == 0;
         let parent = 0;
         if(par){
-        parent = (iNode -2) / 2
+        parent = (iNode -2) / 2;
         }
         else{
-        parent = (iNode -1) / 2
+        parent = (iNode -1) / 2;
         }
         return parent;
     }
@@ -47,11 +45,11 @@ export class MinHeap extends StandardTree{
      * @param element Entero que representa el indice a agregar
      */
     getIndexPath(indice : number) : number[]{
-        let indexPath = [indice-1]
+        let indexPath = [indice-1];
         let curInd = indice-1;
         while(curInd != 0){
             curInd = this.getParentIndex(curInd);
-            indexPath.push(curInd)
+            indexPath.push(curInd);
         }
         indexPath.pop();
         return indexPath;
@@ -75,7 +73,7 @@ export class MinHeap extends StandardTree{
         if(padre){
             return padre;
         }
-        return new TreeNode(-999)
+        return new TreeNode(-999);
     }
 
     async treeBuilderAdd(valor : number) : Promise<any>{
@@ -88,7 +86,7 @@ export class MinHeap extends StandardTree{
         }
         else{
             let indexPath : number[]= this.getIndexPath(this.size+1);
-            await this.addNode(this.root,newNode, indexPath) 
+            await this.addNode(this.root,newNode, indexPath); 
         }
         this.size = this.calculateSize();
         this.updateChangeObs();
@@ -97,7 +95,7 @@ export class MinHeap extends StandardTree{
 
     async bubbleUp(node : TreeNode){
         let smallestValue = node.valor;
-        let smallestSide = "root"
+        let smallestSide = "root";
         node.setColor("#48c088");
         await this.delayByRunSpeed();
         if(node.rChild && smallestValue > node.rChild?.valor){
@@ -110,22 +108,22 @@ export class MinHeap extends StandardTree{
         }
         if(node.valor != smallestValue){
             if(smallestSide == "right" && node.rChild){
-                this.swapValues(node.rChild,node)
+                this.swapValues(node.rChild,node);
             }
             else if(smallestSide == "left" && node.lChild){
-                this.swapValues(node.lChild,node)
+                this.swapValues(node.lChild,node);
             }
             this.updateChangeObs();
             await this.delayByRunSpeed();
             node.setDefaultColor();
-            await this.bubbleUp(this.getParent(node))
+            await this.bubbleUp(this.getParent(node));
         }
         node.setDefaultColor();
     }
 
     async bubbleDown(node : TreeNode){
         let smallestValue = node.valor;
-        let smallestSide = "root"
+        let smallestSide = "root";
         node.setColor("#48c088");
         await this.delayByRunSpeed();
         if(node.rChild && smallestValue > node.rChild?.valor){
@@ -138,19 +136,19 @@ export class MinHeap extends StandardTree{
         }
         if(node.valor != smallestValue){
             if(smallestSide == "right" && node.rChild){
-                this.swapValues(node.rChild,node)
+                this.swapValues(node.rChild,node);
             }
             else if(smallestSide == "left" && node.lChild){
-                this.swapValues(node.lChild,node)
+                this.swapValues(node.lChild,node);
             }
             this.updateChangeObs();
             await this.delayByRunSpeed();
             node.setDefaultColor();
             if(smallestSide == "right" && node.rChild){
-                await this.bubbleDown(node.rChild)
+                await this.bubbleDown(node.rChild);
             }
             else if(smallestSide == "left" && node.lChild){
-                await this.bubbleDown(node.lChild)
+                await this.bubbleDown(node.lChild);
             }
         }
         node.setDefaultColor();
@@ -166,10 +164,10 @@ export class MinHeap extends StandardTree{
         await this.delayByRunSpeed();
         let curIndex = indexPath.pop();
         if(curIndex && indexPath.length > 0 && curIndex % 2 == 0 && curNode.rChild){
-            await this.addNode(curNode.rChild, nodeAdd, indexPath)
+            await this.addNode(curNode.rChild, nodeAdd, indexPath);
         }
         else if(curIndex && indexPath.length > 0 && curIndex % 2 != 0 && curNode.lChild){
-            await this.addNode(curNode.lChild, nodeAdd, indexPath)
+            await this.addNode(curNode.lChild, nodeAdd, indexPath);
         }
 
         else if(curIndex && indexPath.length == 0 && curIndex % 2 == 0){
@@ -194,7 +192,7 @@ export class MinHeap extends StandardTree{
 
     async add(valor: number) : Promise<string> {
         let newNode = new TreeNode(valor);
-        newNode.setAltura(0)
+        newNode.setAltura(0);
         newNode.setColor("#F39530");
         if(this.root.valor == -999){
             this.root = newNode;
@@ -202,11 +200,11 @@ export class MinHeap extends StandardTree{
         }
         else{
             let indexPath : number[]= this.getIndexPath(this.size+1);
-            await this.addNode(this.root,newNode, indexPath) 
+            await this.addNode(this.root,newNode, indexPath);
         }
         this.size += 1;
         this.updateChangeObs();
-        return "Done"
+        return "Done";
         
     }
 
@@ -215,10 +213,10 @@ export class MinHeap extends StandardTree{
         await this.delayByRunSpeed();
         let curIndex = indexPath.pop();
         if(curIndex && indexPath.length > 0 && curIndex % 2 == 0 && curNode.rChild){
-            await this.pop(curNode.rChild, indexPath)
+            await this.pop(curNode.rChild, indexPath);
         }
         else if(curIndex && indexPath.length > 0 && curIndex % 2 != 0 && curNode.lChild){
-            await this.pop(curNode.lChild, indexPath)
+            await this.pop(curNode.lChild, indexPath);
         }
 
         else if(curIndex && indexPath.length == 0 && curIndex % 2 == 0 && curNode.rChild){
@@ -226,7 +224,7 @@ export class MinHeap extends StandardTree{
             await this.delayByRunSpeed();
             this.root.setColor("#48c088");
             await this.delayByRunSpeed();
-            this.swapValues(curNode.rChild,this.root)
+            this.swapValues(curNode.rChild,this.root);
             this.updateChangeObs();
             await this.delayByRunSpeed();
             curNode.setRChild();
@@ -240,7 +238,7 @@ export class MinHeap extends StandardTree{
             await this.delayByRunSpeed();
             this.root.setColor("#48c088");
             await this.delayByRunSpeed();
-            this.swapValues(curNode.lChild,this.root)
+            this.swapValues(curNode.lChild,this.root);
             this.updateChangeObs();
             await this.delayByRunSpeed();
             curNode.setLChild();
@@ -258,7 +256,6 @@ export class MinHeap extends StandardTree{
     async delete(valor: number): Promise<string> {
         if(this.root.rChild || this.root.lChild ){
             let indexPath : number[]= this.getIndexPath(this.size);
-            //console.log(indexPath);
             await this.pop(this.root,indexPath);
             this.setColorsToDefault();
             this.size = this.size - 1;
@@ -285,7 +282,7 @@ export class MinHeap extends StandardTree{
     async findMax(): Promise<TreeNode> {
         let queue : TreeNode[] = [this.root];
         if(this.root.valor == -999){
-            queue.pop()
+            queue.pop();
         }
         else{
             this.auxVarServ.setAuxVariable("Queue",queue);
@@ -329,7 +326,7 @@ export class MinHeap extends StandardTree{
     async search(valor: number): Promise<TreeNode> {
         let queue : TreeNode[] = [this.root];
         if(this.root.valor == -999){
-            queue.pop()
+            queue.pop();
         }
         this.auxVarServ.setAuxVariable("Queue",queue);
         let nodoResultado = new TreeNode(-999);

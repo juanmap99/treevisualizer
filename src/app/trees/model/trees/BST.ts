@@ -1,7 +1,4 @@
-import { link } from "fs";
 import { AuxVarService } from "src/app/trees/services/aux-var.service";
-import { TreeControllerService } from "../../services/tree-controller.service";
-import { Tree } from "../Tree";
 import { TreeNode } from "../TreeNode";
 import { StandardTree } from "./StandardTree";
 
@@ -36,13 +33,13 @@ export class BST extends StandardTree{
     }
 
     treeBuilderAdd(valor : number) : void{
-        let newNode = new TreeNode(valor)
+        let newNode = new TreeNode(valor);
         if(this.root.valor == -999){
             this.root = newNode;
         }
         else{
-            let curNode = this.root
-            this.treeBuilderAddNode(curNode,newNode) 
+            let curNode = this.root;
+            this.treeBuilderAddNode(curNode,newNode); 
         }
         this.size += 1;
         this.updateChangeObs();
@@ -79,7 +76,7 @@ export class BST extends StandardTree{
     }
 
     async add(valor: number) : Promise<string> {
-        let newNode = new TreeNode(valor)
+        let newNode = new TreeNode(valor);
         if(this.root.valor == -999){
             this.root = newNode;
             this.size = 1;
@@ -90,7 +87,7 @@ export class BST extends StandardTree{
         }
         else{
             //let curNode = this.root
-            await this.addNode(this.root,newNode) 
+            await this.addNode(this.root,newNode); 
             this.size = this.calculateSize();
             this.updateChangeObs();
             await this.delayByRunSpeed();
@@ -148,7 +145,7 @@ export class BST extends StandardTree{
             let minRight = new TreeNode(-999);
             await this.findSmallest(right,minRight);
             this.setColorsToDefaultStartingFrom(right);
-            await this.delayByRunSpeed()
+            await this.delayByRunSpeed();
             minRight.setLChild(left);//Lo linkeamos a la parte izquierda
             minRight.setRChild(right);//Lo linkeamos a la parte derecha
             if(child == "right"){

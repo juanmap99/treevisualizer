@@ -1,7 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSliderChange } from '@angular/material/slider';
-import { Data } from '@angular/router';
 import { faCode } from '@fortawesome/free-solid-svg-icons';
 import { faLightbulb } from '@fortawesome/free-solid-svg-icons';
 import { faPlay } from '@fortawesome/free-solid-svg-icons';
@@ -42,7 +41,7 @@ export class TreeConfigComponent implements OnInit {
               private dialog : MatDialog) { 
                 this.treContr.treeObs.subscribe(newTree => this.treeType = newTree.tipoArbol);
                 this.runServ.runObs.subscribe(runStatus => this.running = runStatus);
-                this.generatedNode = 0
+                this.generatedNode = 0;
                 this.validChars = this.setUpValidCharsDic();
     }
 
@@ -161,7 +160,7 @@ export class TreeConfigComponent implements OnInit {
     if(this.treeType == "MinHeap"){
       return true;
     }
-    return false
+    return false;
   }
 
   /**
@@ -176,6 +175,10 @@ export class TreeConfigComponent implements OnInit {
     return false;
   }
 
+  /**
+   * 
+   * @returns True si el árbol elegido es un Treap, False en caso contrario.
+   */
   isTreap(): boolean{
     if(this.treeType == "Treap"){
       return true;
@@ -216,7 +219,7 @@ export class TreeConfigComponent implements OnInit {
     let number = 0;
     let allNumbers = true;
     for(let i=0; i<data.length; i++){
-      let isValid = this.validChars.get(data[i])
+      let isValid = this.validChars.get(data[i]);
       if(!isValid){
         allNumbers = false;
       }

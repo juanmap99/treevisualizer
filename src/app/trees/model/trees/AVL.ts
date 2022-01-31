@@ -53,7 +53,7 @@ export class AVL extends StandardTree{
      */
      isRigthChild(child: TreeNode, parent: TreeNode): boolean{
         if(parent.rChild){
-            return parent.rChild.valor == child.valor
+            return parent.rChild.valor == child.valor;
         }
         return false;
     }
@@ -97,7 +97,7 @@ export class AVL extends StandardTree{
         if(padre){
             return padre;
         }
-        return new TreeNode(-999)
+        return new TreeNode(-999);
     }
 
 
@@ -107,7 +107,7 @@ export class AVL extends StandardTree{
      */
     async rotateLeft(node : TreeNode) {
         node.setColor("#48c088");
-        await this.delayByRunSpeedXTimes(2)
+        await this.delayByRunSpeedXTimes(2);
         let parent = this.getParent(node);
         let child = node.getRChild();
         let previousLeftChild = child?.lChild;
@@ -146,7 +146,7 @@ export class AVL extends StandardTree{
      */
     async rotateRight(node : TreeNode){
         node.setColor("#48c088");
-        await this.delayByRunSpeedXTimes(2)
+        await this.delayByRunSpeedXTimes(2);
         let parent = this.getParent(node);
         let child = node.getLChild();
         let previousRightChild = child?.rChild;
@@ -302,14 +302,14 @@ export class AVL extends StandardTree{
     async treeBuilderAdd(valor : number) : Promise<any>{
         let delay = this.delay;
         this.delay = 0;
-        let newNode = new TreeNode(valor)
+        let newNode = new TreeNode(valor);
         newNode.setAltura(0);
         if(this.root.valor == -999){
             this.root = newNode;
         }
         else{
-            let curNode = this.root
-            await this.treeBuilderAddNode(curNode,newNode) 
+            let curNode = this.root;
+            await this.treeBuilderAddNode(curNode,newNode); 
         }
         this.size = this.calculateSize();
         this.updateChangeObs();
@@ -317,7 +317,7 @@ export class AVL extends StandardTree{
     }
 
     async add(valor: number) : Promise<string> {
-        let newNode = new TreeNode(valor)
+        let newNode = new TreeNode(valor);
         newNode.setAltura(0);
         newNode.setColor("#F39530");
         if(this.root.valor == -999){
@@ -325,13 +325,13 @@ export class AVL extends StandardTree{
             newNode.setDefaultColor();
         }
         else{
-            let curNode = this.root
-            await this.treeBuilderAddNode(curNode,newNode) 
-            this.setColorsToDefault()
+            let curNode = this.root;
+            await this.treeBuilderAddNode(curNode,newNode); 
+            this.setColorsToDefault();
         }
         this.size = this.calculateSize();
         this.updateChangeObs();
-        return "Done"
+        return "Done";
     }
 
 
@@ -444,7 +444,7 @@ export class AVL extends StandardTree{
      */
      async caseDeletion(nodDel : TreeNode, parent : TreeNode){
         if(!nodDel.lChild && !nodDel.rChild && parent.valor == -999){
-            this.turnIntoNIL(nodDel,parent)
+            this.turnIntoNIL(nodDel,parent);
         }
         else if(!nodDel.lChild && !nodDel.rChild){
             this.turnIntoNIL(nodDel,parent);
@@ -453,14 +453,14 @@ export class AVL extends StandardTree{
         else if(nodDel.lChild && !nodDel.rChild){
             nodDel.valor = nodDel.lChild.valor;
             this.updateChangeObs();
-            await this.delayByRunSpeed()
-            await this.deleteNode(nodDel.lChild,nodDel.lChild.valor,nodDel)
+            await this.delayByRunSpeed();
+            await this.deleteNode(nodDel.lChild,nodDel.lChild.valor,nodDel);
         }
         else if(nodDel.rChild && !nodDel.lChild){
             nodDel.valor = nodDel.rChild.valor;
             this.updateChangeObs();
-            await this.delayByRunSpeed()
-            await this.deleteNode(nodDel.rChild,nodDel.rChild.valor,nodDel)
+            await this.delayByRunSpeed();
+            await this.deleteNode(nodDel.rChild,nodDel.rChild.valor,nodDel);
         }
         else if(nodDel.lChild && nodDel.rChild){
             let minRight = new TreeNode(-999);
@@ -468,7 +468,7 @@ export class AVL extends StandardTree{
             //await this.delayByRunSpeed()
             nodDel.valor = minRight.valor;
             this.updateChangeObs();
-            await this.delayByRunSpeed()
+            await this.delayByRunSpeed();
             await this.deleteNode(nodDel.rChild,minRight.valor,nodDel);//Lo eliminamos de la derecha
         }
     }
@@ -499,7 +499,7 @@ export class AVL extends StandardTree{
         }
 
         this.setAlturaNodo(curNode);
-        await this.balanceAfterDelete(curNode)
+        await this.balanceAfterDelete(curNode);
         this.updateChangeObs();
         await this.delayByRunSpeed();
         this.setAlturaNodo(curNode);

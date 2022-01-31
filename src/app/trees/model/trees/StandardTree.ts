@@ -1,6 +1,5 @@
 import { BehaviorSubject } from "rxjs";
 import { AuxVarService } from "src/app/trees/services/aux-var.service";
-import { TreeControllerService } from "../../services/tree-controller.service";
 import { Tree } from "../Tree";
 import { TreeChange } from "../TreeChange";
 import { TreeNode } from "../TreeNode";
@@ -54,15 +53,15 @@ export class StandardTree implements Tree{
         [500,252,698,171,293,612,716,80,193,274,377,533,647,703,781,48,107,183,221,260,283,319,
         473,510,553,619,670,700,709,743],
         [500,252,698,171,293,612,716,80,193,274,377,533,647,703,781,48,107,183,221,260,283,319,
-        473,510,553,619,670,700,709,743,830],
-    ]//Lista de arboles ya balanceados para evitar tiempo de procesamiento. Se hara un proceso
+        473,510,553,619,670,700,709,743,830]
+    ];//Lista de arboles ya balanceados para evitar tiempo de procesamiento. Se hara un proceso
     //de mapeado donde se agregara o restara un valor random a todos los elementos para darle
     //la ilucion al usuario que siempre crea uno diferente
 
     constructor(size: number, tipoArbol : string, auxService : AuxVarService){
         this.size = size;
         this.delay = 150;
-        this.root = new TreeNode(-999)
+        this.root = new TreeNode(-999);
         this.changeObs = new BehaviorSubject({root: this.root,size: this.size});
         this.auxVarServ = auxService;
         this.tipoArbol = tipoArbol;
@@ -126,6 +125,7 @@ export class StandardTree implements Tree{
             await this.findBiggest(curNode.rChild,max);
         }
     }
+
     async findMax(): Promise<TreeNode> {
         let max = new TreeNode(-999);
         if(this.root.valor != -999){
@@ -177,7 +177,7 @@ export class StandardTree implements Tree{
      */
     adicionGeneraQuintaCapa(valAgregar : number) : boolean {
         let depthIfAdd = (curNode : TreeNode, valAdd : number, curDepth : number) : number =>{
-            let depthIfAdded : number = 0
+            let depthIfAdded : number = 0;
             if(curNode.valor > valAdd){
                 if(curNode.lChild){
                     depthIfAdded = depthIfAdd(curNode.lChild,valAdd,curDepth+1);
@@ -361,7 +361,7 @@ export class StandardTree implements Tree{
      * @param size Entero que representa la cantidad de nodos que tendra el arbol
      */
     async inicializarArbol(size: number): Promise<any> {
-        let noise = this.randomIntFromInterval(-47,47)
+        let noise = this.randomIntFromInterval(-47,47);
         let array = this.balancedTreeList[size-1];
         for(let i=0; i<array.length; i++){
             //console.log("Se va a agregar " + (array[i]+noise))

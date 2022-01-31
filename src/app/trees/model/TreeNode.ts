@@ -32,7 +32,7 @@ export class TreeNode{
      * @param value Valor que representa la prioridad del nodo
      */
     setPrioridad(value : number){
-        this.prioridad = value
+        this.prioridad = value;
     }
 
     /**
@@ -64,7 +64,7 @@ export class TreeNode{
      * @returns Left child del nodo.
      */
     getLChild(){
-        return this.lChild
+        return this.lChild;
     }
 
 
@@ -99,7 +99,7 @@ export class TreeNode{
      * @returns Right child del nodo.
      */
      getRChild(){
-        return this.rChild
+        return this.rChild;
     }
 
     /**

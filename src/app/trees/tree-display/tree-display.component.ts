@@ -56,7 +56,7 @@ export class TreeDisplayComponent implements OnInit {
    * @returns Entero que representa la altura en el arbol en la que se encuentre el nodo
    */
   getDepth(iNodo : number){
-    return Math.floor(Math.log2(iNodo+1))
+    return Math.floor(Math.log2(iNodo+1));
   }
 
   /**
@@ -90,10 +90,10 @@ export class TreeDisplayComponent implements OnInit {
     let par : boolean = (iNode % 2) == 0;
     let parent = 0;
     if(par){
-      parent = (iNode -2) / 2
+      parent = (iNode -2) / 2;
     }
     else{
-      parent = (iNode -1) / 2
+      parent = (iNode -1) / 2;
     }
     return parent;
   }
@@ -108,7 +108,7 @@ export class TreeDisplayComponent implements OnInit {
   getLeftRightChild(iNode : number) : number[]{
     let hijoIzquierdo = (iNode*2)+1;
     let hijoDerecho = (iNode*2)+2;
-    return [hijoIzquierdo,hijoDerecho]
+    return [hijoIzquierdo,hijoDerecho];
   }
 
   /**
@@ -143,16 +143,16 @@ export class TreeDisplayComponent implements OnInit {
     }
     */
     if(this.treeSize == 1){
-      this.nodesPosition.set(0,(this.containerWidth/2) - (this.dotSize/2))
+      this.nodesPosition.set(0,(this.containerWidth/2) - (this.dotSize/2));
     }
     else if(depth == this.getDepth(this.treeSize-1)){
       //Ultima fila recibe trato diferente ya que seguimos una estrategia bottom-up
       let nodes = Math.pow(2,depth);
-      let spacing = (this.containerWidth-(this.dotSize*nodes))/ (nodes+1)
+      let spacing = (this.containerWidth-(this.dotSize*nodes))/ (nodes+1);
       let firstIndex = this.firstElemDepthIndex(depth);
       for(let i = firstIndex; i<firstIndex+nodes; i++){
         if(i == firstIndex){
-          this.nodesPosition.set(i,this.containerWidth-spacing - this.dotSize + (this.dotSize/5)) ;
+          this.nodesPosition.set(i,this.containerWidth-spacing - this.dotSize + (this.dotSize/5));
         }
         else{
           let leftNeighbourNode = this.nodesPosition.get(i-1);
@@ -214,11 +214,8 @@ export class TreeDisplayComponent implements OnInit {
    * con su contenedor padre para estar ubicado en la altura en la que se encuentra en el arbol
    */
   getTopDistance(iNodo : number){
-    //console.log("Llega el nodo " + iNodo)
     let depth = this.getDepth(iNodo);
-    //console.log("Devolvemos " +((depth*this.dotSize) + (15*depth) + 15))
     return (depth*this.dotSize) + (45*depth) + 45;
-    //return (15*depth) + 15;
     /**
      * Tamaño del dot*depth: Cantidad que hay arriba
      * 45*depth: Gap entre niveles.
@@ -314,7 +311,7 @@ export class TreeDisplayComponent implements OnInit {
   rightDistanceLSL(iNodo:number) : number{
     let distRight = this.nodesPosition.get(iNodo);
     if(distRight){
-      return distRight + this.dotSize
+      return distRight + this.dotSize;
     }
     return 0//Nunca llega aca
   }
@@ -327,7 +324,7 @@ export class TreeDisplayComponent implements OnInit {
   rightDistanceRSL(iNodo:number) : number{
     let distRight = this.nodesPosition.get(iNodo);
     if(distRight){
-      return distRight - this.calcDistancaAbsXRight(iNodo,(iNodo*2)+2)
+      return distRight - this.calcDistancaAbsXRight(iNodo,(iNodo*2)+2);
     }
     return 0//Nunca llega aca
   }
@@ -338,7 +335,7 @@ export class TreeDisplayComponent implements OnInit {
    * @param iNodo Entero que representa el indice de un nodo en un arbol binario
    */
   rightDistanceLDL(iNodo:number) : number{
-    return this.rightDistanceLSL(iNodo) + this.calcDistancaAbsXLeft(iNodo,(iNodo*2)+1)
+    return this.rightDistanceLSL(iNodo) + this.calcDistancaAbsXLeft(iNodo,(iNodo*2)+1);
   }
 
   /**
@@ -400,10 +397,10 @@ export class TreeDisplayComponent implements OnInit {
     let leftChild = (iNodo*2) + 1;
     if(this.treeArrayRepr[leftChild].pointed == false){
       if(this.treeArrayRepr[leftChild].color == "#F39530"){
-        return "#f39530"
+        return "#f39530";
       }
       else{
-        return "#0D0A07"
+        return "#0D0A07";
       }
     }
     else{
@@ -422,10 +419,10 @@ export class TreeDisplayComponent implements OnInit {
     let rightChild = (iNodo*2) + 2;
     if(this.treeArrayRepr[rightChild].pointed == false){
       if(this.treeArrayRepr[rightChild].color == "#F39530"){
-        return "#f39530"
+        return "#f39530";
       }
       else{
-        return "#0D0A07"
+        return "#0D0A07";
       }
     }
     else{
@@ -433,8 +430,13 @@ export class TreeDisplayComponent implements OnInit {
     }
   }
 
+  /**
+   * Metodo que evalua si el árbol actual es un Treap o no.
+   * 
+   * @returns True si el arbol actual es un Treap, False en caso contrario
+   */
   isTreap(){
-    return this.treeContrServ.arbolType == "Treap"
+    return this.treeContrServ.arbolType == "Treap";
   }
   
 }
