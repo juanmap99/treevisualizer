@@ -21,7 +21,7 @@ export class TreeConfigComponent implements OnInit {
   playButton = faPlay;
   running : boolean = false;
   
-  treeSize : number = 0;
+  treeSize : number = 1;
   treeSizeChange : boolean = false;
   runSpeed: number = 1;
   metodoElegido : string = "Add";
