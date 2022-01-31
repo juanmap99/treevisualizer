@@ -1,0 +1,213 @@
+$simport$s sys
+
+$d $d
+
+$sclass$s TreeNode($fobject$f):
+    $sdef$s $d__init__$d($fself$f $s,$s key):
+        $fself$f.key = key
+        $fself$f.left = $sNone$s
+        $fself$f.right = $sNone$s
+        $fself$f.height = $u1$u
+
+$d $d
+
+$sclass$s AVLTree($fobject$f):
+    $d $d
+
+    $sdef$s $dinsert_node$d($fself$f$s,$s root$s,$s key):
+
+        $sif not$s root:
+            $sreturn$s TreeNode(key)
+        $selif$s key < root.key:
+            root.left = $fself$f.insert_node(root.left$s,$s key)
+        $selse$s:
+            root.right = $fself$f.insert_node(root.right$s,$s key)
+
+        root.height = $u1$u + $fmax$f($fself$f.getHeight(root.left)$s,$s
+                              $fself$f.getHeight(root.right))
+
+        $sreturn$s $fself$f.balancePostAdd(root)
+
+    $d $d
+
+    $sdef$s $dbalancePostAdd$d($fself$f,root):
+        balanceFactor = $fself$f.getBalance(root)
+        $sif$s balanceFactor > $u1$u:
+            $sif$s key < root.left.key:
+                $sreturn$s $fself$f.rightRotate(root)
+            $selse$s:
+                root.left = $fself$f.leftRotate(root.left)
+                $sreturn$s $fself$f.rightRotate(root)
+
+        $sif$s balanceFactor < -$u1$u:
+            $sif$s key > root.right.key:
+                $sreturn$s $fself$f.leftRotate(root)
+            $selse$s:
+                root.right = $fself$f.rightRotate(root.right)
+                $sreturn$s $fself$f.leftRotate(root)
+
+        $sreturn$s root
+
+    $d $d
+
+    $sdef$s $ddelete_node$d($fself$f$s,$s root$s,$s key):
+        $sif not$s root:
+            $sreturn$s root
+        $selif$s key < root.key:
+            root.left = $fself$f.delete_node(root.left$s,$s key)
+        $selif$s key > root.key:
+            root.right = $fself$f.delete_node(root.right$s,$s key)
+        $selse$s:
+            $sif$s root.left $sis None$s:
+                temp = root.right
+                root = $sNone$s
+                $sreturn$s temp
+            $selif$s root.right $sis None$s:
+                temp = root.left
+                root = $sNone$s
+                $sreturn$s temp
+            temp = $fself$f.minValueNode(root.right)
+            root.key = temp.key
+            root.right = $fself$f.delete_node(root.right$s,$s
+                                          temp.key)
+        $sif$s root $sis None$s:
+            $sreturn$s root
+
+        root.height = $u1$u + $fmax$f($fself$f.getHeight(root.left)$s,$s
+                              $fself$f.getHeight(root.right))
+
+        $sreturn$s $fself$f.balancePostDelete(root)
+
+    $d $d
+
+    $sdef$s $dbalancePostDelete$d($fself$f, root):
+        balanceFactor = $fself$f.getBalance(root)
+
+        $sif$s balanceFactor > $u1$u:
+            $sif$s $fself$f.getBalance(root.left) >= $u0$u:
+                $sreturn$s $fself$f.rightRotate(root)
+            $selse$s:
+                root.left = $fself$f.leftRotate(root.left)
+                $sreturn$s $fself$f.rightRotate(root)
+        $sif$s balanceFactor < -$u1$u:
+            $sif$s $fself$f.getBalance(root.right) <= $u0$u:
+                $sreturn$s $fself$f.leftRotate(root)
+           $selse$s:
+                root.right = $fself$f.rightRotate(root.right)
+                $sreturn$s $fself$f.leftRotate(root)
+        $sreturn$s root
+
+    $d $d
+
+    $sdef$s $dleftRotate$d($fself$f$s,$s z):
+        y = z.right
+        T2 = y.left
+        y.left = z
+        z.right = T2
+        z.height = $u1$u + $fmax$f($fself$f.getHeight(z.left)$s,$s
+                           $fself$f.getHeight(z.right))
+        y.height = $u1$u + $fmax$f($fself$f.getHeight(y.left)$s,$s
+                           $fself$f.getHeight(y.right))
+        $sreturn$s y
+
+    $d $d
+
+    $sdef$s $drightRotate$d($fself$f$s,$s z):
+        y = z.left
+        T3 = y.right
+        y.right = z
+        z.left = T3
+        z.height = $u1$u + $fmax$f($fself$f.getHeight(z.left)$s,$s
+                           $fself$f.getHeight(z.right))
+        y.height = $u1$u + $fmax$f($fself$f.getHeight(y.left)$s,$s
+                           $fself$f.getHeight(y.right))
+        $sreturn$s y
+
+    $d $d
+
+    $sdef$s $dgetHeight$d($fself$f$s,$s root):
+        $sif not$s root:
+            $sreturn$s $u0$u
+        $sreturn$s root.height
+
+    $d $d
+
+    $sdef$s $dgetBalance$d($fself$f$s,$s root):
+        $sif not$s root:
+            $sreturn$s $u0$u
+        $sreturn$s $fself$f.getHeight(root.left) - $fself$f.getHeight(root.right)
+
+    $d $d
+
+    $sdef$s $dminValueNode$d($fself$f$s,$s node):
+        current = node
+
+        $swhile$s (current.left $sis not None$s):
+            current = current.left
+
+        $sreturn$s current
+
+    $d $d
+
+    $sdef$s $dmaxValueNode$d($fself$f$s,$s node):
+        current = node
+
+        $swhile$s (current.right $sis not None$s):
+            current = current.right
+
+        $sreturn$s current
+
+    $d $d
+
+    $sdef$s $dgetMax$d($fself$f$s,$sroot):
+        $sreturn$s $fself$f.maxValueNode(root).key
+
+    $d $d
+
+    $sdef$s $dgetMin$d($fself$f$s,$sroot):
+        $sreturn$s $fself$f.minValueNode(root).key
+
+    $d $d
+
+    $sdef$s $d_searchHelper$d($fself$f$s,$s curNode$s,$s value):
+        $sif$s value < curNode.key:
+            $sif$s curNode.left:
+                $sreturn$s $fself$f._searchHelper(curNode.left$s,$s value)
+            $selse$s:
+                $sreturn None$s
+        $selif$s value > curNode.key:
+            $sif$s curNode.right:
+                $sreturn$s $fself$f._searchHelper(curNode.right$s,$s value)
+            $selse$s:
+                $sreturn None$s
+        $selse$s:
+            $sreturn$s curNode
+
+    $d $d
+
+    $sdef$s $dsearch$d($fself$f$s,$s root$s,$s value):
+        $sif not$s root:
+            $sreturn None$s
+        $sreturn$s $fself$f._searchHelper(root$s,$s value)
+
+    $d $d
+
+    $sdef$s $dprintHelper$d($fself$f$s,$s currPtr$s,$s indent$s,$s last):
+        $sif$s currPtr != $sNone$s:
+            sys.stdout.write(indent)
+            $sif$s last:
+                sys.stdout.write($c"R----"$c)
+                indent += $c"     "$c
+            $selse$s:
+                sys.stdout.write($c"L----"$c)
+                indent += $c"|    "$c
+            $fprint$f(currPtr.key)
+            $fself$f.printHelper(currPtr.left$s,$s indent$s,$s $sFalse$s)
+            $fself$f.printHelper(currPtr.right$s,$s indent$s,$s $sTrue$s)
+
+    $d$d
+
+    $sdef$s $dprint_tree$d($fself$f$s,$s root):
+        $fself$f.__print_helper(root$s,$s $c""$c $s,$s $sTrue$s)
+
+    $d $d

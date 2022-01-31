@@ -1,0 +1,153 @@
+import random
+import sys
+
+class TreapNode(object):
+    def __init__(self, key, data):
+        self.key = key
+        self.ran = random.random()
+        self.size = 1
+        self.cnt = 1
+        self.data = data
+        self.left = None
+        self.right = None
+
+    def left_rotate(self):
+        current = self
+        rightChild = current.right
+        current.right = rightChild.left
+        rightChild.left = current
+        current = rightChild
+        rightChild = current.left
+        rightChild.size = self.calc_size(rightChild)
+        current.size = self.calc_size(current)
+        return current
+
+    def right_rotate(self):
+        current = self
+        leftChild = current.left
+        current.left = leftChild.right
+        leftChild.right = current
+        current = leftChild
+        leftChild = current.right
+        leftChild.size = self.calc_size(leftChild)
+        current.size = self.calc_size(current)
+        return current
+
+    def calc_size(self, node):
+        return node.left_size() + node.right_size() + node.cnt
+
+    def left_size(self):
+        return 0 if self.left is None else self.left.size
+
+    def right_size(self):
+        return 0 if self.right is None else self.right.size
+
+
+class Treap(object):
+    def __init__(self):
+        self.root = None
+
+    def _insert(self, node, key, data=None):
+        if node is None:
+            node = TreapNode(key, data)
+            return node
+        node.size += 1
+        if key < node.key:
+            node.left = self._insert(node.left, key, data)
+            if node.left.ran < node.ran:
+                node = node.right_rotate()
+        elif key > node.key:
+            node.right = self._insert(node.right, key, data)
+            if node.right.ran < node.ran:
+                node = node.left_rotate()
+
+        return node
+
+    def insert(self, key, data=None):
+        self.root = self._insert(self.root, key, data)
+
+    def _find(self, node, key):
+        if node == None:
+            return None
+        if node.key == key:
+            return node
+        if key < node.key:
+            return self._find(node.left, key)
+        else:
+            return self._find(node.right, key)
+
+    def find(self, key):
+        return self._find(self.root, key)
+
+    def _delete(self, node, key):
+        if node is None:
+            return False
+        if node.key == key:
+            if node.left is None and node.right is None:
+                return None
+            elif node.left is None:
+                return node.right
+            elif node.right is None:
+                return node.left
+            else:
+                if node.left.ran < node.right.ran:
+                    node = node.right_rotate()
+                    node.right = self._delete(node.right, key)
+                else:
+                    node = node.left_rotate()
+                    node.left = self._delete(node.left, key)
+        elif key < node.key:
+            node.left = self._delete(node.left, key)
+        else:
+            node.right = self._delete(node.right, key)
+        node.size = node.left_size() + node.right_size() + node.cnt
+        return node
+
+    def delete(self, key):
+        if self.find(key) is None: return False
+        self.root = self._delete(self.root, key)
+        return True
+
+    def size(self):
+        return 0 if self.root is None else self.root.size
+
+    def minValueNode(self, node):
+        current = node
+
+        while (current.left is not None):
+            current = current.left
+
+        return current
+
+    def maxValueNode(self, node):
+        current = node
+
+        while (current.right is not None):
+            current = current.right
+
+        return current
+
+    def getMax(self):
+        return self.maxValueNode(self.root).key
+
+    def getMin(self):
+        return self.minValueNode(self.root).key
+
+    def __print_helper(self, node, indent, last):
+        if node:
+            sys.stdout.write(indent)
+            if last:
+                sys.stdout.write("R----")
+                indent += "     "
+            else:
+                sys.stdout.write("L----")
+                indent += "|    "
+
+            print(node.key)
+            if (node.left):
+                self.__print_helper(node.left, indent, False)
+            if (node.right):
+                self.__print_helper(node.right, indent, True)
+
+    def print_tree(self):
+        self.__print_helper(self.root, "", True)

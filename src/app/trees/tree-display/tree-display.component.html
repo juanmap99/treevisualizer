@@ -1,0 +1,72 @@
+<div [style.height]="containerHeight" 
+     [style.width]="containerWidth"
+     [style.position]="'relative'">
+    <div *ngFor="let node of treeArrayRepr; let iNodo=index;"    
+        class="nodo-container"
+        [style.position]="'absolute'"
+        [style.top] = "getTopDistance(iNodo) + 'px'"
+        [style.right] = "getRightDistance(iNodo) + 'px'"
+        [style.width]="dotSize+'px'"
+        [style.height]="dotSize+'px'">
+        <div *ngIf="nodeIsValid(iNodo)"
+             class="dot"
+             [style.background-color]="node.color">
+
+            <span *ngIf="!isTreap()" [style.fontSize]="fontSize + 'px'" 
+                [style.color]="((node.color == '#f0594e') ||(node.color == '#1a1919')) ? 'white' : 'black'"
+                class="value">
+            {{node.valor}}
+            </span>
+
+             <div class="treapVis" [style.text-align]="'center'" *ngIf="isTreap()">
+                <div [style.fontSize]="fontSize + 'px'" 
+                  [style.color]="((node.color == '#f0594e') ||(node.color == '#1a1919')) ? 'white' : 'black'"
+                  [style.height]= "fontSize + 'px'"
+                  class="center">
+                  <span>{{node.valor}}</span>
+             </div>
+                <div
+                  [style.fontSize]="fontSize/1.2 + 'px'"
+                  [style.color]="'#f0594e'"
+                  [style.height]= "fontSize/1.2 + 'px'"
+                  class="center">
+                  <span>{{node.prioridad}}</span>
+                </div>
+             </div>
+                
+        </div>
+    </div>
+
+    <div *ngFor="let node of treeArrayRepr; let iNodo=index;"
+        class="line-container">
+        <div *ngIf="hasLeftChild(iNodo)" class="line"
+            [style.top] = "topDistanceLinea(iNodo) + 'px'"
+            [style.right] = "rightDistanceLSL(iNodo) + 'px'"
+            [style.width]="calcDistancaAbsXLeft(iNodo,(iNodo*2)+1)+'px'"
+            [style.height]="1 + 'px'"
+            [style.background-color]="colorLinLeftChild(iNodo)">
+        </div>
+        <div *ngIf="hasLeftChild(iNodo)" class="line"
+            [style.top] = "topDistanceLinea(iNodo) + 'px'"
+            [style.right] = "rightDistanceLDL(iNodo) + 'px'"
+            [style.width]="1+'px'"
+            [style.height]="45 + (dotSize/2) + 'px'"
+            [style.background-color]="colorLinLeftChild(iNodo)">
+        </div>
+
+        <div *ngIf="hasRightChild(iNodo)" class="line"
+            [style.top] = "topDistanceLinea(iNodo) + 'px'"
+            [style.right] = "rightDistanceRSL(iNodo) + 'px'"
+            [style.width]="calcDistancaAbsXRight(iNodo,(iNodo*2)+2)+'px'"
+            [style.height]="1 + 'px'"
+            [style.background-color]="colorLinRightChild(iNodo)">
+        </div>
+        <div *ngIf="hasRightChild(iNodo)" class="line"
+            [style.top] = "topDistanceLinea(iNodo) + 'px'"
+            [style.right] = "rightDistanceRDL(iNodo) + 'px'"
+            [style.width]="1+'px'"
+            [style.height]="45 + (dotSize/2) + 'px'"
+            [style.background-color]="colorLinRightChild(iNodo)">
+        </div>
+    </div>
+</div>

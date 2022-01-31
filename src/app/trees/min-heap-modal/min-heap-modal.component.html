@@ -1,0 +1,158 @@
+<div class="modal-container">
+    <div class="icon">
+        <fa-icon (click)="closeModal()" [icon]="closeButton"></fa-icon>
+    </div>
+
+    <div class="modal-content-wrapper" *ngIf="curModalTab == 0">
+        <div class="modall-content"
+             [style.height]="modalHeight-90 + 'px'"
+             [style.width]="modalWidth-40 + 'px'">
+            <h1>Introducción</h1>
+            <p>Una MinHeap es un Árbol binario completo en donde el acceso al elemento mínimo
+                puede ser realizado en tiempo constante. Al no ser un BST, las operaciones de busqueda 
+                de elementos en el peor de los casos podria conllevar una complejidad temporal de O(n)
+                donde n representa la cantidad de nodos en el arbol.
+            </p>
+            <p>
+                Cabe destacar que normalmente se utiliza un array para representar el árbol ya que 
+                facilita en gran medida las operaciones y presenta una ventaja a nivel espacial.
+                Sin embargo, debido a que el objetivo actual consiste en visualizar el funcionamiento del 
+                algoritmo bajo una estructura de árbol para entenderlo en mayor profundidad y con una mayor
+                facilidad que la posible sobre un array, se optó por el uso de un árbol.
+            </p>
+            <br>
+            <h1>Estructura y reglas</h1>
+            <ul>
+                <li>Todos los niveles del árbol se encontraran llenos a excepción del último.</li>
+                <li>Los nuevos elementos se agregan siempre de izquierda a derecha.</li>
+                <li>Todo nodo hijo es mayor a su nodo padre.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="modal-content-wrapper" *ngIf="curModalTab == 1">
+        <div class="modall-content"
+        [style.height]="modalHeight-90 + 'px'"
+        [style.width]="modalWidth-40 + 'px'">
+        <h1>Métodos</h1>
+            <h1>Add</h1>
+            <p>
+                Para agregar un elemento sobre una MinHeap habiendo representado a la misma en
+                un árbol deben realizarse los siguientes pasos.
+            </p>
+            <ul>
+                <li>Se calcula el <strong>indexPath</strong> de un nodo, entendiendo al mismo como una lista que comprende
+                la ruta de indices que hay que seguir desde la altura 1 del árbol(en otras palabras excluyendo la root) para llegar al nodo a insertar. El índice del nodo a insertar puede ser
+                averiguado facilmente conociendo la cantidad de elementos en el arbol, mientras que el indice padre de 
+                cada nodo puede ser calculado restando 1 en caso que el nodo sea impar, o 2 en caso contrario, y dividiendo ese resultado por dos.</li>
+                <li>En caso que haya elementos en el árbol, se comienza el recorrido desde la <strong>root</strong>, en caso contrario
+                    el nodo agregado se convierte en la root.</li>
+                <ul>
+                    <li>
+                        Se realiza un <strong>pop</strong> de la lista del index path dentro de una variable que llamaremos
+                        <strong>indiceActual</strong>:
+                    </li>
+                    <li>Si una vez realizado el pop el indexPath se quedo vacio
+                        <ul>
+                            <li>Si el indiceActual es impar, se agrega el nodo como hijo izquierdo
+                                del nodo actual, en caso contrario es agregado como hijo derecho
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        Si una vez realizado el pop el indexPath sigue contando con elementos
+                        <ul>
+                            <li>Si el <strong>indiceActual</strong> es impar, se llama a la función de manera 
+                            recursiva definiendo a el hijo izquierdo del nodo actual como siguiente nodo a evaluar</li>
+                            <li>Si el <strong>indiceActual</strong> es par, se llama a la función de manera 
+                                recursiva definiendo a el hijo derecho del nodo actual como siguiente nodo a evaluar</li>
+                        </ul>
+                    </li>
+                </ul>
+                <li>Se realiza un proceso de <strong>bubbleUp</strong> comenzando por el padre del nodo agregado.Para ello:
+                    <ul>
+                        <li>Se compara el valor del padre con el de sus dos hijos, si sigue siendo el mas pequeño el proceso se da por terminado.</li>
+                        <li>En caso que ese no sea el caso, se reemplaza el valor del nodo actual por el valor del hijo mas pequeño y se llama 
+                            la función de bubbleUp de manera recursiva otorgando a su padre como siguiente valor a evaluar.
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h1>Search</h1>
+            <p>
+                Para buscar un elemento sobre una MinHeap se realizan los siguientes pasos.
+            </p>
+            <ul>
+                <li>Se crea una cola que contiene a la root como único elemento.</li>
+                <li>Se comienza un ciclo while que continua siempre y cuando la cola 
+                    no se encuentra vacia y no se haya encontrado el elemento, en donde:
+                    <ul>
+                        <li>Se realiza un <strong>pop</strong> sobre la cola.</li>
+                        <li>Si el valor es igual al buscado se da por terminada la busqueda.</li>
+                        <li>En caso que el valor no sea igual al buscado:
+                            <ul>
+                                <li>Si el valor del hijo izquierdo es menor al valor buscado se lo agrega a la cola.</li>
+                                <li>Si el valor del hijo derecho es menor al valor buscado se lo agrega a la cola.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h1>Find min</h1>
+            <p>El valor mínimo se encuentra en la root del árbol, por lo que simplemente se retorna dicho valor.</p>
+
+            <h1>Find max</h1>
+            <p>
+                Para buscar el elemento máximo sobre una MaxHeap se realizan los siguientes pasos.
+            </p>
+            <ul>
+                <li>Se crea una cola que contiene a la root como único elemento.</li>
+                <li>Se crea una variable <strong>valorMaximo</strong> que se inicializara con el valor 
+                de la root.</li>
+                <li>Se comienza un ciclo while que continua siempre y cuando la cola 
+                    no se encuentra vacia, en donde:
+                    <ul>
+                        <li>Se realiza un <strong>pop</strong> sobre la cola.</li>
+                        <li>Si el valor actual es mayor a <strong>valorMinimo</strong>, este ultimo pasa 
+                            a valer el valor del nodo actual.</li>
+                        <li>Se agrega el hijo izquierdo a la cola</li>
+                        <li>Se agrega el hijo derecho a la cola.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h1>Pop min</h1>
+            <p>
+                Para eliminar el elemento mínimo de una MinHeap.
+            </p>
+            <ul>
+                <li>Se calcula el indexPath del último elemento y se navega hasta el mismo</li>
+                <li>Se reemplaza el valor de la root por el valor de dicho elemento y se lo elimina.</li>
+                <li>Realizar un proceso de <strong>bubbleDown</strong> comenzando por la root. Para ello:
+                    <ul>
+                        <li>Se compara el valor del nodo actual con el de sus dos hijos, si sigue siendo el mas pequeño el proceso se da por terminado.</li>
+                        <li>En caso que ese no sea el caso, se remplaza el valor del nodo actual por el valor del hijo mas pequeño y se llama 
+                            la función de bubbleDown de manera recursiva entregando el nodo actual como siguiente valor a evaluar al haberse desplazado
+                            a la posición del hijo mas pequeño.
+                        </li>
+                    </ul>
+                </li>
+                
+            </ul>
+
+        </div>
+    </div>
+
+    <div class="lower-modal-section">
+        <div class="hline-wrap">
+            <div class="hline"></div>
+        </div>
+        <div class="interaction-wrapper">
+            <a class="back-button"[style.visibility]="curModalTab == 0 ? 'hidden' : 'visible'"
+            (click)="goPreviousPage()">&laquo; Previous</a>
+            <a class="next-button"[style.visibility]="curModalTab == 1 ? 'hidden' : 'visible'" (click)="goNextPage()">Next &raquo;</a>       
+        </div>
+    </div>
+</div>

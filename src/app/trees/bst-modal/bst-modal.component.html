@@ -1,0 +1,201 @@
+<div class="modal-container">
+    <div class="icon">
+        <fa-icon (click)="closeModal()" [icon]="closeButton"></fa-icon>
+    </div>
+
+    <div class="modal-content-wrapper" *ngIf="curModalTab == 0">
+        <div class="modall-content"
+             [style.height]="modalHeight-90 + 'px'"
+             [style.width]="modalWidth-40 + 'px'">
+            <h1>Introducción</h1>
+            <p>El binary search tree es una estructura de datos diseñada con el objetivo de permitir
+               el rápido mantenimiento de un set de datos ordenado bajo una estructura jerárquica que
+               resulta conveniente para la busqueda de elementos.
+            </p>
+            <br>
+            <h1>Estructura y reglas</h1>
+            <p>
+                <ul>
+                    <li>
+                        El árbol se encuentra compuesto por <strong>nodos</strong>.
+                    </li>
+                    <li>
+                        Cada nodo puede tener un máximo de dos hijos; un hijo izquierdo y uno derecho; en donde se
+                        debe cumplir que:
+                        <ul>
+                            <li>El nodo izquierdo debe tener un valor menor a su padre.</li>
+                            <li>El nodo derecho debe tener un valor mayor a su padre.</li>
+                        </ul> 
+                    </li>
+                </ul>
+        </div>
+    </div>
+
+    <div class="modal-content-wrapper" *ngIf="curModalTab == 1">
+        <div class="modall-content"
+        [style.height]="modalHeight-90 + 'px'"
+        [style.width]="modalWidth-40 + 'px'">
+        <h1>Métodos</h1>
+            <h1>Add</h1>
+            <p>
+                Para agregar un elemento sobre un BST(Binary Search Tree) se realizan los siguientes pasos.
+            </p>
+            <ul>
+                <li>Si el árbol no posee con una root, el elemento a agregar se convierte en la root.</li>
+                <li>En caso que haya elementos en el árbol, se comienza el recorrido desde la <strong>root</strong> del árbol.</li>
+                <ul>
+                    <li>
+                        El valor del elemento a agregar es comparado contra el nodo actual, en donde ocurrirá
+                        uno de los siguientes tres casos:
+                        <ul>
+                            <li>El valor del nodo a agregar es igual al del nodo actual, lo que implica que no hay necesidad
+                                de agregarlo debido a que ya existe en el árbol.
+                            </li>
+                            <li>
+                                El valor del nodo a agregar es menor al del nodo actual. Llegados a este punto se evalúa
+                                si el nodo posee un hijo izquierdo. En el caso que exista se llama recursivamente a la función de agregado
+                                otorgando como siguiente nodo a evaluar el hijo izquierdo del nodo actual; de no existir, el nodo a agregar 
+                                se establece como hijo izquierdo del nodo actual y se termina con la ejecución.
+                            </li>
+                            <li>
+                                El valor del nodo a agregar es mayor al del nodo actual. Llegados a este punto se evalúa
+                                si el nodo posee un hijo derecho. En el caso que exista se llama recursivamente a la función de agregado
+                                otorgando como siguiente nodo a evaluar el hijo derecho del nodo actual; de no existir, el nodo a agregar 
+                                se establece como hijo derecho del nodo actual y se termina con la ejecución.
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </ul>
+
+            <h1>Search</h1>
+            <p>
+                Para buscar un elemento sobre un BST(Binary Search Tree) se realizan los siguientes pasos.
+            </p>
+            <ul>
+                <li>Se comienza el recorrido desde la <strong>root</strong> del árbol.</li>
+                <ul>
+                    <li>
+                        El valor a buscar es comparado contra el nodo actual, en donde ocurrirá
+                        uno de los siguientes tres casos:
+                        <ul>
+                            <li>El valor a buscar es igual al valor del nodo actual, lo que implica que el elemento 
+                                buscado fue encontrado y se debe finalizar con la búsqueda.
+                            </li>
+                            <li>
+                                El valor a buscar es menor al valor del nodo actual. Llegados a este punto se evalúa
+                                si el nodo posee un hijo izquierdo. En el caso que exista se llama recursivamente a la función de busqueda
+                                otorgando como siguiente nodo a evaluar el hijo izquierdo del nodo actual; de no existir, se establece que el
+                                valor otorgado no existe en el árbol y se finaliza la busqueda.
+                            </li>
+                            <li>
+                                El valor a buscar es mayor al valor del nodo actual. Llegados a este punto se evalúa
+                                si el nodo posee un hijo derecho. En el caso que exista se llama recursivamente a la función de agregado
+                                otorgando como siguiente nodo a evaluar el hijo derecho del nodo actual; de no existir, se establece que el
+                                valor otorgado no existe en el árbol y se finaliza la busqueda.
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </ul>
+
+            <h1>Find min</h1>
+            <p>
+                Para buscar el valor mas pequeño sobre un BST(Binary Search Tree) se realizan los siguientes pasos.
+            </p>
+            <ul>
+                <li>Se comienza el recorrido desde la <strong>root</strong> del árbol. Cabe destacar que el nodo sobre el
+                cual se comienza no necesariamente debe ser la root, ya que en ciertos casos precisamos conocer el elemento
+                mínimo en un <strong>subtree</strong> en específico y no del árbol en general.</li>
+                <ul>
+                    <li>Siempre y cuando exista un hijo izquierdo se llama la función de manera recursiva otorgando
+                        el hijo izquierdo del nodo actual como siguiente nodo a evaluar. 
+                    </li>
+                    <li>En el momento que el nodo actual no posea un hijo izquierdo ese valor se define como el elemento mínimo.</li>
+                </ul>
+            </ul>
+
+            <h1>Find max</h1>
+            <p>
+                Para buscar el valor mas grande sobre un BST(Binary Search Tree) se realizan los siguientes pasos.
+            </p>
+            <ul>
+                <li>Se comienza el recorrido desde la <strong>root</strong> del árbol. Cabe destacar que el nodo sobre el
+                cual se comienza no necesariamente debe ser la root, ya que en ciertos casos precisamos conocer el elemento
+                máximo en un <strong>subtree</strong> en específico y no del árbol en general.</li>
+                <ul>
+                    <li>Siempre y cuando exista un hijo derecho se llama la función de manera recursiva otorgando
+                        el hijo derecho del nodo actual como siguiente nodo a evaluar. 
+                    </li>
+                    <li>En el momento que el nodo actual no posea un hijo derecho ese valor es nuestro elemento máximo.</li>
+                </ul>
+            </ul>
+
+            <h1>Delete</h1>
+            <p>
+                Para eliminar un elemento de un BST(Binary Search Tree) se realizan los siguientes pasos.
+            </p>
+            <ul>
+                <li>Se comienza el recorrido desde la <strong>root</strong> del árbol. Cabe destacar que el nodo sobre el
+                cual se comienza no necesariamente debe ser la root, ya que en ciertos casos conocemos el
+                <strong>subtree</strong> en específico en donde se encuentra el nodo.</li>
+                <ul>
+                    <li>
+                        El valor a buscar es comparado contra el nodo actual, en donde ocurrirá
+                        uno de los siguientes tres casos:
+                        <ul>
+                            <li>
+                                El valor a eliminar es menor al valor del nodo actual. Llegados a este punto se evalúa
+                                si el nodo posee un hijo izquierdo. En el caso que exista se llama recursivamente a la función de eliminación
+                                otorgando como siguiente nodo a evaluar el hijo izquierdo del nodo actual; de no existir, se establece que el
+                                valor a eliminar no existe en el árbol y se finaliza con el proceso de eliminación.
+                            </li>
+                            <li>
+                                El valor a eliminar es mayor al valor del nodo actual. Llegados a este punto se evalua
+                                si el nodo posee un hijo derecho. En el caso que exista se llama recursivamente a la función de eliminación
+                                otorgando como siguiente nodo a evaluar el hijo derecho del nodo actual; de no existir, se establece que el
+                                valor a eliminar no existe en el árbol y se finaliza con el proceso de eliminación.
+                            </li>
+                            <li>El valor a eliminar es igual al valor del nodo actual, lo que implica que encontramos
+                                el nodo que debemos eliminar. Llegados a este punto, se evaluan los siguientes tres 
+                                casos y dependiendo de cual represente la situación del nodo a eliminar se 
+                                procede en consecuencia.
+                                <br/><br/>
+
+                                <h3><strong>Caso uno</strong></h3>
+                                <p>El nodo a eliminar es un <strong>leaf node</strong>, es decir, no tiene ni hijo izquierdo
+                                ni derecho. En este caso el nodo simplemente se elimina a través de su padre que corta su lazo
+                                para con ese hijo.</p>
+                                
+                                <h3><strong>Caso dos</strong></h3>
+                                <p>El nodo a eliminar posee solamente un hijo. En este caso el valor del nodo actual es reemplazado con el
+                                    valor del hijo que posea y la función de eliminación es llamada sobre el hijo.</p>
+
+                                <h3><strong>Caso tres</strong></h3>
+                                <p>El nodo a eliminar posee sus dos hijos. En este caso se puede reemplazar el valor del nodo actual ya sea con el
+                                    <strong>Inorder predecessor</strong>(El cual se consigue buscando el valor máximo en el subtree definido por el hijo izquierdo),
+                                    o el <strong>Inorder successor</strong>(El cual se consigue buscando el valor mínimo en el subtree definido por el hijo derecho).
+                                    Independientemente del caso elegido, una vez reemplazado el valor del nodo a eliminar por el valor conseguido se llama al proceso
+                                    de eliminación sobre ese nodo del cual tomamos su valor.
+                                </p>
+
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </ul>
+
+        </div>
+    </div>
+
+    <div class="lower-modal-section">
+        <div class="hline-wrap">
+            <div class="hline"></div>
+        </div>
+        <div class="interaction-wrapper">
+            <a class="back-button"[style.visibility]="curModalTab == 0 ? 'hidden' : 'visible'"
+            (click)="goPreviousPage()">&laquo; Previous</a>
+            <a class="next-button"[style.visibility]="curModalTab == 1 ? 'hidden' : 'visible'" (click)="goNextPage()">Next &raquo;</a>       
+        </div>
+    </div>
+</div>

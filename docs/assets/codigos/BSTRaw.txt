@@ -1,0 +1,125 @@
+import sys
+
+class Node:
+    def __init__(self, key):
+        self.key = key
+        self.left = None
+        self.right = None
+
+
+class BST:
+    def __init__(self):
+        self.root = None
+
+    def _insertHelper(self, node, nodeAdd):
+
+        if nodeAdd.key < node.key:
+            if node.left:
+                self._insertHelper(node.left, nodeAdd)
+            else:
+                node.left = nodeAdd
+        else:
+            if node.right:
+                self._insertHelper(node.right, nodeAdd)
+            else:
+                node.right = nodeAdd
+
+
+    def insert(self,value):
+        nodeAdd = Node(value)
+        if(self.root == None):
+            self.root = nodeAdd
+        else:
+            self._insertHelper(self.root,nodeAdd)
+
+    def minValueNode(self,node):
+        current = node
+
+        while(current.left is not None):
+            current = current.left
+
+        return current
+
+    def maxValueNode(self,node):
+        current = node
+
+        while (current.right is not None):
+            current = current.right
+
+        return current
+
+    def getMax(self):
+        return self.maxValueNode(self.root).key
+
+    def getMin(self):
+        return self.minValueNode(self.root).key
+    
+    
+    def _searchHelper(self,curNode,value):
+        if value < curNode.key:
+            if curNode.left:
+                return self._searchHelper(curNode.left, value)
+            else:
+                return None
+        elif value > curNode.key:
+            if curNode.right:
+                return self._searchHelper(curNode.right, value)
+            else:
+                return None
+        else:
+            return curNode
+
+    def search(self,value):
+        if not self.root:
+            return None
+        return self._searchHelper(self.root,value)
+
+    def _deleteNodeHelper(self,root,key):
+
+        if root is None:
+            return root
+
+        if key < root.key:
+            root.left = self._deleteNodeHelper(root.left, key)
+        elif(key > root.key):
+            root.right = self._deleteNodeHelper(root.right, key)
+        else:
+            if root.left is None:
+                temp = root.right
+                root = None
+                return temp
+
+            elif root.right is None:
+                temp = root.left
+                root = None
+                return temp
+
+            temp = self.minValueNode(root.right)
+
+            root.key = temp.key
+
+            root.right = self._deleteNodeHelper(root.right, temp.key)
+
+        return root
+
+    def delete(self,value):
+        self.root = self._deleteNodeHelper(self.root,value)
+
+    def __print_helper(self, node, indent, last):
+        if node:
+            sys.stdout.write(indent)
+            if last:
+                sys.stdout.write("R----")
+                indent += "     "
+            else:
+                sys.stdout.write("L----")
+                indent += "|    "
+
+            print(node.key)
+            if (node.left):
+                self.__print_helper(node.left, indent, False)
+            if (node.right):
+                self.__print_helper(node.right, indent, True)
+
+    def print_tree(self):
+        self.__print_helper(self.root, "", True)

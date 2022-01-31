@@ -1,0 +1,217 @@
+<div class="modal-container">
+    <div class="icon">
+        <fa-icon (click)="closeModal()" [icon]="closeButton"></fa-icon>
+    </div>
+
+    <div class="modal-content-wrapper" *ngIf="curModalTab == 0">
+        <div class="modall-content"
+             [style.height]="modalHeight-90 + 'px'"
+             [style.width]="modalWidth-40 + 'px'">
+            <h1>Introducción</h1>
+            <p>El RBT(Red Black Tree) es un BST(Binary Search Tree) que a través de un proceso
+               de rotaciones se autobalancea para garatnizar que las busquedas puedan realizarse 
+               bajo una complejidad temporal promedio de O(log<sub>2</sub>n) en donde n es la cantidad de nodos
+               contenidos en el árbol.
+            </p>
+            <p>   
+               Si bien el RBT tiene tiene la contrapartida que no siempre se encuentra estrictamente balanceado
+               como sucedería en un AVL(lo que causa que las busquedas sean ligeramente mas lentas en comparativa), 
+               el proceso de balanciamiento al insertar y eliminar elementos conlleva menos rotaciones que un AVL
+               lo que lo hace mas rápido sobre este tipo de operaciones.
+            </p>
+            <br/><br/>
+            <h1>Estructura y reglas</h1>
+            <p>
+                <ul>
+                    <li>
+                        El árbol se encuentra compuesto por <strong>nodos</strong>.
+                    </li>
+                    <li>
+                        Cada nodo puede tener un máximo de dos hijos; un hijo izquierdo y uno derecho; en donde se
+                        debe cumplir que:
+                        <ul>
+                            <li>El nodo izquierdo debe tener un valor menor a su padre.</li>
+                            <li>El nodo derecho debe tener un valor mayor a su padre.</li>
+                        </ul> 
+                    </li>
+                    <li>Cada nodo tiene un color que será ya sea negro o rojo.</li>
+                    <li>La <strong>root</strong> siempre será color negro.</li>
+                    <li>Los <strong>nodos hoja</strong> seran siempre color negro.</li>
+                    <li>La cantidad de nodos negros desde la root hasta una de sus hojas debe
+                        ser idéntica para el resto de hojas.
+                    </li>
+                    <li>Los nodos rojos en secuencia no se encuentran permitidos. Esto implica que si un
+                        nodo es de color rojo, ninguno de sus hijos podrá tener color rojo.</li>
+                    <li>La altura del árbol es menor o igual a Log<sub>2</sub>(n+1), donde n es
+                    la cantidad de nodos en el árbol.</li>
+                </ul>
+        </div>
+    </div>
+
+    <div class="modal-content-wrapper" *ngIf="curModalTab == 1">
+        <div class="modall-content"
+        [style.height]="modalHeight-90 + 'px'"
+        [style.width]="modalWidth-40 + 'px'">
+        <h1>Métodos</h1>
+            <h1>Add</h1>
+            <p>
+                Para agregar un elemento sobre un RBT se realizan los siguientes pasos.
+            </p>
+            <ul>    
+                <li>Se asigna color rojo al nodo a agregar.</li>
+                <li>Se realiza el agregado de un elemento de la misma manera que en un BST. Cabe destacar
+                    que en el caso que no exista una root, el color del nodo se lo transforma a color negro
+                    previo a asignarlo como root.
+                </li>
+                <li>Una vez agregado se realiza un proceso en donde se verifica que todas las normas que 
+                    representan a un RBT sigan siendo cumplidas post-incerción del elemento, en caso que eso no 
+                    suceda, se actua en consecuencia a través de recoloramiento y/o rotaciones. Para realizar ese 
+                    chequeo, los siguientes casos son analizados.
+                    <br/><br/>
+        
+                    <h3><strong>Caso uno</strong></h3>
+                    <p>Si el padre es negro, puede asegurarse que ninguna regla fue rota y se debe dar por finalizado
+                        el proceso de arreglo.
+                    </p>
+                    
+                    <h3><strong>Caso dos</strong></h3>
+                    <p>El padre es rojo, el tio es rojo</p>
+                    <ul>
+                        <li>
+                            Se recolorea el padre y el tio a color negro.
+                        </li>
+                        <li>
+                            Si el abuelo no es la root, se lo recolorea a color rojo.
+                        </li>
+                        <li>Se llama a la función de fixPostAdd de manera recursiva otorgando como valor
+                            al abuelo, ya que se debe verificar si su transformación a color rojo rompió
+                            con las normas de un RBT.
+                        </li>
+                    </ul>
+                    <p></p>
+                    <h3><strong>Caso tres</strong></h3>
+                    <p>El padre es rojo, el tio es negro.</p>
+                    <ul>
+                        <li>Si el nodo es hijo izquierdo y el padre es hijo derecho, el padre
+                            es rotado hacia la derecha. y el abuelo es rotado hacia la izquierda
+                            (recordemos que la root siempre es negra, y en este caso el padre es rojo, por lo cual 
+                            tenemos la certeza que existe un abuelo en este caso).
+                            A su vez, el color del abuelo pasa a ser rojo, y el color del nodo pasa a ser negro.
+                        </li>
+                        <li>
+                            Si el nodo es hijo derecho y el padre es hijo derecho, el abuelo es rotado hacia la izquierda.
+                            A su vez, el color del padre pasa a negro y el color del abuelo pasa a rojo.    
+                        </li>
+                        <li>
+                            Si el nodo es hijo derecho y el padre es hijo izquierdo, el padre
+                            es rotado hacia la izquierda. y el abuelo es rotado hacia la derecha.
+                            A su vez, el color del abuelo pasa a ser rojo, y el color del nodo pasa a ser negro.
+                        </li>
+                        <li>
+                            Si el nodo es hijo izquierdo y el padre es hijo izquierdo, el abuelo es rotado hacia la derecha.
+                            A su vez, el color del padre pasa a negro y el color del abuelo pasa a rojo.  
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h1>Search</h1>
+            <p>
+                La busqueda de un elemento sobre un RBT es idéntica a la explicada en el BST(Binary Search Tree).
+            </p>
+
+            <h1>Find min</h1>
+            <p>
+                La busqueda del valor mínimo sobre un RBT es idéntica a la explicada en el BST(Binary Search Tree).
+            </p>
+
+            <h1>Find max</h1>
+            <p>
+                La busqueda del valor máximo sobre un RBT es idéntica a la explicada en el BST(Binary Search Tree).
+            </p>
+
+            <h1>Delete</h1>
+            <p>
+                Para eliminar un elemento de un RBT se realizan los siguientes pasos.
+            </p>
+            <ul>
+                <li>El elemento a eliminar se elimina de la manera explicada en el BST.</li>
+                <li>Si el nodo eliminado poseia un color rojo se puede garantizar que ninguna
+                    norma se ha roto y se da por finalizada la eliminación. </li>
+                <li>En el caso que el nodo sea negro se rompera la norma que la cantidad de nodos negros
+                    desde la root hacia los nodos hojas debe ser igual para todas las hojas porque sobre
+                    una rama acabamos de eliminar un nodo negro. Debido a que este es el caso se debe
+                    reinstaurar el orden para acatarnos nuevamente a las normas del RBT a través de un proceso
+                    de recoloramiento y/o rotaciones en donde se evaluaran los siguientes casos en una función
+                    que llamaremos <strong>fixPostDelete</strong>:
+                    <br/><br/>
+        
+                    <h3><strong>Caso uno</strong></h3>
+                    <p>Hermano es negro, Hijos de hermano son negros. En este caso se debe:</p>
+                    <ul>
+                        <li>Se cambia el color del hermano de negro a rojo.</li>
+                        <li>Si el padre es de color rojo, se lo transforma en negro y se termina la ejecución. Si
+                            el padre es negro y no es el root, se llama a fixPostDelete entregando el padre 
+                            como nodo a evaluar y se repite la evaluación de casos.
+                        </li>
+                    </ul>
+                    <br/><br/>
+                    <h3><strong>Caso dos</strong></h3>
+                    <p>Hermano es rojo. En este caso se debe:</p>
+                    <ul>
+                        <li>
+                            El padre pasa de color negro a rojo(recordemos, sabemos que el padre es negro
+                            porque poseia un hijo rojo).
+                        </li>
+                        <li>
+                            El hermano pasa de color rojo a negro.
+                        </li>
+                        <li>El padre rota en dirección del nodo que estamos evaluando.</li>
+                        <li>Se revalúan nuevamente los casos sobre el nodo actual.</li>
+                    </ul>
+                    <br/><br/>
+                    <h3><strong>Caso tres</strong></h3>
+                    <p>Hermano es negro, hijo del hermano mas alejado al nodo que estamos evaluando es negro pero 
+                        el hijo del hermano mas cercano es rojo(En otras palabras, en el caso de que se este evaluando un nodo izquierdo 
+                        el hijo mas alejado sera el hijo derecho del hermano, mientras que el mas cercano sera el izquierdo. Por otra 
+                        parte en caso que estemos evaluando un nodo derecho, el hijo mas lejano es el hijo izquierdo del hermano
+                        mientras que el mas cercano es su hijo derecho.).
+                    </p>
+                    <ul>
+                        <li>El hermano pasa de color negro a rojo.</li>
+                        <li>El hermano mas cercano del hermano del nodo que estamos evaluando que era color rojo pasa a ser color negro.</li>
+                        <li>El hermano gira en dirección opuesta al nodo que se transformo de rojo a negro, en otras palabras
+                            gira en dirección del nodo mas lejano a su hermano.
+                        </li>
+                        <li>Se revalúan nuevamente los casos sobre el nodo actual. Cabe destacar que debido a la 
+                            rotación y recoloramiento realizado, al llamar nuevamente la función sobre este nodo se 
+                            caerá sobre el <strong>Caso 4</strong> que sera explicado a continuación.
+                        </li>
+                    </ul>
+                    <br/><br/>
+                    <h3><strong>Caso cutro</strong></h3>
+                    <p>Hermano es negro, hijo del hermano mas alejado al nodo que estamos evaluando es rojo.</p>
+                    <ul>
+                        <li>El hermano y el padre intercambian colores.</li>
+                        <li>El hijo del hermano mas alejado al nodo que estamos evaluando pasa de color rojo a negro.</li>
+                        <li>El padre gira en dirección del nodo que estamos evaluando</li>
+                    </ul>
+
+                </li>
+
+            </ul>
+
+        </div>
+    </div>
+
+    <div class="lower-modal-section">
+        <div class="hline-wrap">
+            <div class="hline"></div>
+        </div>
+        <div class="interaction-wrapper">
+            <a class="back-button"[style.visibility]="curModalTab == 0 ? 'hidden' : 'visible'"
+            (click)="goPreviousPage()">&laquo; Previous</a>
+            <a class="next-button"[style.visibility]="curModalTab == 1 ? 'hidden' : 'visible'" (click)="goNextPage()">Next &raquo;</a>       
+        </div>
+    </div>
+</div>

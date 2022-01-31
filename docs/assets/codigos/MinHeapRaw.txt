@@ -1,0 +1,180 @@
+import sys
+from collections import deque
+
+class TreeNode(object):
+    def __init__(self, key):
+        self.key = key
+        self.left = None
+        self.right = None
+        self.parent = None
+
+
+class MinHeap:
+    def __init__(self):
+        self.TNULL = TreeNode(0)
+        self.TNULL.color = 0
+        self.TNULL.left = None
+        self.TNULL.right = None
+        self.TNULL.parent = None
+        self.root = self.TNULL
+        self.size = 0;
+
+    def getParentIndex(self,iNode):
+        par = (iNode % 2) == 0
+        if(par):
+            return (iNode -2) / 2
+        else:
+            return (iNode - 1) / 2
+
+    def getIndexPath(self, indice):
+        indexPath = [indice-1]
+        curInd = indice -1
+        while(curInd !=0):
+            curInd = self.getParentIndex(curInd)
+            indexPath.append(curInd)
+        indexPath.pop()
+        return indexPath
+
+    def bubbleUp(self,curNode):
+        smallest = curNode.key
+        side = ""
+        if(curNode.right and curNode.right.key < smallest):
+            smallest = curNode.right.key
+            side = "right"
+        if(curNode.left and curNode.left.key < smallest):
+            smallest = curNode.left.key
+            side = "left"
+        if(smallest != curNode.key):
+            temp = curNode.key
+            if side == "right":
+                curNode.key = curNode.right.key
+                curNode.right.key = temp
+            elif side == "left":
+                curNode.key = curNode.left.key
+                curNode.left.key = temp
+
+            if curNode.parent:
+                self.bubbleUp(curNode.parent)
+
+
+    def _addHelper(self,curNode, nodeAdd, indexPath):
+        curIndex = indexPath.pop()
+        if(len(indexPath) > 0):
+            if(curIndex % 2 == 0):
+                self._addHelper(curNode.right,nodeAdd,indexPath)
+            else:
+                self._addHelper(curNode.left, nodeAdd, indexPath)
+        else:
+            nodeAdd.parent = curNode
+            if(curIndex % 2 == 0):
+                curNode.right = nodeAdd
+            else:
+                curNode.left = nodeAdd
+            self.bubbleUp(curNode)
+
+    def add(self, value):
+        newNode = TreeNode(value)
+        if(self.size == 0):
+            self.root = newNode;
+        else:
+            indexPath = self.getIndexPath(self.size+1)
+            self._addHelper(self.root,newNode, indexPath)
+        self.size += 1
+
+    def bubbleDown(self, curNode):
+        smallest = curNode.key
+        side = ""
+        if (curNode.right and curNode.right.key < smallest):
+            smallest = curNode.right.key
+            side = "right"
+        if (curNode.left and curNode.left.key < smallest):
+            smallest = curNode.left.key
+            side = "left"
+        if (smallest != curNode.key):
+            temp = curNode.key
+            if side == "right":
+                curNode.key = curNode.right.key
+                curNode.right.key = temp
+                self.bubbleDown(curNode.right)
+            elif side == "left":
+                curNode.key = curNode.left.key
+                curNode.left.key = temp
+                self.bubbleDown(curNode.left)
+
+    def _popRootHelper(self,curNode,indexPath):
+        curIndex = indexPath.pop()
+        if (len(indexPath) > 0):
+            if (curIndex % 2 == 0):
+                self._popRootHelper(curNode.right,indexPath)
+            else:
+                self._popRootHelper(curNode.left, indexPath)
+        else:
+            if (curIndex % 2 == 0):
+                self.root.key = curNode.right.key
+                curNode.right = None
+            else:
+                self.root.key = curNode.left.key
+                curNode.left = None
+            self.bubbleDown(self.root)
+
+    def popMin(self):
+        if(self.size == 0):
+            self.root = self.TNULL
+        else:
+            indexPath = self.getIndexPath(self.size)
+            self._popRootHelper(self.root, indexPath)
+        self.size -= 1
+
+    def getMin(self):
+        return self.root.key
+    
+    def getMax(self):
+        queue = deque([self.root])
+        nodeSmallest = self.root
+        smallest = self.root.key
+        while (len(queue) != 0):
+            elem = queue.popleft()
+            if(elem.key <= smallest):
+                nodeSmallest = elem
+                smallest = elem.key
+
+            if elem.right:
+                queue.append(elem.right)
+            if elem.left:
+                queue.append(elem.left)
+
+        return nodeSmallest
+    
+    def search(self,value):
+        queue = deque([self.root])
+        nodeRes = None
+        while(len(queue) != 0 ):
+            elem = queue.popleft()
+            if(elem.key == value):
+                nodeRes = elem
+                queue = deque([])
+            else:
+                if elem.right and elem.right.key <= value:
+                    queue.append(elem.right)
+                if elem.left and elem.left.key <= value:
+                    queue.append(elem.left)
+        return nodeRes
+
+    def __print_helper(self, node, indent, last):
+        if node != self.TNULL:
+            sys.stdout.write(indent)
+            if last:
+                sys.stdout.write("R----")
+                indent += "     "
+            else:
+                sys.stdout.write("L----")
+                indent += "|    "
+
+            print(node.key)
+            if(node.left):
+                self.__print_helper(node.left, indent, False)
+            if(node.right):
+                self.__print_helper(node.right, indent, True)
+
+    def print_tree(self):
+        self.__print_helper(self.root, "", True)

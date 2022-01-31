@@ -1,0 +1,123 @@
+<div class="modal-container">
+    <div class="icon">
+        <fa-icon (click)="closeModal()" [icon]="closeButton"></fa-icon>
+    </div>
+
+    <div class="modal-content-wrapper" *ngIf="curModalTab == 0">
+        <div class="modall-content"
+             [style.height]="modalHeight-90 + 'px'"
+             [style.width]="modalWidth-40 + 'px'">
+            <h1>Introducción</h1>
+            <p>El árbol AVL(Adelson-Velsky and Landis) es un BST(Binary Search Tree) que a través de un proceso
+               de rotaciones se autobalancea para garantizar que el <strong>factor de balance</strong> de los
+               nodos del árbol se mantenga en el rango comprendido por -1&GreaterEqual;0&leq;1, lo que garantiza que las 
+               busquedas puedan realizarse bajo una complejidad temporal de O(log<sub>2</sub>n) en donde n es la cantidad de nodos
+               contenidos en el árbol.
+            </p>
+            <br>
+            <h1>Estructura y reglas</h1>
+            <ul>
+                <li>
+                    El árbol se encuentra compuesto por <strong>nodos</strong>.
+                </li>
+                <li>
+                    Cada nodo puede tener un máximo de dos hijos; un hijo izquierdo y uno derecho; en donde se
+                    debe cumplir que:
+                    <ul>
+                        <li>El nodo izquierdo debe tener un valor menor a su padre.</li>
+                        <li>El nodo derecho debe tener un valor mayor a su padre.</li>
+                    </ul> 
+                </li>
+                <li>Cada nodo tiene un atributo que representa su altura, definida como 1 + el máximo entre
+                    la altura del hijo izquierdo y el hijo derecho.
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="modal-content-wrapper" *ngIf="curModalTab == 1">
+        <div class="modall-content"
+        [style.height]="modalHeight-90 + 'px'"
+        [style.width]="modalWidth-40 + 'px'">
+        <h1>Métodos</h1>
+            <h1>Add</h1>
+            <p>
+                Para agregar un elemento sobre un AVL se realizan los siguientes pasos.
+            </p>
+            <ul>
+                <li>Se realiza el agregado de un elemento de la misma manera que en un BST.</li>
+                <li>Una vez agregado se calcula el <strong>factor de balance</strong> de los nodos comenzando
+                desde el padre del elemento agregado, en donde el mismo se calcula restando la altura
+                del hijo izquierdo con la del hijo derecho. La manera de actuar en función del factor
+                se encuentra comprendida por los siguientes tres casos
+                    <br/><br/>
+        
+                    <h3><strong>Caso uno</strong></h3>
+                    <p>El factor de balance se encuentra en el rango comprendido por -1&GreaterEqual;0&leq;1. En este caso el nodo
+                        se encuentra balanceado y no es necesario realizar rotación alguna.
+                    </p>
+                    
+                    <h3><strong>Caso dos</strong></h3>
+                    <p>El factor de balance es <strong>menor a -1</strong>. Este factor nos señala que la altura del hijo derecho es mas grande que la 
+                        del izquierdo+1, lo que implica que se debe realizar un proceso de balanceo. Para ello:
+                    </p>
+                    <ul>
+                        <li>Si el factor de balance del hijo derecho es mayor a 0, el hijo derecho
+                            rota hacia la derecha.
+                        </li>
+                        <li>El nodo actual rota hacia la izquierda.</li>
+                    </ul>
+
+                    <h3><strong>Caso tres</strong></h3>
+                    <p>El factor de balance es <strong>mayor a 1</strong>. Este factor nos señala que la altura del hijo izquierdo es mas grande que la 
+                        del derecho+1, lo que implica que se debe realizar un proceso de balanceo. Para ello:
+                        </p>
+                        <ul>
+                        <li>Si el factor de balance del hijo izquierdo es menor a 0, el hijo izquierdo
+                            rota hacia la izquierda.
+                        </li>
+                        <li>El nodo actual rota hacia la derecha.</li>
+                    </ul>  
+                </li>
+            </ul>
+
+            <h1>Search</h1>
+            <p>
+                Las busqueda de elementos sobre un AVL se realiza de manera idéntica a la explicada en el BST(Binary Search Tree).
+            </p>
+
+            <h1>Find min</h1>
+            <p>
+                Las busqueda del valor mínimo sobre un AVL se realiza de manera idéntica a la explicada en el BST(Binary Search Tree).
+            </p>
+
+            <h1>Find max</h1>
+            <p>
+                Las busqueda del valor máximo sobre un AVL se realiza de manera idéntica a la explicada en el BST(Binary Search Tree).
+            </p>
+
+            <h1>Delete</h1>
+            <p>
+                Para eliminar un elemento de un AVL se realizan los siguientes pasos.
+            </p>
+            <ul>
+                <li>El elemento a eliminar se elimina de la manera explicada en el BST.</li>
+                <li>Se recalcula el <strong>factor de balance</strong> comenzando desde el padre del
+                nodo eliminado y se realiza el mismo proceso de balanceo sobre cada nodo hasta la root que fue explicado
+                en el método de agregado de elementos. </li>
+            </ul>
+
+        </div>
+    </div>
+
+    <div class="lower-modal-section">
+        <div class="hline-wrap">
+            <div class="hline"></div>
+        </div>
+        <div class="interaction-wrapper">
+            <a class="back-button"[style.visibility]="curModalTab == 0 ? 'hidden' : 'visible'"
+            (click)="goPreviousPage()">&laquo; Previous</a>
+            <a class="next-button"[style.visibility]="curModalTab == 1 ? 'hidden' : 'visible'" (click)="goNextPage()">Next &raquo;</a>       
+        </div>
+    </div>
+</div>

@@ -1,0 +1,148 @@
+<div class="conf-body">
+    <div class="param-container">
+        <h2>Seteo del arbol</h2>
+        <div class="seteo-cont">
+            <!--
+            <label [ngClass] = "{ 'disabledLabel': running, 'undisabledLabel': !running}">Tamaño arbol:</label>
+            <mat-slider class="mat-slide"
+                [disabled]="running"
+                thumbLabel
+                min="1"
+                max="31"
+                aria-label="units"
+                (input)="adjustTreeSize($event)">
+            </mat-slider>
+            -->
+
+            <div *ngIf="!isTreap()" class="col mb-4 mt-4">
+                <div class="select-field" appearance="fill">
+                    <span class="altura-field">Altura: </span>
+                    <select (change)="setAltura($event)" class="input-altura">
+                      <option value="1" selected>0</option>
+                      <option value="2">1</option>
+                      <option value="3">2</option>
+                      <option value="4">3</option>
+                      <option value="5">4</option>
+                    </select>
+                </div>
+            </div>
+
+            <div *ngIf="isTreap()" class="col mb-4 mt-4">
+                <div class="select-field" appearance="fill">
+                    <span class="altura-field">Altura: </span>
+                    <select (change)="setAltura($event)" class="input-altura">
+                      <option value="1" selected>0</option>
+                      <option value="2">1</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="run-container-wrapper generar" (click)="!running ? ajustarAltura() : ''" >
+                <div [ngClass]="{'run-wrapper':!running, 'run-wrapper-disabled':running}">
+                    <a>Generar</a>
+                </div>
+            </div>
+
+            <hr class="solid">
+        </div>
+
+        <h2 class="mt-4">Parámetros</h2>
+
+        <div class="parametros row justify-content-start row-cols-1">
+
+            
+            <div class="col mb-4 mt-4">
+                <div class="select-field" appearance="fill">
+                    <span>Velocidad: </span>
+                    <select (change)="setVelocidad($event)" class="select-input">
+                      <option value="1" selected>1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                    </select>
+                </div>
+            </div>
+
+            <div *ngIf="notHeaps() "class="col mb-4">
+                <div class="select-field" appearance="fill">
+                    <span class="metodo-field">Metodo: </span>
+                    <select (change)="setMethod($event)" class="select-input">
+                      <option value="Add" selected>Add</option>
+                      <option value="Search">Search</option>
+                      <option value="Delete">Delete</option>
+                      <option value="FindMin">FindMin</option>
+                      <option value="FindMax">FindMax</option>
+                    </select>
+                </div> 
+            </div>
+
+            <div *ngIf="minHeap() "class="col mb-4">
+                <div class="select-field" appearance="fill">
+                    <span class="metodo-field">Metodo: </span>
+                    <select (change)="setMethod($event)" class="select-input">
+                      <option value="Add" selected>Add</option>
+                      <option value="Search">Search</option>
+                      <option value="Pop">Pop min</option>
+                      <option value="FindMin">FindMin</option>
+                      <option value="FindMax">FindMax</option>
+                    </select>
+                </div> 
+            </div>
+
+            <div *ngIf="maxHeap() "class="col mb-4">
+                <div class="select-field" appearance="fill">
+                    <span class="metodo-field">Metodo: </span>
+                    <select (change)="setMethod($event)" class="select-input">
+                      <option value="Add" selected>Add</option>
+                      <option value="Search">Search</option>
+                      <option value="Pop">Pop max</option>
+                      <option value="FindMin">FindMin</option>
+                      <option value="FindMax">FindMax</option>
+                    </select>
+                </div> 
+            </div>
+
+            <div class="col mb-2">
+                <div class="select-field">
+                    <span [ngClass]="disableNode ? 'disabledLabel' : ''" class="elem">Elemento: </span>
+                    <input class="num-input" value="0" maxlength="3" placeholder="Integral positivo"
+                           [(ngModel)]="elemValue" (ngModelChange)="nodeValueChanged($event)" [disabled]="disableNode">
+                </div>
+            </div>
+
+            <div class="col nodo-generado">
+                <span [ngClass]="disableNode ? 'disabledLabel' : ''">Nodo generado:</span>
+                <div [ngClass]="disableNode ? 'greyDot' : 'dot'">
+                    <span>{{generatedNode}}</span>
+                </div>
+            </div>
+        </div>
+
+
+        <hr class="solid">
+    </div>
+
+    <div class="run-container-wrapper" (click)="!running ? runProgram() : ''" >
+        <div [ngClass]="{'run-wrapper':!running, 'run-wrapper-disabled':running}">
+            <a>Run</a>
+        </div>
+    </div>
+
+    <div class="view-wrapper">
+        <div class="botton-wrapper explicacion-wrapper"
+             (click)="emitExplanationEvent()">
+            <a>Explicación</a>
+            <div class="icon">
+                <fa-icon [icon]="lbulbIcon"></fa-icon>
+            </div>
+        </div>
+        <div class="botton-wrapper"
+             (click)="emitCodeDisplayEvent()">
+            <a>Código</a>
+            <div class="icon">
+                <fa-icon [icon]="codeIcon"></fa-icon>
+            </div>
+        </div>
+    </div>
+</div>

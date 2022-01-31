@@ -1,0 +1,294 @@
+@use "../utilities/flex-styles.scss";
+@use "../utilities/site-colors.scss" as colors;
+
+
+.conf-body{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    height: 100%;
+}
+
+.view-wrapper{
+    @extend .FlexRCC;
+    @extend .FillFlex;
+    margin-top: 15px;
+    margin-bottom: 15px;
+
+    .icon{
+        font-size: 20px;
+        padding-left:3px;
+    }
+
+    .explicacion-wrapper{
+        margin-right: 20px;
+    }
+
+    .botton-wrapper{
+        font-size: 18px;
+        width: 130px;
+        height: 50px;
+        border-color: colors.$cian_main;;
+        border-style:solid;
+        border-width:2px;
+        border-radius: 0.82px;
+        color:colors.$cian_main;;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        -webkit-user-select: none;  /* Chrome all / Safari all */
+        -moz-user-select: none;     /* Firefox all */
+        -ms-user-select: none;      /* IE 10+ */
+        user-select: none;          /* Likely future */   
+    
+        &:hover{
+            height: 50px;
+            border-color: colors.$cian_main;;
+            animation-name: color-shift;
+            animation-duration: 0.09s;
+            animation-fill-mode: forwards;
+            animation-timing-function: linear;
+    
+            .icon{
+                animation-name: righ-shift;
+                animation-duration: 0.09s;
+                animation-fill-mode: forwards;
+                animation-timing-function: linear;
+            }
+        }
+    }
+}
+
+
+@keyframes color-shift {
+    from {border-color: colors.$cian_main; color:#A4E8E0;}
+    to {border-color: colors.$yellow_main; 
+        color:colors.$yellow_main;
+        font-size: 20px;
+        box-shadow:0.5px 1.2px 3px colors.$darker_yellow;}
+}
+
+@keyframes righ-shift{
+    0%   {padding-left:3px;}
+    100%  {padding-left:8px;}
+}
+
+
+@keyframes run-shift {
+    from {background-color: colors.$violet_main; color:#FEF7FF;}
+    to {border-color: colors.$naranja_main; 
+        background-color: transparent;
+        color:colors.$naranja_main;
+        width: 153px;
+        font-size: 21px;
+        box-shadow:0.4px 0.6px 3px #D1E9F1;}
+}
+
+
+.run-container-wrapper{
+    align-self: center;
+}
+
+.run-button-def{
+    @extend .FlexRCC;
+    font-size: 18px;
+    width: 150px;
+    height: 50px;
+    border-style:solid;
+    border-width:1px;
+    border-radius: 6px;
+    color:#FEF7FF;
+    cursor: pointer;
+    -webkit-user-select: none;  /* Chrome all / Safari all */
+    -moz-user-select: none;     /* Firefox all */
+    -ms-user-select: none;      /* IE 10+ */
+    user-select: none;          /* Likely future */  
+}
+
+.run-wrapper{
+    @extend .run-button-def;
+    border-color: colors.$violet_main;
+    background-color: colors.$violet_main;
+
+    &:hover{
+        animation-name: run-shift;
+        animation-duration: 0.09s;
+        animation-fill-mode: forwards;
+        animation-timing-function:ease-in;
+    }
+}
+
+.run-wrapper-disabled{
+    @extend .run-button-def;
+    border-color: grey;
+    background-color: transparent;
+    color:grey;
+}
+
+
+::ng-deep .mat-slide .mat-slider-thumb {
+    background-color: colors.$violet_main !important;
+}
+
+::ng-deep .mat-slide .mat-slider-track-fill {
+    background-color: colors.$violet_main !important;
+}
+
+::ng-deep .mat-slide .mat-slider-thumb-label {
+    background-color: colors.$violet_main !important;
+}
+
+.solid{
+    margin-top: 20px;
+    margin-right: 15px;
+    margin-bottom: 20px;
+}
+
+.param-container{
+    color:colors.$white_main;
+    margin-left: 15px;
+    margin-top:15px;
+
+    h2{
+        font-size: 25px;   
+    }
+
+    .disabledLabel{
+        color: grey;
+    }
+    .undisabledLabel{
+        color:colors.$white_main;
+    }
+
+    label{
+        font-size: 18px;
+    }
+
+    .select-field{
+        width: 100%;
+
+        span{
+            font-size: 18px;
+            width: 35%;
+        }
+
+        .altura-field{
+            margin-right: 5px !important;
+        }
+
+        .input-altura{
+            background-color: colors.$white_main;
+            border: solid;
+            border-color: colors.$white_main;
+            width: 100px;
+        }
+
+        .elem{
+            margin-right: 3px !important;
+        }
+
+        .disabledLabel{
+            color:grey
+        }
+
+        .size{
+            margin-right: 13.5px;
+        }
+    }
+
+}
+
+::ng-deep .mat-form-field-wrapper{
+    margin-bottom: -1.25em;
+ }
+
+.parametros{
+    width: 95%;
+    
+    .select-field{
+        width: 100%;
+
+        span{
+            font-size: 18px;
+            width: 35%;
+        }
+
+        .metodo-field{
+            margin-right: 17px !important;
+        }
+
+        .select-input{
+            background-color: colors.$white_main;
+            border: solid;
+            border-color: colors.$white_main;
+            width: 40%;
+        }
+
+        .num-input{
+            background-color: colors.$white_main; 
+            border: solid;
+            border-color: colors.$white_main;
+            width: 40%;
+        }
+
+        .elem{
+            margin-right: 3px !important;
+        }
+
+        .disabledLabel{
+            color:grey
+        }
+
+        .size{
+            margin-right: 13.5px;
+        }
+    }
+
+    .nodo-generado{
+        @extend .FlexRSC;
+        margin-top: 15px;
+        width: 100%;
+
+        span{
+            font-size: 18px;
+        }
+
+        .dotStandard{
+            @extend .FlexRCC;
+            height: 40px;
+            width: 40px;
+            border-radius: 50% 50% 50% 50%;
+            margin-left: 10px;
+        }
+        .dot{
+            @extend .FlexRCC;
+            @extend .dotStandard;
+            background-color: colors.$violet_main;
+            box-shadow: 0.6px 0.6px 0.2px 0.9px colors.$darker_violet;
+            /*background-color: colors.$blue_main;;
+            box-shadow: 0.6px 0.6px 0.2px 0.9px colors.$blue_main;*/
+        }
+
+        .greyDot{
+            @extend .FlexRCC;
+            @extend .dotStandard;
+            background-color: grey;
+            box-shadow: 0.6px 0.6px 0.2px 0.9px rgb(90, 89, 89);
+        }
+    }
+
+}
+
+.seteo-cont{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+
+    .generar{
+        margin-right: 24px;
+    }
+}

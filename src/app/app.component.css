@@ -1,0 +1,8 @@
+.page-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+    /*height: 100%;*/
+    background-color: #DEEAF0;
+}
+

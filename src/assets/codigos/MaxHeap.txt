@@ -1,0 +1,210 @@
+$simport$s sys
+$sfrom$s collections $simport$s deque
+
+$d $d
+
+$sclass$s TreeNode($fobject$f):
+    $sdef$s $d__init__$d($fself$f$s,$s key):
+        $fself$f.key = key
+        $fself$f.left = $sNone$s
+        $fself$f.right = $sNone$s
+        $fself$f.parent = $sNone$s
+
+$d $d
+
+$sclass$s MaxHeap:
+    $sdef$s $d__init__$d($fself$f):
+        $fself$f.TNULL = TreeNode($u0$u)
+        $fself$f.TNULL.color = $u0$u
+        $fself$f.TNULL.left = $sNone$s
+        $fself$f.TNULL.right = $sNone$s
+        $fself$f.TNULL.parent = $sNone$s
+        $fself$f.root = $fself$f.TNULL
+        $fself$f.size = $u0$u;
+
+    $d $d
+
+    $sdef$s $dgetParentIndex$d($fself$f$s,$siNode):
+        par = (iNode % $u2$u) == $u0$u
+        $sif$s(par):
+            $sreturn$s (iNode -$u2$u) / $u2$u
+        $selse$s:
+            $sreturn$s (iNode - $u1$u) / $u2$u
+
+    $d $d
+
+    $sdef$s $dgetIndexPath$d($fself$f$s,$s indice):
+        indexPath = [indice-$u1$u]
+        curInd = indice -$u1$u
+        $swhile$s(curInd !=$u0$u):
+            curInd = $fself$f.getParentIndex(curInd)
+            indexPath.append(curInd)
+        indexPath.pop()
+        $sreturn$s indexPath
+
+    $d $d
+
+    $sdef$s $dbubbleUp$d($fself$f$s,$scurNode):
+        biggest = curNode.key
+        side = $c""$c
+        $sif$s(curNode.right $sand$s curNode.right.key > biggest):
+            biggest = curNode.right.key
+            side = $c"right"$c
+        $sif$s(curNode.left $sand$s curNode.left.key > biggest):
+            biggest = curNode.left.key
+            side = $c"left"$c
+        $sif$s(biggest != curNode.key):
+            temp = curNode.key
+            $sif$s side == $c"right"$c:
+                curNode.key = curNode.right.key
+                curNode.right.key = temp
+            $selif$s side == $c"left"$c:
+                curNode.key = curNode.left.key
+                curNode.left.key = temp
+
+            $sif$s curNode.parent:
+                $fself$f.bubbleUp(curNode.parent)
+
+    $d $d
+
+    $sdef$s $d_addHelper$d($fself$f$s,$scurNode$s,$s nodeAdd$s,$s indexPath):
+        curIndex = indexPath.pop()
+        $sif$s($flen$f(indexPath) > $u0$u):
+            $sif$s(curIndex % $u2$u == $u0$u):
+                $fself$f._addHelper(curNode.right$s,$snodeAdd$s,$sindexPath)
+            $selse$s:
+                $fself$f._addHelper(curNode.left$s,$s nodeAdd$s,$s indexPath)
+        $selse$s:
+            nodeAdd.parent = curNode
+            $sif$s(curIndex % $u2$u == $u0$u):
+                curNode.right = nodeAdd
+            $selse$s:
+                curNode.left = nodeAdd
+            $fself$f.bubbleUp(curNode)
+
+    $d $d
+
+    $sdef$s $dadd$d($fself$f$s,$s value):
+        newNode = TreeNode(value)
+        $sif$s($fself$f.size == $u0$u):
+            $fself$f.root = newNode;
+        $selse$s:
+            indexPath = $fself$f.getIndexPath($fself$f.size+$u1$u)
+            $fself$f._addHelper($fself$f.root$s,$snewNode$s,$s indexPath)
+        $fself$f.size += $u1$u
+
+    $d $d
+
+    $sdef$s $dbubbleDown$d($fself$f$s,$s curNode):
+        biggest = curNode.key
+        side = $c""$c
+        $sif$s (curNode.right $sand$s curNode.right.key > biggest):
+            biggest = curNode.right.key
+            side = $c"right"$c
+        $sif$s (curNode.left $sand$s curNode.left.key > biggest):
+            biggest = curNode.left.key
+            side = $c"left"$c
+        $sif$s (biggest != curNode.key):
+            temp = curNode.key
+            $sif$s side == $c"right"$c:
+                curNode.key = curNode.right.key
+                curNode.right.key = temp
+                $fself$f.bubbleDown(curNode.right)
+            $selif$s side == $c"left"$c:
+                curNode.key = curNode.left.key
+                curNode.left.key = temp
+                $fself$f.bubbleDown(curNode.left)
+
+    $d $d
+
+    $sdef$s $d_popRootHelper$d($fself$f$s,$scurNode$s,$sindexPath):
+        curIndex = indexPath.pop()
+        $sif$s ($flen$f(indexPath) > $u0$u):
+            $sif$s (curIndex % $u2$u == $u0$u):
+                $fself$f._popRootHelper(curNode.right$s,$sindexPath)
+            $selse$s:
+                $fself$f._popRootHelper(curNode.left$s,$s indexPath)
+        $selse$s:
+            $sif$s (curIndex % $u2$u == $u0$u):
+                self.root.key = curNode.right.key
+                curNode.right = $sNone$s
+            $selse$s:
+                $fself$f.root.key = curNode.left.key
+                curNode.left = $sNone$s
+            $fself$f.bubbleDown(self.root)
+
+    $d $d
+
+    $sdef$s $dpopMax$d($fself$f):
+        $sif$s($fself$f.size == $u0$u):
+            $fself$f.root = $fself$f.TNULL
+        $selse$s:
+            indexPath = $fself$f.getIndexPath($fself$f.size)
+            $fself$f._popRootHelper($fself$f.root$s,$s indexPath)
+        $fself$f.size -= $u1$u
+
+    $d $d
+
+    $sdef$s $dgetMax$d($fself$f):
+        $sreturn$s $fself$f.root.key
+
+    $d $d
+
+    $sdef$s $dgetMin$d($fself$f):
+        queue = deque([$fself$f.root])
+        nodeBiggest = $fself$f.root
+        biggest = $fself$f.root.key
+        $swhile$s ($flen$f(queue) != $u0$u):
+            elem = queue.popleft()
+            $sif$s(elem.key >= biggest):
+                nodeBiggest = elem
+                biggest = elem.key
+
+            $sif$s elem.right:
+                queue.append(elem.right)
+            $sif$s elem.left:
+                queue.append(elem.left)
+
+        $sreturn$s nodeBiggest
+    
+    $d $d
+
+    $sdef$s $dsearch$d($fself$f$s,$svalue):
+        queue = deque([$fself$f.root])
+        nodeRes = $sNone$s
+        $swhile$s($flen$f(queue) != $u0$u ):
+            elem = queue.popleft()
+            $sif$s(elem.key == value):
+                nodeRes = elem
+                queue = deque([])
+            $selse$s:
+                $sif$s elem.right $sand$s elem.right.key >= value:
+                    queue.append(elem.right)
+                $sif$s elem.left $sand$s elem.right.key >= value:
+                    queue.append(elem.left)
+        $sreturn$s nodeRes
+    
+    $d $d
+
+    $sdef$s $d__print_helper$d($fself$f$s,$s node$s,$s indent$s,$s last):
+        $sif$s node != $fself$f.TNULL:
+            sys.stdout.write(indent)
+            $sif$s last:
+                sys.stdout.write($c"R----"$c)
+                indent += $c"     "$c
+            $selse$s:
+                sys.stdout.write($c"L----"$c)
+                indent += $c"|    "$c
+
+            $fprint$f(node.key)
+            $sif$s(node.left):
+                $fself$f.__print_helper(node.left$s,$s indent$s, False$s)
+            $sif$s(node.right):
+                $fself$f.__print_helper(node.right$s,$s indent$s, True$s)
+
+    $d $d
+
+    $sdef$s $dprint_tree$d($fself$f):
+        $fself$f.__print_helper($fself$f.root$s,$s $c""$c$s, True$s)
+
+    $d $d

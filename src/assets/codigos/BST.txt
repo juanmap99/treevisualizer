@@ -1,0 +1,151 @@
+$simport$s sys
+$d $d
+
+
+$sclass$s Node:
+    $sdef$s $d__init__$d($fself$f$s,$s key):
+        $fself$f.key = key
+        $fself$f.left = $sNone$s
+        $fself$f.right = $sNone$s
+
+$d $d
+
+
+$sclass$s BST:
+    $sdef$s $d__init__$d(self):
+        $fself$f.root = $sNone$s
+
+    $d$d
+
+    $sdef$s $d_insertHelper$d($fself$f$s,$s node$s,$s nodeAdd):
+
+        $sif$s nodeAdd.key < node.key:
+            $sif$s node.left:
+                $fself$f._insertHelper(node.left$s,$s nodeAdd)
+            $selse$s:
+                node.left = nodeAdd
+        $selse$s:
+            $sif$s node.right:
+                $fself$f._insertHelper(node.right$s,$s nodeAdd)
+            $selse$s:
+                node.right = nodeAdd
+
+    $d$d
+
+    $sdef$s $dinsert$d($fself$f$s,$svalue):
+        nodeAdd = Node(value)
+        $sif$s($fself$f.root == $sNone$s):
+            $fself$f.root = nodeAdd
+        $selse$s:
+            $fself$f._insertHelper($fself$f.root$s,$snodeAdd)
+
+    $d$d
+
+    $sdef$s $dminValueNode$d($fself$f$s,$snode):
+        current = node
+
+        $swhile$s(current.left $sis not None$s):
+            current = current.left
+
+        $sreturn$s current
+    
+    $d$d
+
+    $sdef$s $dmaxValueNode$d($fself$f$s,$snode):
+        current = node
+
+        $swhile$s (current.right $sis not None$s):
+            current = current.right
+
+        $sreturn$s current
+
+    $d$d
+
+    $sdef$s $dgetMax$d($fself$f):
+        $sreturn$s $fself$f.maxValueNode($fself$f.root).key
+
+    $d$d
+
+    $sdef$s $dgetMin$d($fself$f):
+        $sreturn$s $fself$f.minValueNode($fself$f.root).key
+
+    $d$d
+
+    $sdef$s $d_searchHelper$d($fself$f$s,$scurNode$s,$svalue):
+        $sif$s value < curNode.key:
+            $sif$s curNode.left:
+                $sreturn$s $fself$f._searchHelper(curNode.left$s,$s value)
+            $selse$s:
+                $sreturn None$s
+        $selif$s value > curNode.key:
+            $sif$s curNode.right:
+                $sreturn$s $fself$f._searchHelper(curNode.right$s,$s value)
+            $selse$s:
+                $sreturn$s $sNone$s
+        $selse$s:
+            $sreturn$s curNode
+
+    $d$d
+
+    $sdef$s $dsearch$d($fself$f$s,$svalue):
+        $sif not$s self.root:
+            $sreturn$s $sNone$s
+        $sreturn$s $fself$f._searchHelper($fself$f.root$s,$svalue)
+
+    $d$d
+
+    $sdef$s $d_deleteNodeHelper$d($fself$f$s,$sroot$s,$skey):
+
+        $sif$s root $sis None$s:
+            $sreturn$s root
+
+        $sif$s key < root.key:
+            root.left = $fself$f._deleteNodeHelper(root.left$s,$s key)
+        $selif$s(key > root.key):
+            root.right = $fself$f._deleteNodeHelper(root.right$s,$s key)
+        $selse$s:
+            $sif$s root.left $sis None$s:
+                temp = root.right
+                root = $sNone$s
+                $sreturn$s temp
+
+            $selif$s root.right $sis None$s:
+                temp = root.left
+                root = $sNone$s
+                $sreturn$s temp
+
+            temp = $fself$f.minValueNode(root.right)
+
+            root.key = temp.key
+
+            root.right = $fself$f._deleteNodeHelper(root.right$s,$s temp.key)
+
+        $sreturn$s root
+
+    $d$d
+
+    $sdef$s $ddelete$d($fself$f$s,$svalue):
+        self.root = $fself$f._deleteNodeHelper($fself$f.root$s,$svalue)
+
+    $d$d
+
+    $sdef$s $d__print_helper$d($fself$f$s,$s node$s,$s indent$s,$s last):
+        $sif$s node:
+            sys.stdout.write(indent)
+            $sif$s last:
+                sys.stdout.write($c"R----"$c)
+                indent += $c"     "$c
+            $selse$s:
+                sys.stdout.write($c"L----"$c)
+                indent += $c"|    "$c
+
+            $fprint$f(node.key)
+            $sif$s (node.left):
+                $fself$f.__print_helper(node.left$s,$s indent$s,$s $sFalse$s)
+            $sif$s (node.right):
+                $fself$f.__print_helper(node.right$s,$s indent$s,$s $sTrue$s)
+
+    $d$d
+
+    $sdef$s $dprint_tree$d($fself$f):
+        $fself$f.__print_helper($fself$f.root$s,$s $c""$c$s,$s $sTrue$s)

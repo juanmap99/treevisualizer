@@ -1,0 +1,95 @@
+<div class="modal-background" 
+    [style.min-width]="'1270px'"
+    [style.width]="scWidth+'px'" 
+    [style.height]="scHeight+'px'"
+    [style.min-height]="'950px'"
+    [style.display]="openModal ? 'block' : 'none'"
+    (click)="closeModal()">
+</div>
+
+<div [style.min-width]="'1270px'" class="toolbar modal-overlay">
+    <div class="alg-container">
+        <div [ngClass]="arbolElegido=='BST' ? 'tb-item-sel' : 'tb-item-def'" 
+        (click)="setCurrentTree('BST')">
+        <span>Binary Search Tree</span>
+        </div>
+        <div [ngClass]="arbolElegido=='AVLTree' ? 'tb-item-sel' : 'tb-item-def'" 
+            (click)="setCurrentTree('AVLTree')">
+        <span>AVL Tree</span>
+        </div>
+        <div [ngClass]="arbolElegido=='RBT' ? 'tb-item-sel' : 'tb-item-def'" 
+            (click)="setCurrentTree('RBT')">
+        <span>Red Black Tree</span>
+        </div>
+        <div [ngClass]="arbolElegido=='MaxHeap' ? 'tb-item-sel' : 'tb-item-def'" 
+            (click)="setCurrentTree('MaxHeap')">
+        <span>Max Heap</span>
+        </div>
+        <div [ngClass]="arbolElegido=='MinHeap' ? 'tb-item-sel' : 'tb-item-def'" 
+            (click)="setCurrentTree('MinHeap')">
+        <span>Min Heap</span>
+        </div>
+        <div [ngClass]="arbolElegido=='Treap' ? 'tb-item-sel' : 'tb-item-def'" 
+            (click)="setCurrentTree('Treap')">
+        <span>Treap</span>
+        </div>
+    </div>
+
+</div>
+
+<div class="modal-container" [style.width]="modalWidth+'px'" 
+                            [style.height]="modalHeight+'px'"
+                            [style.margin-top]="getModalMarginTopBottom()+'px'"
+                            [style.margin-bottom]="getModalMarginTopBottom()+'px'"
+                            [style.margin-left]="(scWidth -modalWidth)/2+'px'"
+                            [style.margin-right]="(scWidth -modalWidth)/2+'px'"
+                            [style.display]="openModal ? 'block' : 'none'"
+                            >
+    <div #modalContainer></div>
+</div>
+
+<div class="body-container modal-overlay" 
+     [style.min-width]="'1270px'" 
+     [style.height]="getBodyHeight()+'px'"
+     [style.min-height]="'800px'">
+     
+     <div class="tree-section-container">
+        <app-tree-display class="tree-container">
+
+        </app-tree-display>
+
+        <div class="aux-displ-section" [style.display]="running ? 'block' : 'none'">
+            <h2 *ngIf="auxVariableExist" class="var-name">Variables auxiliares</h2>
+            <div class="aux-container" *ngFor="let auxVar of auxVarList;">
+                <span class="var-name">{{auxVar.varName}} : </span>
+                <div class="aux-var" 
+                    [style.display]="auxVar.displayStatus.leftHiding ? 'flex' : 'none'">
+                    <fa-icon class="icon" [icon]="threeDots"></fa-icon>
+                </div>
+                <div class="aux-var" 
+                    *ngFor="let value of auxVar.data.slice(auxVar.displayStatus.iStart,auxVar.displayStatus.iEnd)
+                            ;let iEle=index;" 
+                [style.width]="defineAuxVarWidth(value) + 'px'"
+                [style.background-color]="getAuxVarBC(auxVar.colorList, auxVar.displayStatus.iStart,iEle)">
+                    <span>{{defineAuxText(value.valor)}}</span>
+                </div>
+                <div class="aux-var" 
+                    [style.display]="auxVar.displayStatus.rightHiding ? 'flex' : 'none'">
+                    <fa-icon class="icon" [icon]="threeDots"></fa-icon>
+                </div>
+                <span class="var-name"
+                        [style.visibility]="auxVar.dataSize == 0 ? 'visible' : 'hidden'">
+                        [ ]
+                </span>
+            </div>
+        </div>
+     </div>
+
+     <app-tree-config (explEvent)="displayExplanationModal()"
+                      (codeEvent)="displayCodeModal()"
+                      (trResizeEvent)="resizeTree($event)"
+                      (runParamsEvent)="execute($event)"
+                      class="config-container">
+     </app-tree-config>
+     
+</div>

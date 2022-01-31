@@ -1,0 +1,149 @@
+<div class="modal-container">
+    <div class="icon">
+        <fa-icon (click)="closeModal()" [icon]="closeButton"></fa-icon>
+    </div>
+
+    <div class="modal-content-wrapper" *ngIf="curModalTab == 0">
+        <div class="modall-content"
+             [style.height]="modalHeight-90 + 'px'"
+             [style.width]="modalWidth-40 + 'px'">
+            <h1>Introducción</h1>
+            <p>El Treap es un BST que busca implementar la noción de autobalance a traves del uso de una Heap, en donde 
+               el valor usado para determinar el orden de los nodos en el árbol esta dado por la <strong>prioridad</strong>
+               del nodo; la cual es asignada de manera random durante la inicialización.
+            </p>
+            <p>   
+               Debido a que esta prioridad es generada de manera random, no tenemos la garantía absoluta que la altura 
+               del árbol será O(log<sub>2</sub>n) como sucede en el caso del AVL, pero debido a su distribución 
+               probabilistica la probabilidad que asi lo sea es muy alta.
+            </p>
+            <br/><br/>
+            <h1>Estructura y reglas</h1>
+            <p>
+                <ul>
+                    <li>
+                        El árbol se encuentra compuesto por <strong>nodos</strong>.
+                    </li>
+                    <li>
+                        Cada nodo puede tener un máximo de dos hijos; un hijo izquierdo y uno derecho; en donde se
+                        debe cumplir que:
+                        <ul>
+                            <li>El nodo izquierdo debe tener un valor menor a su padre.</li>
+                            <li>El nodo derecho debe tener un valor mayor a su padre.</li>
+                        </ul> 
+                    </li>
+                    <li>Cada nodo tiene una <strong>prioridad</strong> definida de manera random.</li>
+                    <li>La prioridad de los hijos debe ser menor a la prioridad de su nodo padre.</li>
+                </ul>
+        </div>
+    </div>
+
+    <div class="modal-content-wrapper" *ngIf="curModalTab == 1">
+        <div class="modall-content"
+        [style.height]="modalHeight-90 + 'px'"
+        [style.width]="modalWidth-40 + 'px'">
+        <h1>Métodos</h1>
+            <h1>Add</h1>
+            <p>
+                Para agregar un elemento sobre un Treap se realizan los siguientes pasos.
+            </p>
+            <ul>    
+                <li>Se asigna una prioridad al nodo creado de manera random.</li>
+                <li>Se realiza el agregado de un elemento de la misma manera que en un BST.</li>
+                <li>Una vez agregado se arregla el árbol para que el posicionamiento de 
+                    los nodos sea respectivo a su prioridad, para ello:
+                    <ul>
+                        <li>El recorrido comienza por el nodo padre al nodo agregado.</li>
+                        <li>Si la prioridad del padre es mayor a la del hijo, puede asegurarse que las prioridades 
+                            se mantuvieron post-inserción y no hay que realizar cambios. En caso contrario, el padre
+                            debe girar en dirección opuesta al nodo que lo supera en prioridad para transformarlo en el
+                            nuevo padre.
+                        </li>
+                        <li>El proceso es repetido hasta llegar a la root.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h1>Search</h1>
+            <p>
+                La busqueda de un elemento sobre un Treap es idéntica a la explicada en el BST(Binary Search Tree).
+            </p>
+
+            <h1>Find min</h1>
+            <p>
+                La busqueda del valor mínimo sobre un Treap es idéntica a la explicada en el BST(Binary Search Tree).
+            </p>
+
+            <h1>Find max</h1>
+            <p>
+                La busqueda del valor máximo sobre un Treap es idéntica a la explicada en el BST(Binary Search Tree).
+            </p>
+
+            <h1>Delete</h1>
+            <p>
+                Para eliminar un elemento de un Treap se realizan los siguientes pasos.
+            </p>
+            <ul>
+                <li>Se comienza el recorrido desde la <strong>root</strong> del árbol.</li>
+                <ul>
+                    <li>
+                        El valor a buscar es comparado contra el nodo actual, en donde ocurrirá
+                        uno de los siguientes tres casos:
+                        <ul>
+                            <li>
+                                El valor a eliminar es menor al valor del nodo actual. Llegados a este punto se evalúa
+                                si el nodo posee un hijo izquierdo. En el caso que exista se llama recursivamente a la función de eliminación
+                                otorgando como siguiente nodo a evaluar el hijo izquierdo del nodo actual; de no existir, se establece que el
+                                valor a eliminar no existe en el árbol y se finaliza con el proceso de eliminación.
+                            </li>
+                            <li>
+                                El valor a eliminar es mayor al valor del nodo actual. Llegados a este punto se evalúa
+                                si el nodo posee un hijo derecho. En el caso que exista se llama recursivamente a la función de eliminación
+                                otorgando como siguiente nodo a evaluar el hijo derecho del nodo actual; de no existir, se establece que el
+                                valor a eliminar no existe en el árbol y se finaliza con el proceso de eliminación.
+                            </li>
+                            <li>El valor a eliminar es igual al valor del nodo actual, lo que implica que encontramos
+                                el nodo que debemos eliminar. Llegados a este punto, se evaluan los siguientes tres 
+                                casos y dependiendo de cual represente la situación del nodo a eliminar se 
+                                procede en consecuencia.
+                                <br/><br/>
+
+                                <h3><strong>Caso uno</strong></h3>
+                                <p>El nodo a eliminar es un <strong>leaf node</strong>, es decir, no tiene ni hijo izquierdo
+                                ni derecho. En este caso el nodo simplemente se elemina a través de su padre que corta su lazo
+                                para con ese hijo.</p>
+                                
+                                <h3><strong>Caso dos</strong></h3>
+                                <p>El nodo a eliminar posee solamente un hijo. En este caso se reemplaza el valor del nodo actual con el
+                                    valor del hijo que posea y se llama la función de eliminación sobre el hijo.</p>
+
+                                <h3><strong>Caso tres</strong></h3>
+                                <p>El nodo a eliminar posee sus dos hijos. En este caso se debe:</p>
+                                <ul>
+                                    <li>La prioridad del hijo izquierdo es comparado a la del derecho.</li>
+                                    <li>En caso que la prioridad del hijo izquierdo sea mayor, el nodo actual gira 
+                                        a la derecha y vuelve a llamar la función de delete sobre si mismo.
+                                    </li>
+                                    <li>En caso que la prioridad del hijo derecho sea mayor, el nodo actual gira 
+                                        a la izquierda y vuelve a llamar la función de delete sobre si mismo. </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </ul>
+
+        </div>
+    </div>
+
+    <div class="lower-modal-section">
+        <div class="hline-wrap">
+            <div class="hline"></div>
+        </div>
+        <div class="interaction-wrapper">
+            <a class="back-button"[style.visibility]="curModalTab == 0 ? 'hidden' : 'visible'"
+            (click)="goPreviousPage()">&laquo; Previous</a>
+            <a class="next-button"[style.visibility]="curModalTab == 1 ? 'hidden' : 'visible'" (click)="goNextPage()">Next &raquo;</a>       
+        </div>
+    </div>
+</div>
