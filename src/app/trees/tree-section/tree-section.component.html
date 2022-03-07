@@ -1,8 +1,7 @@
 <div class="modal-background" 
     [style.min-width]="'1270px'"
     [style.width]="scWidth+'px'" 
-    [style.height]="scHeight+'px'"
-    [style.min-height]="'950px'"
+    [style.height]="getModalBackGroundHeight() + 'px'"
     [style.display]="openModal ? 'block' : 'none'"
     (click)="closeModal()">
 </div>
@@ -50,8 +49,7 @@
 
 <div class="body-container modal-overlay" 
      [style.min-width]="'1270px'" 
-     [style.height]="getBodyHeight()+'px'"
-     [style.min-height]="'800px'">
+     [style.height]="getBodyHeight()+'px'">
      
      <div class="tree-section-container">
         <app-tree-display class="tree-container">

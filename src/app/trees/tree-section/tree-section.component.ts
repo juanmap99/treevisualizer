@@ -116,6 +116,16 @@ export class TreeSectionComponent implements OnInit {
     return height < 850 ? 850 : height;
   }
 
+   /**
+   * Devuelve la altura en pixeles del backgroundModal.
+   * 
+   * @returns Altura de la seccion que establece una lamina opaca sobre toda la pagina
+   * en el momento que se abre una modal. 
+   */
+  getModalBackGroundHeight(){
+    return this.getBodyHeight() + 84;
+  }
+
   /**
    * 
    * @returns Entero que representa el margen que debe tener el modal para con el top y el bottom
