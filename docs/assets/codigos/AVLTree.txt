@@ -1,5 +1,4 @@
 $simport$s sys
-
 $d $d
 
 $sclass$s TreeNode($fobject$f):
@@ -8,14 +7,11 @@ $sclass$s TreeNode($fobject$f):
         $fself$f.left = $sNone$s
         $fself$f.right = $sNone$s
         $fself$f.height = $u1$u
-
 $d $d
 
 $sclass$s AVLTree($fobject$f):
     $d $d
-
     $sdef$s $dinsert_node$d($fself$f$s,$s root$s,$s key):
-
         $sif not$s root:
             $sreturn$s TreeNode(key)
         $selif$s key < root.key:
@@ -26,11 +22,10 @@ $sclass$s AVLTree($fobject$f):
         root.height = $u1$u + $fmax$f($fself$f.getHeight(root.left)$s,$s
                               $fself$f.getHeight(root.right))
 
-        $sreturn$s $fself$f.balancePostAdd(root)
-
+        $sreturn$s $fself$f.balancePostAdd(root,key)
     $d $d
 
-    $sdef$s $dbalancePostAdd$d($fself$f,root):
+    $sdef$s $dbalancePostAdd$d($fself$f,root,key):
         balanceFactor = $fself$f.getBalance(root)
         $sif$s balanceFactor > $u1$u:
             $sif$s key < root.left.key:
@@ -49,7 +44,6 @@ $sclass$s AVLTree($fobject$f):
         $sreturn$s root
 
     $d $d
-
     $sdef$s $ddelete_node$d($fself$f$s,$s root$s,$s key):
         $sif not$s root:
             $sreturn$s root
@@ -77,7 +71,6 @@ $sclass$s AVLTree($fobject$f):
                               $fself$f.getHeight(root.right))
 
         $sreturn$s $fself$f.balancePostDelete(root)
-
     $d $d
 
     $sdef$s $dbalancePostDelete$d($fself$f, root):
@@ -96,47 +89,42 @@ $sclass$s AVLTree($fobject$f):
                 root.right = $fself$f.rightRotate(root.right)
                 $sreturn$s $fself$f.leftRotate(root)
         $sreturn$s root
-
     $d $d
 
-    $sdef$s $dleftRotate$d($fself$f$s,$s z):
-        y = z.right
-        T2 = y.left
-        y.left = z
-        z.right = T2
-        z.height = $u1$u + $fmax$f($fself$f.getHeight(z.left)$s,$s
-                           $fself$f.getHeight(z.right))
-        y.height = $u1$u + $fmax$f($fself$f.getHeight(y.left)$s,$s
-                           $fself$f.getHeight(y.right))
-        $sreturn$s y
-
+    $sdef$s $dleftRotate$d($fself$f$s,$s nodoRotar):
+        hijoDerecho = nodoRotar.right
+        huerfanoParcial = hijoDerecho.left
+        hijoDerecho.left = nodoRotar
+        nodoRotar.right = huerfanoParcial
+        nodoRotar.height = $u1$u + $fmax$f($fself$f.getHeight(nodoRotar.left)$s,$s
+                           $fself$f.getHeight(nodoRotar.right))
+        hijoDerecho.height = $u1$u + $fmax$f($fself$f.getHeight(hijoDerecho.left)$s,$s
+                           $fself$f.getHeight(hijoDerecho.right))
+        $sreturn$s hijoDerecho
     $d $d
 
-    $sdef$s $drightRotate$d($fself$f$s,$s z):
-        y = z.left
-        T3 = y.right
-        y.right = z
-        z.left = T3
-        z.height = $u1$u + $fmax$f($fself$f.getHeight(z.left)$s,$s
-                           $fself$f.getHeight(z.right))
-        y.height = $u1$u + $fmax$f($fself$f.getHeight(y.left)$s,$s
-                           $fself$f.getHeight(y.right))
-        $sreturn$s y
-
+    $sdef$s $drightRotate$d($fself$f$s,$s nodoRotar):
+        hijoIzquierdo = nodoRotar.left
+        huerfanoParcial = hijoIzquierdo.right
+        hijoIzquierdo.right = nodoRotar
+        nodoRotar.left = huerfanoParcial
+        nodoRotar.height = $u1$u + $fmax$f($fself$f.getHeight(nodoRotar.left)$s,$s
+                           $fself$f.getHeight(nodoRotar.right))
+        hijoIzquierdo.height = $u1$u + $fmax$f($fself$f.getHeight(hijoIzquierdo.left)$s,$s
+                           $fself$f.getHeight(hijoIzquierdo.right))
+        $sreturn$s hijoIzquierdo
     $d $d
 
     $sdef$s $dgetHeight$d($fself$f$s,$s root):
         $sif not$s root:
             $sreturn$s $u0$u
         $sreturn$s root.height
-
     $d $d
 
     $sdef$s $dgetBalance$d($fself$f$s,$s root):
         $sif not$s root:
             $sreturn$s $u0$u
         $sreturn$s $fself$f.getHeight(root.left) - $fself$f.getHeight(root.right)
-
     $d $d
 
     $sdef$s $dminValueNode$d($fself$f$s,$s node):
@@ -146,7 +134,6 @@ $sclass$s AVLTree($fobject$f):
             current = current.left
 
         $sreturn$s current
-
     $d $d
 
     $sdef$s $dmaxValueNode$d($fself$f$s,$s node):
@@ -156,17 +143,14 @@ $sclass$s AVLTree($fobject$f):
             current = current.right
 
         $sreturn$s current
-
     $d $d
 
     $sdef$s $dgetMax$d($fself$f$s,$sroot):
         $sreturn$s $fself$f.maxValueNode(root).key
-
     $d $d
 
     $sdef$s $dgetMin$d($fself$f$s,$sroot):
         $sreturn$s $fself$f.minValueNode(root).key
-
     $d $d
 
     $sdef$s $d_searchHelper$d($fself$f$s,$s curNode$s,$s value):
@@ -182,14 +166,12 @@ $sclass$s AVLTree($fobject$f):
                 $sreturn None$s
         $selse$s:
             $sreturn$s curNode
-
     $d $d
 
     $sdef$s $dsearch$d($fself$f$s,$s root$s,$s value):
         $sif not$s root:
             $sreturn None$s
         $sreturn$s $fself$f._searchHelper(root$s,$s value)
-
     $d $d
 
     $sdef$s $dprintHelper$d($fself$f$s,$s currPtr$s,$s indent$s,$s last):
@@ -204,10 +186,8 @@ $sclass$s AVLTree($fobject$f):
             $fprint$f(currPtr.key)
             $fself$f.printHelper(currPtr.left$s,$s indent$s,$s $sFalse$s)
             $fself$f.printHelper(currPtr.right$s,$s indent$s,$s $sTrue$s)
-
     $d$d
 
     $sdef$s $dprint_tree$d($fself$f$s,$s root):
         $fself$f.__print_helper(root$s,$s $c""$c $s,$s $sTrue$s)
-
     $d $d

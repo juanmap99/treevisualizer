@@ -120,10 +120,13 @@ class MaxHeap:
     def popMax(self):
         if(self.size == 0):
             self.root = self.TNULL
+            return None
+        max = self.root;
         else:
             indexPath = self.getIndexPath(self.size)
             self._popRootHelper(self.root, indexPath)
         self.size -= 1
+        return max
 
     def getMax(self):
         return self.root.key

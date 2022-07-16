@@ -15,7 +15,7 @@
             <span *ngIf="!isTreap()" [style.fontSize]="fontSize + 'px'" 
                 [style.color]="((node.color == '#f0594e') ||(node.color == '#1a1919')) ? 'white' : 'black'"
                 class="value">
-            {{node.valor}}
+                {{node.valor == -1000 ? 'NULL' : node.valor}}
             </span>
 
              <div class="treapVis" [style.text-align]="'center'" *ngIf="isTreap()">
@@ -23,7 +23,7 @@
                   [style.color]="((node.color == '#f0594e') ||(node.color == '#1a1919')) ? 'white' : 'black'"
                   [style.height]= "fontSize + 'px'"
                   class="center">
-                  <span>{{node.valor}}</span>
+                  <span>{{node.valor == -1000 ? 'NULL' : node.valor}}</span>
              </div>
                 <div
                   [style.fontSize]="fontSize/1.2 + 'px'"
@@ -43,14 +43,16 @@
             [style.top] = "topDistanceLinea(iNodo) + 'px'"
             [style.right] = "rightDistanceLSL(iNodo) + 'px'"
             [style.width]="calcDistancaAbsXLeft(iNodo,(iNodo*2)+1)+'px'"
-            [style.height]="1 + 'px'"
+            [style.height]="lineSize + 'px'"
+            [style.opacity]="0.85"
             [style.background-color]="colorLinLeftChild(iNodo)">
         </div>
         <div *ngIf="hasLeftChild(iNodo)" class="line"
             [style.top] = "topDistanceLinea(iNodo) + 'px'"
             [style.right] = "rightDistanceLDL(iNodo) + 'px'"
-            [style.width]="1+'px'"
+            [style.width]="lineSize +'px'"
             [style.height]="45 + (dotSize/2) + 'px'"
+            [style.opacity]="0.85"
             [style.background-color]="colorLinLeftChild(iNodo)">
         </div>
 
@@ -58,14 +60,16 @@
             [style.top] = "topDistanceLinea(iNodo) + 'px'"
             [style.right] = "rightDistanceRSL(iNodo) + 'px'"
             [style.width]="calcDistancaAbsXRight(iNodo,(iNodo*2)+2)+'px'"
-            [style.height]="1 + 'px'"
+            [style.height]="lineSize + 'px'"
+            [style.opacity]="0.85"
             [style.background-color]="colorLinRightChild(iNodo)">
         </div>
         <div *ngIf="hasRightChild(iNodo)" class="line"
             [style.top] = "topDistanceLinea(iNodo) + 'px'"
             [style.right] = "rightDistanceRDL(iNodo) + 'px'"
-            [style.width]="1+'px'"
+            [style.width]="lineSize+'px'"
             [style.height]="45 + (dotSize/2) + 'px'"
+            [style.opacity]="0.85"
             [style.background-color]="colorLinRightChild(iNodo)">
         </div>
     </div>

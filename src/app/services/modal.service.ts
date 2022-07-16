@@ -102,9 +102,15 @@ export class ModalService {
    */
   calculateModalSize(screenWidth:number, screenHeight:number){
     let width = 1270 > screenWidth ? 1270 : screenWidth;
-    let height = 800 > screenHeight ? 800 : screenHeight;
+    let height = 950 > screenHeight ? 950 : screenHeight;
     this.modalSize.modalWidth = width*0.40;
     this.modalSize.modalHeight = height*0.70;
+    this.modalSizeObs.next(this.modalSize);
+  }
+
+  setModalSize(totalWidth:number,totalHeight:number){
+    this.modalSize.modalWidth = totalWidth*0.40;
+    this.modalSize.modalHeight = totalHeight*0.70;
     this.modalSizeObs.next(this.modalSize);
   }
 }

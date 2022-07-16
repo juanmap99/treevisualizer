@@ -78,7 +78,6 @@
 
     .config-container{
         background-image: linear-gradient(to bottom, colors.$black_main 250%, #272727 74%);
-        width: 350px;
         flex-grow: 0;
         order:2;
     }
@@ -86,7 +85,6 @@
     .tree-container{
         background-color: colors.$white_main;
         flex-grow: 2;
-        min-width: 700px;
     }
 
     .tree-section-container{
@@ -100,7 +98,6 @@
             justify-content: flex-start;
             align-content: stretch;
             background-color: colors.$white_main;
-            height: 260px;
             width: 100%;
             padding-left: 45px;
 
@@ -158,3 +155,23 @@
 .modal-overlay{
     z-index: 1000;
 }
+
+/* custom scrollbar */
+::-webkit-scrollbar {
+    width: 20px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: #d6dee1;
+    border-radius: 20px;
+    border: 6px solid transparent;
+    background-clip: content-box;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #a8bbbf;
+  }

@@ -3,7 +3,9 @@ import { faEllipsisH, faHome } from '@fortawesome/free-solid-svg-icons';
 import { ModalService } from 'src/app/services/modal.service';
 import { AuxiliarVariable, DisplayStatus } from 'src/app/trees/model/AuxiliarVariable';
 import { AuxVarService } from 'src/app/trees/services/aux-var.service';
+import { Dimensions } from '../model/Dimensions';
 import { TreeRunParams } from '../model/TreeParams';
+import { ContainerSizeService } from '../services/container-size-service';
 import { TreeControllerService } from '../services/tree-controller.service';
 import { TreeRunningControllerService } from '../services/tree-running-controller.service';
 
@@ -27,11 +29,14 @@ export class TreeSectionComponent implements OnInit {
   auxVariableExist : boolean = false;
   auxVarList : AuxiliarVariable[] = [];
   running : boolean;
+  configDimension : Dimensions = {width:0, height:0};
+  execBodyDimension : Dimensions = {width:0, height:0};
   
   constructor(private runServ: TreeRunningControllerService,
               private modalServ: ModalService,
               private treeContr : TreeControllerService,
-              private auxServ : AuxVarService) { 
+              private auxServ : AuxVarService,
+              private boxSizeServ: ContainerSizeService) { 
                 this.running = false;
                 this.scWidth = 0;
                 this.scHeight = 0;
@@ -53,7 +58,7 @@ export class TreeSectionComponent implements OnInit {
    * @param arbolCode String que representa el arbol elegido por el usuario
    */
   setCurrentTree(arbolCode : string){
-    if(arbolCode != this.arbolElegido){
+    if(arbolCode != this.arbolElegido && !this.runServ.running){
       this.treeContr.setDefaultSize(1);
       this.arbolElegido = arbolCode;
       this.treeContr.setArbol(arbolCode);
@@ -76,8 +81,11 @@ export class TreeSectionComponent implements OnInit {
     */
    updateSizeDependantVar(){
      this.scWidth = window.innerWidth < 1270 ? 1270 : window.innerWidth;
-     this.scHeight = window.innerHeight < 800 ? 800 : window.innerHeight;
-     this.modalServ.calculateModalSize(this.scWidth,this.scHeight);
+     this.scHeight = window.innerHeight < 950 ? 950 : window.innerHeight;
+     this.boxSizeServ.calculateContainersSize(this.scWidth,this.scHeight);
+     this.configDimension = this.boxSizeServ.configDimension;
+     this.execBodyDimension = this.boxSizeServ.execBodyDimension;
+     this.modalServ.setModalSize(this.getTotalWidth(), this.getModalBackgroundHeight())
      this.modalWidth = this.modalServ.modalSize.modalWidth;
      this.modalHeight = this.modalServ.modalSize.modalHeight;
    }
@@ -106,15 +114,23 @@ export class TreeSectionComponent implements OnInit {
                  })
   }
 
+  getTotalWidth(){
+    return this.configDimension.width+
+            this.execBodyDimension.width;
+  }
+
   /**
    * Devuelve la altura en pixeles del cuerpo de la pagina exceptuando la toolbar
    * que se encuentra por encima de ello.
    * @returns Altura de la seccion en donde se encontrara el cuerpo de la pagina. 
    */
    getBodyHeight(){
-    let height = this.scHeight - 84;//84px de la nav bar
-    return height < 850 ? 850 : height;
-  }
+    /*
+    let height = this.scHeight - 85;//75px de la nav bar
+    return height < 850 ? 850 : height
+    */
+    return this.configDimension.height;
+    }
 
    /**
    * Devuelve la altura en pixeles del backgroundModal.
@@ -122,8 +138,8 @@ export class TreeSectionComponent implements OnInit {
    * @returns Altura de la seccion que establece una lamina opaca sobre toda la pagina
    * en el momento que se abre una modal. 
    */
-  getModalBackGroundHeight(){
-    return this.getBodyHeight() + 84;
+  getModalBackgroundHeight(){
+    return this.getBodyHeight() + 85;
   }
 
   /**

@@ -8,7 +8,6 @@ $sclass$s TreeNode($fobject$f):
         $fself$f.left = $sNone$s
         $fself$f.right = $sNone$s
         $fself$f.parent = $sNone$s
-
 $d $d
 
 $sclass$s MinHeap:
@@ -20,7 +19,6 @@ $sclass$s MinHeap:
         $fself$f.TNULL.parent = $sNone$s
         $fself$f.root = $fself$f.TNULL
         $fself$f.size = $u0$u;
-
     $d $d
 
     $sdef$s $dgetParentIndex$d($fself$f$s,$siNode):
@@ -29,7 +27,6 @@ $sclass$s MinHeap:
             $sreturn$s (iNode -$u2$u) / $u2$u
         $selse$s:
             $sreturn$s (iNode - $u1$u) / $u2$u
-
     $d $d
 
     $sdef$s $dgetIndexPath$d($fself$f$s,$s indice):
@@ -40,7 +37,6 @@ $sclass$s MinHeap:
             indexPath.append(curInd)
         indexPath.pop()
         $sreturn$s indexPath
-
     $d $d
 
     $sdef$s $dbubbleUp$d($fself$f$s,$scurNode):
@@ -63,7 +59,6 @@ $sclass$s MinHeap:
 
             $sif$s curNode.parent:
                 $fself$f.bubbleUp(curNode.parent)
-
     $d $d
 
     $sdef$s $d_addHelper$d($fself$f$s,$scurNode$s,$s nodeAdd$s,$s indexPath):
@@ -80,7 +75,6 @@ $sclass$s MinHeap:
             $selse$s:
                 curNode.left = nodeAdd
             $fself$f.bubbleUp(curNode)
-
     $d $d
 
     $sdef$s $dadd$d($fself$f$s,$s value):
@@ -91,7 +85,6 @@ $sclass$s MinHeap:
             indexPath = $fself$f.getIndexPath($fself$f.size+$u1$u)
             $fself$f._addHelper($fself$f.root$s,$snewNode$s,$s indexPath)
         $fself$f.size += $u1$u
-
     $d $d
 
     $sdef$s $dbubbleDown$d($fself$f$s,$s curNode):
@@ -113,7 +106,6 @@ $sclass$s MinHeap:
                 curNode.key = curNode.left.key
                 curNode.left.key = temp
                 $fself$f.bubbleDown(curNode.left)
-
     $d $d
 
     $sdef$s $d_popRootHelper$d($fself$f$s,$scurNode$s,$sindexPath):
@@ -131,22 +123,22 @@ $sclass$s MinHeap:
                 $fself$f.root.key = curNode.left.key
                 curNode.left = $sNone$s
             $fself$f.bubbleDown(self.root)
-
     $d $d
 
     $sdef$s $dpopMin$d($fself$f):
         $sif$s($fself$f.size == $u0$u):
             $fself$f.root = $fself$f.TNULL
+            $return None$s
+        min = $fself$f.root
         $selse$s:
             indexPath = $fself$f.getIndexPath($fself$f.size)
             $fself$f._popRootHelper($fself$f.root$s,$s indexPath)
         $fself$f.size -= $u1$u
-
+        $sreturn$s min
     $d $d
 
     $sdef$s $dgetMin$d($fself$f):
         $sreturn$s $fself$f.root.key
-
     $d $d
 
     $sdef$s $dgetMax$d($fself$f):
@@ -164,8 +156,7 @@ $sclass$s MinHeap:
             $sif$s elem.left:
                 queue.append(elem.left)
 
-        $sreturn$s nodeBiggest
-    
+        $sreturn$s nodeBiggest    
     $d $d
 
     $sdef$s $dsearch$d($fself$f$s,$svalue):
@@ -182,7 +173,6 @@ $sclass$s MinHeap:
                 $sif$s elem.left $sand$s elem.left.key <= value:
                     queue.append(elem.left)
         $sreturn$s nodeRes
-
     $d $d
 
     $sdef$s $d__print_helper$d($fself$f$s,$s node$s,$s indent$s,$s last):
@@ -200,10 +190,8 @@ $sclass$s MinHeap:
                 $fself$f.__print_helper(node.left$s,$s indent$s, False$s)
             $sif$s(node.right):
                 $fself$f.__print_helper(node.right$s,$s indent$s, True$s)
-
     $d $d
 
     $sdef$s $dprint_tree$d($fself$f):
         $fself$f.__print_helper($fself$f.root$s,$s $c""$c$s, True$s)
-
     $d $d

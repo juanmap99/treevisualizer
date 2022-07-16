@@ -1,20 +1,16 @@
 $simport$s sys
 $d $d
 
-
 $sclass$s Node:
     $sdef$s $d__init__$d($fself$f$s,$s key):
         $fself$f.key = key
         $fself$f.left = $sNone$s
         $fself$f.right = $sNone$s
-
 $d $d
-
 
 $sclass$s BST:
     $sdef$s $d__init__$d(self):
         $fself$f.root = $sNone$s
-
     $d$d
 
     $sdef$s $d_insertHelper$d($fself$f$s,$s node$s,$s nodeAdd):
@@ -29,7 +25,6 @@ $sclass$s BST:
                 $fself$f._insertHelper(node.right$s,$s nodeAdd)
             $selse$s:
                 node.right = nodeAdd
-
     $d$d
 
     $sdef$s $dinsert$d($fself$f$s,$svalue):
@@ -38,7 +33,6 @@ $sclass$s BST:
             $fself$f.root = nodeAdd
         $selse$s:
             $fself$f._insertHelper($fself$f.root$s,$snodeAdd)
-
     $d$d
 
     $sdef$s $dminValueNode$d($fself$f$s,$snode):
@@ -47,8 +41,7 @@ $sclass$s BST:
         $swhile$s(current.left $sis not None$s):
             current = current.left
 
-        $sreturn$s current
-    
+        $sreturn$s current   
     $d$d
 
     $sdef$s $dmaxValueNode$d($fself$f$s,$snode):
@@ -58,17 +51,14 @@ $sclass$s BST:
             current = current.right
 
         $sreturn$s current
-
     $d$d
 
     $sdef$s $dgetMax$d($fself$f):
         $sreturn$s $fself$f.maxValueNode($fself$f.root).key
-
     $d$d
 
     $sdef$s $dgetMin$d($fself$f):
         $sreturn$s $fself$f.minValueNode($fself$f.root).key
-
     $d$d
 
     $sdef$s $d_searchHelper$d($fself$f$s,$scurNode$s,$svalue):
@@ -84,14 +74,12 @@ $sclass$s BST:
                 $sreturn$s $sNone$s
         $selse$s:
             $sreturn$s curNode
-
     $d$d
 
     $sdef$s $dsearch$d($fself$f$s,$svalue):
         $sif not$s self.root:
             $sreturn$s $sNone$s
         $sreturn$s $fself$f._searchHelper($fself$f.root$s,$svalue)
-
     $d$d
 
     $sdef$s $d_deleteNodeHelper$d($fself$f$s,$sroot$s,$skey):
@@ -121,12 +109,10 @@ $sclass$s BST:
             root.right = $fself$f._deleteNodeHelper(root.right$s,$s temp.key)
 
         $sreturn$s root
-
     $d$d
 
     $sdef$s $ddelete$d($fself$f$s,$svalue):
         self.root = $fself$f._deleteNodeHelper($fself$f.root$s,$svalue)
-
     $d$d
 
     $sdef$s $d__print_helper$d($fself$f$s,$s node$s,$s indent$s,$s last):
@@ -144,7 +130,6 @@ $sclass$s BST:
                 $fself$f.__print_helper(node.left$s,$s indent$s,$s $sFalse$s)
             $sif$s (node.right):
                 $fself$f.__print_helper(node.right$s,$s indent$s,$s $sTrue$s)
-
     $d$d
 
     $sdef$s $dprint_tree$d($fself$f):

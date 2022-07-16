@@ -239,6 +239,9 @@ export class StandardTree implements Tree{
      * @returns Entero que representa la cantidad de nodos en el arbol
      */
     calculateSize() : number{
+        if(this.root.valor == -999){
+            return 0;
+        }
         let queue : TreeNode[] = [this.root];
         let size = 0;
         while(queue.length != 0){

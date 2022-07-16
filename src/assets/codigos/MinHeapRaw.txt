@@ -120,11 +120,14 @@ class MinHeap:
     def popMin(self):
         if(self.size == 0):
             self.root = self.TNULL
+            return None
+        min = self.root
         else:
             indexPath = self.getIndexPath(self.size)
             self._popRootHelper(self.root, indexPath)
         self.size -= 1
-
+        return min
+        
     def getMin(self):
         return self.root.key
     

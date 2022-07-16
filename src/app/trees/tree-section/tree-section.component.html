@@ -1,12 +1,11 @@
 <div class="modal-background" 
-    [style.min-width]="'1270px'"
-    [style.width]="scWidth+'px'" 
-    [style.height]="getModalBackGroundHeight() + 'px'"
-    [style.display]="openModal ? 'block' : 'none'"
-    (click)="closeModal()">
+[style.min-width]="getTotalWidth()+'px'" 
+[style.height]="getModalBackgroundHeight()+'px'"
+[style.display]="openModal ? 'block' : 'none'"
+(click)="closeModal()">
 </div>
 
-<div [style.min-width]="'1270px'" class="toolbar modal-overlay">
+<div [style.min-width]="getTotalWidth() + 'px'" class="toolbar modal-overlay">
     <div class="alg-container">
         <div [ngClass]="arbolElegido=='BST' ? 'tb-item-sel' : 'tb-item-def'" 
         (click)="setCurrentTree('BST')">
@@ -38,25 +37,32 @@
 
 <div class="modal-container" [style.width]="modalWidth+'px'" 
                             [style.height]="modalHeight+'px'"
-                            [style.margin-top]="getModalMarginTopBottom()+'px'"
-                            [style.margin-bottom]="getModalMarginTopBottom()+'px'"
-                            [style.margin-left]="(scWidth -modalWidth)/2+'px'"
-                            [style.margin-right]="(scWidth -modalWidth)/2+'px'"
+                            [style.margin-top]="(getModalBackgroundHeight()-200 -modalHeight)/2+'px'"
+                            [style.margin-bottom]="(getModalBackgroundHeight() -modalHeight)/2+'px'"
+                            [style.margin-left]="(getTotalWidth() -modalWidth)/2+'px'"
+                            [style.margin-right]="(getTotalWidth() -modalWidth)/2+'px'"
                             [style.display]="openModal ? 'block' : 'none'"
                             >
     <div #modalContainer></div>
 </div>
 
 <div class="body-container modal-overlay" 
-     [style.min-width]="'1270px'" 
+     [style.min-width]="getTotalWidth() + 'px'"
      [style.height]="getBodyHeight()+'px'">
      
-     <div class="tree-section-container">
-        <app-tree-display class="tree-container">
+     <div class="tree-section-container"
+            [style.height]="getBodyHeight()+'px'">
+        <app-tree-display class="tree-container"
+                          [style.min-height]="execBodyDimension.height + 'px'"
+                          [style.min-width]="execBodyDimension.width + 'px'">
 
         </app-tree-display>
 
-        <div class="aux-displ-section" [style.display]="running ? 'block' : 'none'">
+        <div class="aux-displ-section" 
+            [style.min-height]="'200px'"
+            [style.padding-bottom]="'50px'"
+            [style.padding-top]="'20px'"
+            [style.display]="running ? 'block' : 'none'">
             <h2 *ngIf="auxVariableExist" class="var-name">Variables auxiliares</h2>
             <div class="aux-container" *ngFor="let auxVar of auxVarList;">
                 <span class="var-name">{{auxVar.varName}} : </span>
@@ -87,7 +93,9 @@
                       (codeEvent)="displayCodeModal()"
                       (trResizeEvent)="resizeTree($event)"
                       (runParamsEvent)="execute($event)"
-                      class="config-container">
+                      class="config-container"
+                      [style.min-width]="configDimension.width + 'px'"
+                      [style.height]="configDimension.height + 'px'">
      </app-tree-config>
      
 </div>

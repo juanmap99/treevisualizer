@@ -1,5 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
+import { Dimensions } from '../model/Dimensions';
 import { TreeNode } from '../model/TreeNode';
+import { ContainerSizeService } from '../services/container-size-service';
 import { TreeControllerService } from '../services/tree-controller.service';
 
 @Component({
@@ -9,8 +11,6 @@ import { TreeControllerService } from '../services/tree-controller.service';
 })
 export class TreeDisplayComponent implements OnInit {
   treeArrayRepr : TreeNode[];
-  scWidth : number;
-  scHeight : number;
 
   containerHeight : number = 0;
   containerWidth : number = 0;
@@ -21,7 +21,11 @@ export class TreeDisplayComponent implements OnInit {
   nodesPosition : Map<number,number>;
   treeSize : number;
 
-  constructor(private treeContrServ : TreeControllerService) { 
+  execBodyDimension : Dimensions = {width:0, height:0};
+  lineSize : number = 0;
+
+  constructor(private treeContrServ : TreeControllerService,
+              private boxSizeServ: ContainerSizeService) { 
                 this.treeArrayRepr = [];
                 this.treeSize = 0;
                 this.treeArrayRepr = this.treeContrServ.levelWiseTreeArray;
@@ -31,8 +35,10 @@ export class TreeDisplayComponent implements OnInit {
                   this.treeSize = newArray.length;
                   this.updateSizeDependantVar();
                 });
-                this.scWidth = 0;
-                this.scHeight = 0;
+                this.boxSizeServ.execBodyDimObs.subscribe(dim =>{
+                  this.execBodyDimension = dim;
+                  this.updateSizeDependantVar();
+                })
   }
 
   ngOnInit(): void {
@@ -40,15 +46,6 @@ export class TreeDisplayComponent implements OnInit {
   }
 
 
-  /**
-   * Funcion que llama al a funcion que actualiza toda variable dependiente del tamaño de la pantalla del usuario
-   * en el momento que existe un resize.
-   */
-   @HostListener('window:resize', ['$event'])
-   onWindowResize() {
-    this.updateSizeDependantVar();
-   }
-   
    /**
    * Devuelve la altura en la que se encuentra un nodo.
    * 
@@ -193,15 +190,29 @@ export class TreeDisplayComponent implements OnInit {
     * Realiza un update de las variables que impactan en el tamaño de ciertos elementos en la vista.
     */
   updateSizeDependantVar(){
-    this.scWidth = window.innerWidth;
-    this.scHeight = window.innerHeight;
-    this.containerHeight = (this.scHeight - 84 - 260) * 0.95; //84px de la nav, 260px de las var aux
+    this.containerHeight = this.execBodyDimension.height * 0.95
+    this.containerWidth = this.execBodyDimension.width-30-30
+    //this.containerHeight = (this.scHeight - 84 - 260) * 0.95; //84px de la nav, 260px de las var aux
     this.containerHeight = this.containerHeight < 500 ? 500 : this.containerHeight;
-    this.containerWidth = this.scWidth > 1240 ? (this.scWidth-350-30-30): 830;//300px configuracion  30 de margen de ambos lados
+    //this.containerWidth = this.scWidth > 1240 ? (this.scWidth-350-30-30): 830;//300px configuracion  30 de margen de ambos lados
     this.dotSize = this.calculateDotSize();
     this.fontSize = this.dotSize/3;
     this.fontSize = this.fontSize < 8 ? 8 : this.fontSize;
     this.fillNodesPositionDic();
+    this.lineSize = this.getLineSize(this.containerWidth);
+  }
+
+  getLineSize(width : number) : number{
+    if(width < 1100){
+      return 1;
+    }
+    if(width < 2600){
+      return 2;
+    }
+    if(width < 2900){
+      return 3;
+    }
+    return 4;
   }
 
 

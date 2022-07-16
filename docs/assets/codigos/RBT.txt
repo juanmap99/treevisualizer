@@ -1,5 +1,4 @@
 $simport$s sys
-
 $d $d
 
 $sclass$s Node():
@@ -9,7 +8,6 @@ $sclass$s Node():
         $fself$f.left = $sNone$s
         $fself$f.right = $sNone$s
         $fself$f.color = $u1$u
-
 $d $d
 
 $sclass$s RedBlackTree():
@@ -19,7 +17,6 @@ $sclass$s RedBlackTree():
         $fself$f.TNULL.left = $sNone$s
         $fself$f.TNULL.right = $sNone$s
         $fself$f.root = $fself$f.TNULL
-
     $d $d
 
    $sdef$s $dsearch_tree_helper$d($fself$f$s,$s node$s,$s key):
@@ -29,7 +26,6 @@ $sclass$s RedBlackTree():
         $sif$s key < node.item:
             $sreturn$s $fself$f.search_tree_helper(node.left$s,$s key)
         $sreturn$s $fself$f.search_tree_helper(node.right$s,$s key)
-
     $d $d
 
     $sdef$s $ddelete_fix$d($fself$f$s,$s x):
@@ -81,7 +77,6 @@ $sclass$s RedBlackTree():
                     $fself$f.right_rotate(x.parent)
                     x = $fself$f.root
         x.color = $u0$u
-
     $d $d
 
     $sdef$s $d__rb_transplant$d($fself$f$s,$s u$s,$s v):
@@ -92,7 +87,6 @@ $sclass$s RedBlackTree():
         $selse$s:
             u.parent.right = v
         v.parent = u.parent
-
     $d $d
 
     $sdef$s $ddelete_node_helper$d($fself$f$s,$s node$s,$s key):
@@ -135,7 +129,6 @@ $sclass$s RedBlackTree():
             y.color = z.color
         $sif$s y_original_color == $u0$u:
             $fself$f.delete_fix(x)
-
     $d $d
 
     $sdef$s $dfix_insert$d(self$s,$s k):
@@ -172,7 +165,6 @@ $sclass$s RedBlackTree():
             $sif$s k == $fself$f.root:
                 $sbreak$s
         $fself$f.root.color = $u0$u
-
     $d $d
 
     $sdef$s $d__print_helper$d($fself$f$s,$s node$s,$s indent$s,$s last):
@@ -189,26 +181,22 @@ $sclass$s RedBlackTree():
             $fprint$f($fstr$f(node.item) + $c"("$c + s_color + $c")")$c
             $fself$f.__print_helper(node.left$s,$s indent$s,$s $sFalse$s)
             $fself$f.__print_helper(node.right$s,$s indent$s,$s $sTrue$s)
-
     $d $d
 
     $sdef$s $dsearchTree$d($fself$f$s,$s k):
         $sreturn$s $fself$f.search_tree_helper($fself$f.root$s,$s k)
-
     $d $d
 
     $sdef$s $dminimum$d($fself$f$s,$s node):
         $swhile$s node.left != $fself$f.TNULL:
             node = node.left
         $sreturn$s node
-
     $d $d
 
     $sdef$s $dmaximum$d($fself$f$s,$s node):
         $swhile$s node.right != $fself$f.TNULL:
             node = node.right
         $sreturn$s node
-
     $d $d
 
     $sdef$s $dsuccessor$d($fself$f$s,$s x):
@@ -220,7 +208,6 @@ $sclass$s RedBlackTree():
             x = y
             y = y.parent
         $sreturn$s y
-
     $d $d
 
     $sdef$s $dpredecessor$d($fself$f$s,$s  x):
@@ -233,7 +220,6 @@ $sclass$s RedBlackTree():
             y = y.parent
 
         $sreturn$s y
-
     $d $d
 
     $sdef$s $dleft_rotate$d($fself$f$s,$s x):
@@ -251,7 +237,6 @@ $sclass$s RedBlackTree():
             x.parent.right = y
         y.left = x
         x.parent = y
-
     $d $d
 
     $sdef$s $dright_rotate$d($fself$f$s,$s x):
@@ -269,7 +254,6 @@ $sclass$s RedBlackTree():
             x.parent.left = y
         y.right = x
         x.parent = y
-
     $d $d
 
     $sdef$s $dinsert$d($fself$f$s,$s key):
@@ -306,20 +290,16 @@ $sclass$s RedBlackTree():
             $sreturn$s
 
         $fself$f.fix_insert(node)
-
     $d $d
 
     $sdef$s $dget_root$d($fself$f):
         $sreturn$s self.root
-
     $d $d
 
     $sdef$s $ddelete_node$d($fself$f$s,$s item):
         $fself$f.delete_node_helper($fself$f.root$s,$s item)
-
     $d $d
 
     $sdef$s $dprint_tree$d($fself$f):
         $fself$f.__print_helper($fself$f.root$s,$s $c""$c$s,$s $sTrue$s)
-
     $d $d

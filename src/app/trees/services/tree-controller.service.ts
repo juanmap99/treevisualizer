@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, iif } from 'rxjs';
 import { AuxVarService } from 'src/app/trees/services/aux-var.service';
 import { Tree } from '../model/Tree';
 import { TreeChange } from '../model/TreeChange';
@@ -101,13 +101,24 @@ export class TreeControllerService {
    * TreeNode con valor -1.
    */
   inicializeArrayRepresentation() : TreeNode[]{
-    let depth = this.getTreeDepth();
-    let sizeArray = Math.pow(2,(depth+1))-1;
-    let arrayRep : TreeNode[] = [];
-    for(let i= 0; i < sizeArray; i++){
-      arrayRep.push(new TreeNode(-999));
+    if(this.arbolType != "RBT"){
+      let depth = this.getTreeDepth();
+      let sizeArray = Math.pow(2,(depth+1))-1;
+      let arrayRep : TreeNode[] = [];
+      for(let i= 0; i < sizeArray; i++){
+        arrayRep.push(new TreeNode(-999));
+      }
+      return arrayRep;
     }
-    return arrayRep;
+    else{
+      let depth = this.getTreeDepth();
+      let sizeArray = Math.pow(2,(depth+2))-1;
+      let arrayRep : TreeNode[] = [];
+      for(let i= 0; i < sizeArray; i++){
+        arrayRep.push(new TreeNode(-999));
+      }
+      return arrayRep;
+    }
   }
 
   /**
@@ -120,21 +131,50 @@ export class TreeControllerService {
     if(this.arbol.size == 0){
       return [];
     }
-    let queue : ArrayFillQueue[] = [{node: this.arbol.root, index:0}];//Index, Nodo;
-    let arrayRepr : TreeNode[] = this.inicializeArrayRepresentation();
-    while(queue.length != 0){
-      let elem = queue.shift();
-      let curNode : TreeNode = (elem != undefined) ? elem.node : new TreeNode(0);//Siempre va a existir
-      let index : number = (elem != undefined) ? elem.index : 0;//Siempre va a existir
-      arrayRepr[index] = curNode;
-      if(curNode.lChild){
-        queue.push({node:curNode.lChild,index:(index*2)+1});
+    if(this.arbolType != "RBT"){
+      let queue : ArrayFillQueue[] = [{node: this.arbol.root, index:0}];//Index, Nodo;
+      let arrayRepr : TreeNode[] = this.inicializeArrayRepresentation();
+      while(queue.length != 0){
+        let elem = queue.shift();
+        let curNode : TreeNode = (elem != undefined) ? elem.node : new TreeNode(0);//Siempre va a existir
+        let index : number = (elem != undefined) ? elem.index : 0;//Siempre va a existir
+        arrayRepr[index] = curNode;
+        if(curNode.lChild){
+          queue.push({node:curNode.lChild,index:(index*2)+1});
+        }
+        if(curNode.rChild){
+          queue.push({node:curNode.rChild,index:(index*2)+2});
+        }
       }
-      if(curNode.rChild){
-        queue.push({node:curNode.rChild,index:(index*2)+2});
-      }
+      return arrayRepr;
     }
-    return arrayRepr;
+    else{
+      let queue : ArrayFillQueue[] = [{node: this.arbol.root, index:0}];//Index, Nodo;
+      let arrayRepr : TreeNode[] = this.inicializeArrayRepresentation();
+      while(queue.length != 0){
+        let elem = queue.shift();
+        let curNode : TreeNode = (elem != undefined) ? elem.node : new TreeNode(-1000);//Siempre va a existir
+        let index : number = (elem != undefined) ? elem.index : 0;//Siempre va a existir
+        arrayRepr[index] = curNode;
+        if(curNode.valor != -1000){
+          if(curNode.lChild){
+            queue.push({node:curNode.lChild,index:(index*2)+1});
+          }
+          else{
+            queue.push({node:new TreeNode(-1000,undefined,undefined,curNode,"#1a1919"),index:(index*2)+1});
+          }
+        }
+        if(curNode.valor != -1000){
+          if(curNode.rChild){
+            queue.push({node:curNode.rChild,index:(index*2)+2});
+          }
+          else{
+            queue.push({node:new TreeNode(-1000,undefined,undefined,curNode,"#1a1919"),index:(index*2)+2});
+          }
+        }
+      }
+      return arrayRepr;
+    }
   }
 
   /**

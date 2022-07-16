@@ -234,6 +234,7 @@ export class Treap extends StandardTree{
         if(this.root.valor == -999){
             this.root = newNode;
             this.root.setParent();
+            this.setColorsToDefault();
         }
         else{
             await this.addNode(this.root,newNode);
