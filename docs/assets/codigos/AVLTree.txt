@@ -11,6 +11,14 @@ $d $d
 
 $sclass$s AVLTree($fobject$f):
     $d $d
+    $sdef$s $d__init__$d($fself$f):
+        $fself$f.root = $sNone$s
+    $d $d
+
+    $sdef$s $dinsert$d($fself$f$s,$svalue):
+        $fself$f.root = $fself$f.insert_node($fself$f.root$s,$svalue)
+    $d $d
+
     $sdef$s $dinsert_node$d($fself$f$s,$s root$s,$s key):
         $sif not$s root:
             $sreturn$s TreeNode(key)
@@ -44,6 +52,10 @@ $sclass$s AVLTree($fobject$f):
         $sreturn$s root
 
     $d $d
+    $sdef$s $ddelete$d($fself$f$s,$skey):
+        $fself$f.root = $fself$f.delete_node($fself$f.root$s,$skey)
+    $d $d
+
     $sdef$s $ddelete_node$d($fself$f$s,$s root$s,$s key):
         $sif not$s root:
             $sreturn$s root
@@ -188,6 +200,6 @@ $sclass$s AVLTree($fobject$f):
             $fself$f.printHelper(currPtr.right$s,$s indent$s,$s $sTrue$s)
     $d$d
 
-    $sdef$s $dprint_tree$d($fself$f$s,$s root):
-        $fself$f.__print_helper(root$s,$s $c""$c $s,$s $sTrue$s)
+    $sdef$s $dprint_tree$d($fself$f):
+        $fself$f.printHelper($fself$f.root$s,$s $c""$c $s,$s $sTrue$s)
     $d $d

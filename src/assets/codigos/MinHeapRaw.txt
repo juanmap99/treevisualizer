@@ -118,15 +118,16 @@ class MinHeap:
             self.bubbleDown(self.root)
 
     def popMin(self):
+        min = None
         if(self.size == 0):
             self.root = self.TNULL
             return None
-        min = self.root
         else:
+            min = self.getMin()
             indexPath = self.getIndexPath(self.size)
             self._popRootHelper(self.root, indexPath)
         self.size -= 1
-        return min
+        return TreeNode(min)
         
     def getMin(self):
         return self.root.key

@@ -10,6 +10,11 @@ class TreeNode(object):
 
 
 class AVLTree(object):
+    def __init__(self):
+        self.root = None
+	
+    def insert(self,value):
+        self.root = self.insert_node(self.root,value)
 
     def insert_node(self, root, key):
 
@@ -43,6 +48,9 @@ class AVLTree(object):
                 return self.leftRotate(root)
 
         return root
+
+    def delete(self,key):
+        self.root = self.delete_node(self.root,key)
 
     def delete_node(self, root, key):
         if not root:
@@ -176,5 +184,5 @@ class AVLTree(object):
             self.printHelper(currPtr.left, indent, False)
             self.printHelper(currPtr.right, indent, True)
 
-    def print_tree(self, root):
-        self.__print_helper(root, "", True)
+    def print_tree(self):
+        self.printHelper(self.root, "", True)

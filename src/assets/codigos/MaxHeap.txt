@@ -126,15 +126,16 @@ $sclass$s MaxHeap:
     $d $d
 
     $sdef$s $dpopMax$d($fself$f):
+        max = $sNone$s
         $sif$s($fself$f.size == $u0$u):
             $fself$f.root = $fself$f.TNULL
-            $return None$s
-        max = $fself$f.root
+            $sreturn None$s
         $selse$s:
+            max = $fself$f.getMax()
             indexPath = $fself$f.getIndexPath($fself$f.size)
             $fself$f._popRootHelper($fself$f.root$s,$s indexPath)
         $fself$f.size -= $u1$u
-        $sreturn$s max
+        $sreturn$s TreeNode(max)
     $d $d
 
     $sdef$s $dgetMax$d($fself$f):

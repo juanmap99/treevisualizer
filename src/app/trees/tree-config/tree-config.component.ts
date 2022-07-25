@@ -39,7 +39,13 @@ export class TreeConfigComponent implements OnInit {
   constructor(private runServ : TreeRunningControllerService,
               private treContr: TreeControllerService,
               private dialog : MatDialog) { 
-                this.treContr.treeObs.subscribe(newTree => this.treeType = newTree.tipoArbol);
+                this.treContr.treeObs.subscribe(newTree =>{
+                  if(newTree.tipoArbol != this.treeType){
+                    this.metodoElegido = "Add"
+                    this.disableNode = false;
+                  }
+                  this.treeType = newTree.tipoArbol;
+                });
                 this.runServ.runObs.subscribe(runStatus => this.running = runStatus);
                 this.generatedNode = 0;
                 this.validChars = this.setUpValidCharsDic();

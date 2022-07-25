@@ -156,7 +156,7 @@ export class TreeControllerService {
         let curNode : TreeNode = (elem != undefined) ? elem.node : new TreeNode(-1000);//Siempre va a existir
         let index : number = (elem != undefined) ? elem.index : 0;//Siempre va a existir
         arrayRepr[index] = curNode;
-        if(curNode.valor != -1000){
+        if(curNode.valor != -1000 && curNode.valor !=-999){
           if(curNode.lChild){
             queue.push({node:curNode.lChild,index:(index*2)+1});
           }
@@ -164,7 +164,7 @@ export class TreeControllerService {
             queue.push({node:new TreeNode(-1000,undefined,undefined,curNode,"#1a1919"),index:(index*2)+1});
           }
         }
-        if(curNode.valor != -1000){
+        if(curNode.valor != -1000 && curNode.valor !=-999){
           if(curNode.rChild){
             queue.push({node:curNode.rChild,index:(index*2)+2});
           }

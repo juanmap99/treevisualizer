@@ -1,93 +1,88 @@
 $simport$s random
 $simport$s sys
-
 $d $d
-$sclass$s TreapNode($fobject$f):
-    $sdef$s $d__init__$d($fself$f$s,$s key$s,$s data):
+
+$sclass$s TreapNode():
+    $sdef$s $d__init__$d($fself$f$s,$s key):
         $fself$f.key = key
-        $fself$f.ran = random.random()
-        $fself$f.size = $u1$u
-        $fself$f.cnt = $u1$u
-        $fself$f.data = data
+        $fself$f.priority = random.random()
         $fself$f.left = $sNone$s
         $fself$f.right = $sNone$s
+        $fself$f.size = $u1$u
+        $fself$f.cnt = $u1$u
     $d $d
 
-    $sdef$s $dleft_rotate$d($fself$f):
-        current = $fself$f
-        rightChild = current.right
-        current.right = rightChild.left
-        rightChild.left = current
-        current = rightChild
-        rightChild = current.left
-        rightChild.size = $fself$f.calc_size(rightChild)
-        current.size = $fself$f.calc_size(current)
-        $sreturn$s current
-    $d $d
-
-    $sdef$s $dright_rotate$d($fself$f):
-        current = $fself$f
-        leftChild = current.left
-        current.left = leftChild.right
-        leftChild.right = current
-        current = leftChild
-        leftChild = current.right
-        leftChild.size = $fself$f.calc_size(leftChild)
-        current.size = $fself$f.calc_size(current)
-        $sreturn$s current
-    $d $d
-
-    $sdef$s $dcalc_size$d($fself$f, node):
+    $sdef$s $dcalc_size$d($fself$f$s,$s node):
         $sreturn$s node.left_size() + node.right_size() + node.cnt
     $d $d
 
     $sdef$s $dleft_size$d($fself$f):
-        $sreturn$s $u0$u $sif$s $fself$f.left $sis$s $sNone$s $selse$s $fself$f.left.size
+        $sreturn$s $u0$u $sif$s $fself$f.left $sis None else$s $fself$f.left.size
     $d $d
 
     $sdef$s $dright_size$d($fself$f):
-        $sreturn$s $u0$u $sif$s $fself$f.right $sis None$s $selse$s $fself$f.right.size
-$d $d
+        $sreturn$s $u0$u $sif$s $fself$f.right $sis None else$s $fself$f.right.size
+    $d $d
 
-$sclass$s Treap($fobject$f):
+$sclass$s Treap():
     $sdef$s $d__init__$d($fself$f):
         $fself$f.root = $sNone$s
     $d $d
 
-    $sdef$s $d_insert$d($fself$f$s,$s node$s,$s key$s$s, data=$sNone$s):
-        $sif$s node $sis$s $sNone$s:
-            node = TreapNode(key$s,$s data)
+    $sdef$s $d_insert$d($fself$f$s,$s node$s,$s key):
+        $sif$s node $sis None$s:
+            node = TreapNode(key)
             $sreturn$s node
         node.size += $u1$u
         $sif$s key < node.key:
-            node.left = $fself$f._insert(node.left$s,$s key$s,$s data)
-            $sif$s node.left.ran < node.ran:
-                node = node.right_rotate()
+            node.left = $fself$f._insert(node.left$s,$s key)
+            $sif$s node.left.priority > node.priority:
+                node = $fself$f.rightRotate(node)
         $selif$s key > node.key:
-            node.right = $fself$f._insert(node.right$s,$s key$s,$s data)
-            $sif$s node.right.ran < node.ran:
-                node = node.left_rotate()
+            node.right = $fself$f._insert(node.right$s,$s key)
+            $sif$s node.right.priority > node.priority:
+                node = $fself$f.leftRotate(node)
 
         $sreturn$s node
     $d $d
 
-    $sdef$s $dinsert$d($fself$f$s,$s key$s,$s data=$sNone$s):
-        $fself$f.root = $fself$f._insert($fself$f.root, key, data)
+    $sdef$s $dinsert$d($fself$f$s,$s key):
+        $fself$f.root = $fself$f._insert($fself$f.root$s,$skey)
     $d $d
 
-    $sdef$s $d_find$d($fself$f$s,$s node$s,$s key):
+    $sdef$s $dleftRotate$d($fself$f$s,$s nodoRotar):
+        hijoDerecho = nodoRotar.right
+        huerfanoParcial = hijoDerecho.left
+        hijoDerecho.left = nodoRotar
+        nodoRotar.right = huerfanoParcial
+        nodoRotar.size = nodoRotar.calc_size(nodoRotar)
+        hijoDerecho.size = hijoDerecho.calc_size(hijoDerecho)
+        $sreturn$s hijoDerecho
+    $d $d
+
+    $sdef$s $drightRotate$d($fself$f$s,$s nodoRotar):
+        hijoIzquierdo = nodoRotar.left
+        huerfanoParcial = hijoIzquierdo.right
+        hijoIzquierdo.right = nodoRotar
+        nodoRotar.left = huerfanoParcial
+        nodoRotar.size = nodoRotar.calc_size(nodoRotar)
+        hijoIzquierdo.size = hijoIzquierdo.calc_size(hijoIzquierdo)
+        $sreturn$s hijoIzquierdo
+    $d $d
+
+    $sdef$s $d_search$d($fself$f$s,$s node$s,$s key):
         $sif$s node == $sNone$s:
             $sreturn None$s
         $sif$s node.key == key:
             $sreturn$s node
         $sif$s key < node.key:
-            $sreturn$s $fself$f._find(node.left$s,$s key)
+            $sreturn$s $fself$f._search(node.left$s,$s key)
         $selse$s:
-            $sreturn$s $fself$f._find(node.right$s,$s key)
+            $sreturn$s $fself$f._search(node.right$s,$s key)
     $d $d
 
-    $sdef$s $dfind$d($fself$f$s,$s key):
-        $sreturn$s $fself$f._find($fself$f.root$s,$s key)
+    $sdef$s $dsearch$d($fself$f$s,$s key):
+        $sreturn$s $fself$f._search($fself$f.root$s,$s key)
     $d $d
 
     $sdef$s $d_delete$d($fself$f$s,$s node$s,$s key):
@@ -101,12 +96,12 @@ $sclass$s Treap($fobject$f):
             $selif$s node.right $sis None$s:
                 $sreturn$s node.left
             $selse$s:
-                $sif$s node.left.ran < node.right.ran:
-                    node = node.right_rotate()
-                    node.right = $fself$f._delete(node.right$s,$s key)
-                $selse$s:
-                    node = node.left_rotate()
+                $sif$s node.left.priority < node.right.priority:
+                    node = $fself$f.leftRotate()
                     node.left = $fself$f._delete(node.left$s,$s key)
+                $selse$s:
+                    node = $fself$f.rightRotate()
+                    node.right = $fself$f._delete(node.right$s,$s key)
         $selif$s key < node.key:
             node.left = $fself$f._delete(node.left$s,$s key)
         $selse$s:
@@ -116,13 +111,13 @@ $sclass$s Treap($fobject$f):
     $d $d
 
     $sdef$s $ddelete$d($fself$f$s,$s key):
-        $sif$s $fself$f.find(key) $sis None$s: $sreturn False$s
+        $sif$s $fself$f.search(key) $sis None$s: $sreturn False$s
         $fself$f.root = $fself$f._delete($fself$f.root$s,$s key)
         $sreturn True$s
     $d $d
 
     $sdef$s $dsize$d($fself$f):
-        $sreturn$s $u0$u $sif$s $fself$f.root $sis None$s $selse$s $fself$f.root.size
+        $sreturn$s $u0$u $sif$s $fself$f.root $sis None else$s $fself$f.root.size
     $d $d
 
     $sdef$s $dminValueNode$d($fself$f$s,$s node):
@@ -133,7 +128,7 @@ $sclass$s Treap($fobject$f):
 
         $sreturn$s current
     $d $d
-
+    
     $sdef$s $dmaxValueNode$d($fself$f$s,$s node):
         current = node
 
@@ -163,11 +158,11 @@ $sclass$s Treap($fobject$f):
 
             $fprint$f(node.key)
             $sif$s (node.left):
-                $fself$f.__print_helper(node.left$s,$s indent$s,$s $sFalse$s)
+                $fself$f.__print_helper(node.left$s,$s indent$s, False$s)
             $sif$s (node.right):
                 $fself$f.__print_helper(node.right$s,$s indent$s, True$s)
     $d $d
 
     $sdef$s $dprint_tree$d($fself$f):
-        $fself$f.__print_helper($fself$f.root$s,$s $c""$c$s, True$s)    
+        $fself$f.__print_helper($fself$f.root$s,$s $c""$c$s, True$s)
     $d $d

@@ -126,15 +126,16 @@ $sclass$s MinHeap:
     $d $d
 
     $sdef$s $dpopMin$d($fself$f):
+        min = $sNone$s
         $sif$s($fself$f.size == $u0$u):
             $fself$f.root = $fself$f.TNULL
-            $return None$s
-        min = $fself$f.root
+            $sreturn None$s
         $selse$s:
+            min = $fself$f.getMin()
             indexPath = $fself$f.getIndexPath($fself$f.size)
             $fself$f._popRootHelper($fself$f.root$s,$s indexPath)
         $fself$f.size -= $u1$u
-        $sreturn$s min
+        $sreturn$s TreeNode(min)
     $d $d
 
     $sdef$s $dgetMin$d($fself$f):
